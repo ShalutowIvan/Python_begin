@@ -868,4 +868,52 @@
 # 		print(i)
 # 	i += 1
 
+# n, m = map(int, input().split())
+# sq = 0
+# while n <= m:
+#     sq = n**2
+#     n += 1
+#     print(sq, " ", end="", sep="")
+
+# s = float(input())
+# i = 2
+# while i <= 10:
+#     print(round(s * i, 1), " ", end="", sep="")
+#     i += 1
+#ф строка может округлять
+# a = float(input())
+# i = 2
+# while i < 11:
+#     print(f'{i*a:.1f}',end=' ')
+#     i += 1
+
+# n = int(input())
+# i = 1
+# s = 0
+# while i < n+1:
+#     s += 1/i
+#     i += 1
+# print(round(s, 3))
+
+# i = 1
+# s = 0
+# while i !=0:
+#     i = int(input())
+#     s += i
+# print(s)
+
+# Вводится строка (слаг). Замените в этой строке все подряд идущие дефисы (--, ---, ---- и т.д.) на одинарные (-). Результат преобразования строки выведите на экран. Программу реализовать при помощи цикла while.
+#
+# Sample Input:
+#
+# osnovnye--metody-----slovarey
+# Sample Output:
+#
+# osnovnye-metody-slovarey
+
+s = input()
+while "--" in s:
+    s = s.replace("--", "-")
+print(s)
+
 
