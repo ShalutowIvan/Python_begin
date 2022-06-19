@@ -1212,26 +1212,46 @@
 
 #P. S. Для считывания списка целиком в программе уже записаны начальные строчки
 
-import sys
+# import sys
+#
+# # считывание списка из входного потока
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# i = 0
+# q = []
+# a = 0
+# while i < len(lst_in):
+#
+#     if " " in lst_in[i]:
+#         a = 1
+#     else:
+#         q.append(lst_in[i])
+#
+#     i += 1
+#
+# print(*q)
+#нормальный вариант
+# i = 0
+#
+# while i < len(lst_in):
+#
+#     if " " in lst_in[i]:
+#         lst_in.pop(i)
+#     else:
+#         i += 1
+# print(*lst_in)
 
-# считывание списка из входного потока
-lst_in = list(map(str.strip, sys.stdin.readlines()))
-i = 0
-#z = len(lst_in)
-q = []
-a = "a"
-while i < len(lst_in):
-    # if i >= len(lst_in):
-    #     break
+#еще норм вариант идти с конца списка и постепенно удалять пока не закончится список
+# n = len(lst_in)
+# while n:
+#     n -= 1
+#     if lst_in[n].count(' '):
+#         del lst_in[n]
+#
+# print(*lst_in)
 
-    if " " in lst_in[i]:
-        a = lst_in[i]
-
-        #q.append(lst_in[i])
-    if
-    i += 1
-
-
-print(lst_in - q)
-
+#еще вариант с not in, самый лучший вариант
+# while m < len(lst_in):
+#     if ' ' not in lst_in[m]:
+#         print(lst_in[m], end=' ')
+#     m += 1
 
