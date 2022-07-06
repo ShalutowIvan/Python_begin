@@ -21,12 +21,15 @@ iFB = 0
 countALC = 0
 sdvig = 0
 
+bal = "".join(s)
+
+
 for j in range(len(z)):
-    countALC = s[0].count(z[j])
+    countALC = bal.count(z[j])
     for i in range(countALC):
-        iALC = s[0].find(z[j], sdvig, -1)
-        iFB = s[0].rfind("FB-", 0, iALC)
-        print(s[0][iFB:iFB + 18])
+        iALC = bal.find(z[j], sdvig, -1)
+        iFB = bal.rfind("FB-", 0, iALC)
+        print(bal[iFB:iFB + 18])
         sdvig = iALC + 25
     sdvig = 0
 
