@@ -1909,9 +1909,113 @@
 #     if c == 1:
 #         print(i, end=" ")
 
+# Вводится двумерный список размерностью 5 х 5 элементов, состоящий из нулей и, в некоторых позициях, единиц (см. пример ввода ниже). Требуется проверить, не касаются ли единицы друг друга по горизонтали, вертикали и диагонали. То есть, вокруг каждой единицы должны быть нули. Если проверка проходит вывести ДА, иначе - НЕТ.
+
+# P. S. Для считывания списка целиком в программе уже записаны начальные строчки.
+
+#import sys
+
+# считывание списка из входного потока
+#s = sys.stdin.readlines()
+#lst_in = [list(map(int, x.strip().split())) for x in s]
+lst_in = [
+[1, 0, 0, 0, 0],
+[0, 0, 1, 0, 1],
+[0, 0, 0, 0, 0],
+[0, 1, 0, 1, 0],
+[0, 0, 0, 0, 0]
+]
+#print(lst_in[0][-3:-1])#2 не включается
+
+# здесь продолжайте программу (используйте список lst_in)
+c = 0
+
+
+for i, row in enumerate(lst_in):
+
+	for j, el in enumerate(row):
+		if el == 1:
+			c += 1
+x = 0
+for i, row in enumerate(lst_in):
+	
+	for j, el in enumerate(row):
+#углы
+		if i == 0 and j == 0:
+			if el == 1 and row[j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+
+		if i == 0 and j == 4:
+			if el == 1 and row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]:
+
+
+		if i == 4 and j == 0:
+			if el == 1 and row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
+
+
+		if i == 4 and j == 4:
+			if el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]:
+
+
+#стороны
+		if i == 1 or i == 2 or i == 3 and j == 0:
+
+		if i == 1 or i == 2 or i == 3 and j == 4:
+
+		if i == 0 and j == 1 or j == 2 or j == 3:
+			if el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+
+		if i == 4 and j == 1 or j == 2 or j == 3:
+			if el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
+
+
+#центр
+		if (i == 1 or i == 2 or i == 3) and (j == 1 or j == 2 or j == 3) and el == 1:
+			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+				x += 1
 
 
 
+
+
+
+
+
+
+		 
+		
+			
+#условие для середины и середина сбоку и условие для левого верхнего угла, верхний правый, нижний левый
+#бока, низ, верх, слева, справа
+#(el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:j+2] == [0,0,0] and lst_in[i+1][j-1:j+2] == [0,0,0]) or 
+
+# if (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:] == [0,0,0] and lst_in[i+1][j-1:] == [0,0,0]) or (el == 1 and row[j+1] == 0 and lst_in[i+1][j:j+2] == [0,0]) or (el == 1 and row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]) or (el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]) or (el == 1 and row[j+1] == 0 and lst_in[i-1][j:j+2] == [0,0]) or (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:j+2] == [0,0,0]) or (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1:j+2] == [0,0,0]) or (el == 1 and row[j+1] == 0 and lst_in[i-1][j:j+2] == [0,0] and lst_in[i+1][j:j+2] == [0,0]) or (el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]):
+# 			x += 1
+
+
+#верные условия тут
+# if (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0) 
+or (el == 1 and row[j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0) 
+or (el == 1 and row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0])
+or (el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]) 
+or (el == 1 and row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0) 
+
+or (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0) 
+or (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0) 
+or (el == 1 and row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0) 
+or (el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]):
+# 			x += 1
+
+
+
+
+# for j in range(len(row)+1):
+	# 	if (row[j] == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:] == [0,0,0] and lst_in[i+1][j-1:] == [0,0,0]) or (row[j] == 1 and row[j+1] == 0 and lst_in[i+1][j:j+2] == [0,0]) or (row[j] == 1 and row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]) or (row[j] == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]) or (row[j] == 1 and row[j+1] == 0 and lst_in[i-1][j:j+2] == [0,0]) or (row[j] == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:j+2] == [0,0,0]) or (row[j] == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1:j+2] == [0,0,0]) or (row[j] == 1 and row[j+1] == 0 and lst_in[i-1][j:j+2] == [0,0] and lst_in[i+1][j:j+2] == [0,0]) or (row[j] == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]):
+	# 		x += 1
+
+if c == x:
+	print("ДА")
+else:
+	print("НЕТ")	
 
 
 
