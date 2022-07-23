@@ -1,0 +1,28 @@
+{
+"manifest_version": 2,
+"name": "FindFB",
+"description": "Поиск ФБшек",
+"version": "0.0.1",
+"author": "Шалутов Иван",
+"browser_action": {
+	"default_title": "Поиск ФБшек",
+	"default_icon": "icon.png"
+},
+"content_scripts": [
+	{
+"matches": [
+	"<all_urls>"//на каких страницах будет работать
+],
+"js": ["jquery.min.js", "FindFB.js"]
+
+
+
+
+	}
+	
+
+]
+
+
+
+}

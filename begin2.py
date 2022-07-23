@@ -1918,104 +1918,127 @@
 # считывание списка из входного потока
 #s = sys.stdin.readlines()
 #lst_in = [list(map(int, x.strip().split())) for x in s]
-lst_in = [
-[1, 0, 0, 0, 0],
-[0, 0, 1, 0, 1],
-[0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0],
-[0, 0, 0, 0, 0]
-]
-#print(lst_in[0][-3:-1])#2 не включается
+# lst_in = [
+# [1, 0, 0, 0, 0],
+# [0, 0, 1, 0, 1],
+# [0, 0, 0, 0, 0],
+# [0, 1, 0, 1, 0],
+# [0, 0, 0, 0, 0]
+# ]
 
 # здесь продолжайте программу (используйте список lst_in)
-c = 0
+# c = 0
+# for i, row in enumerate(lst_in):
 
-
-for i, row in enumerate(lst_in):
-
-	for j, el in enumerate(row):
-		if el == 1:
-			c += 1
-x = 0
-for i, row in enumerate(lst_in):
+# 	for j, el in enumerate(row):
+# 		if el == 1:
+# 			c += 1
+# x = 0
+# for i, row in enumerate(lst_in):
 	
-	for j, el in enumerate(row):
-#углы
-		if i == 0 and j == 0:
-			if el == 1 and row[j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 	for j, el in enumerate(row):
+# 		if i == 0 and j == 0 and el == 1:
+# 			if row[j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 				x += 1
 
-		if i == 0 and j == 4:
-			if el == 1 and row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]:
+# 		if i == 0 and j == 4 and el == 1:
+# 			if row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]:
+# 				x += 1
 
+# 		if i == 4 and j == 0 and el == 1:
+# 			if row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
+# 				x += 1
 
-		if i == 4 and j == 0:
-			if el == 1 and row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
-
-
-		if i == 4 and j == 4:
-			if el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]:
-
-
-#стороны
-		if i == 1 or i == 2 or i == 3 and j == 0:
-
-		if i == 1 or i == 2 or i == 3 and j == 4:
-
-		if i == 0 and j == 1 or j == 2 or j == 3:
-			if el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
-
-		if i == 4 and j == 1 or j == 2 or j == 3:
-			if el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
+# 		if i == 4 and j == 4 and el == 1:
+# 			if row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]:
+# 				x += 1
 
 
-#центр
-		if (i == 1 or i == 2 or i == 3) and (j == 1 or j == 2 or j == 3) and el == 1:
-			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
-				x += 1
+# 		if 1 <= i <= 3 and (j == 0 and el == 1):			
+# 			if row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 				x += 1
+
+# 		if 1 <= i <= 3 and j == 4 and el == 1:
+# 			if row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]:
+# 				x += 1
+
+# 		if i == 0 and 1 <= j <= 3 and el == 1:
+# 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 				x += 1
+
+# 		if i == 4 and 1 <= j <= 3 and el == 1:
+# 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
+# 				x += 1
+
+
+# 		if (1 <= i <= 3) and (1 <= j <= 3) and el == 1:
+# 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 				x += 1
+
+# if c == x:
+# 	print("ДА")
+# else:
+# 	print("НЕТ")	
+
+
+#вариант 2
+# n = len(lst_in) - 1
+
+# for i in range(n):
+#     for j in range(n):        
+#         if lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1] > 1:
+#             print('НЕТ')
+#             break
+#     else:
+#         continue
+#     break # выход из внешнего цикца
+# else:
+#     print('ДА')
+#проверяем квадратики по 4 элемента, везде сумма должна быть только 1 единица
+
+# Вводится двумерный список размерностью 5 х 5 элементов, состоящий из целых чисел (пример ввода см. ниже). Проверьте, является ли этот двумерный список симметричным относительно главной диагонали. Главная диагональ — та, которая идёт из левого верхнего угла двумерного массива в правый нижний. Выведите на экран ДА, если матрица симметрична и НЕТ - в противном случае.
+
+# P. S. Для считывания списка целиком в программе уже записаны начальные строчки.
+
+
+# lst_in = [
+# [2, 3, 4, 5, 6],
+# [3, 2, 7, 8, 9],
+# [4, 7, 2, 0, 4],
+# [5, 8, 0, 2, 1],
+# [6, 9, 4, 1, 2]
+# ]
+# c = 0
+# for i, item1 in enumerate(lst_in):
+# 	for j, item2 in enumerate(lst_in):
+# 		if lst_in[i][j] == lst_in[j][i]:
+# 			c += 1
+
+# if c == 25:
+# 	print("ДА")
+# else:
+# 	print("НЕТ")
+
+# #вариант с флагами
+# flag = 'ДА'
+
+# for i in range(5):
+#     for j in range(5):
+#         if lst_in[i][j] != lst_in[j][i]:
+#             flag = 'НЕТ'
+            
+# print(flag)	
+
+
+# Вводится список целых чисел в одну строку через пробел. Необходимо выполнить его сортировку выбором по возрастанию (неубыванию). Идея алгоритма очень проста и проиллюстрирована на рисунке ниже.
 
 
 
+# Вначале мы рассматриваем первый элемент списка и ищем второй минимальный относительно первого элемента (включая и его). На рисунке - это последний элемент со значением -1. Затем, меняем местами первый и последний элементы. Переходим ко второму элементу списка и повторяем эту же процедуру, но относительно второго элемента (то есть, первый уже не рассматриваем). На рисунке минимальный элемент - это 2, поэтому менять местами здесь ничего не нужно. Переходим к 3-му элементы со значением 6. Относительно него находим минимальный элемент - это 3. Меняем их местами. 
+
+# Вот идея алгоритма сортировки выбором. Реализуйте его для вводимого списка целых чисел. Результат выведите в виде списка чисел одну строку через пробел.
 
 
-
-
-
-
-		 
-		
-			
-#условие для середины и середина сбоку и условие для левого верхнего угла, верхний правый, нижний левый
-#бока, низ, верх, слева, справа
-#(el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:j+2] == [0,0,0] and lst_in[i+1][j-1:j+2] == [0,0,0]) or 
-
-# if (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:] == [0,0,0] and lst_in[i+1][j-1:] == [0,0,0]) or (el == 1 and row[j+1] == 0 and lst_in[i+1][j:j+2] == [0,0]) or (el == 1 and row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]) or (el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]) or (el == 1 and row[j+1] == 0 and lst_in[i-1][j:j+2] == [0,0]) or (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:j+2] == [0,0,0]) or (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1:j+2] == [0,0,0]) or (el == 1 and row[j+1] == 0 and lst_in[i-1][j:j+2] == [0,0] and lst_in[i+1][j:j+2] == [0,0]) or (el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]):
-# 			x += 1
-
-
-#верные условия тут
-# if (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0) 
-or (el == 1 and row[j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0) 
-or (el == 1 and row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0])
-or (el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]) 
-or (el == 1 and row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0) 
-
-or (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0) 
-or (el == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0) 
-or (el == 1 and row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0) 
-or (el == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]):
-# 			x += 1
-
-
-
-
-# for j in range(len(row)+1):
-	# 	if (row[j] == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:] == [0,0,0] and lst_in[i+1][j-1:] == [0,0,0]) or (row[j] == 1 and row[j+1] == 0 and lst_in[i+1][j:j+2] == [0,0]) or (row[j] == 1 and row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]) or (row[j] == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]) or (row[j] == 1 and row[j+1] == 0 and lst_in[i-1][j:j+2] == [0,0]) or (row[j] == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1:j+2] == [0,0,0]) or (row[j] == 1 and row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1:j+2] == [0,0,0]) or (row[j] == 1 and row[j+1] == 0 and lst_in[i-1][j:j+2] == [0,0] and lst_in[i+1][j:j+2] == [0,0]) or (row[j] == 1 and row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]):
-	# 		x += 1
-
-if c == x:
-	print("ДА")
-else:
-	print("НЕТ")	
 
 
 
