@@ -2293,11 +2293,13 @@
 # print(lst)
 # Sample Input:
 # Москва 15000 Уфа 1200 Самара 1090 Казань 1300
-
-c = input().split()
-lst = [c[i] + c[i+1] for i in range(0, len(c), 2)]
-print(lst)
-
+#[['Москва', 15000], ['Уфа', 1200], ['Самара', 1090], ['Казань', 1300]]
+# c = input().split()
+# lst = [[int(c[j + i]) if j == 1 else c[j + i] for j in range(2)] for i in range(0, len(c), 2)]
+# print(lst)
+#вариант более короткий
+# s = input().split()
+# print([[s[i], int(s[i + 1])] for i in range(0, len(s), 2)])
 
 
 
