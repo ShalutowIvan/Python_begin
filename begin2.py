@@ -4618,44 +4618,59 @@
 #
 # P. S. При реализации функции is_isolate не следует прописывать восемь операторов if. Подумайте, как это можно сделать красивее (с точки зрения реализации алгоритма).
 
-lst_in = [
-[1, 0, 0, 0, 0],
-[0, 0, 1, 0, 0],
-[0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0],
-[0, 0, 0, 0, 0]
-]
+# mm = [
+# [1, 0, 0, 0, 0],
+# [0, 0, 1, 0, 0],
+# [0, 0, 0, 0, 0],
+# [0, 1, 0, 1, 0],
+# [0, 0, 0, 0, 0]
+# ]
+# n = int(input())
+# mm = [
+# list(map(int, input().split()))
+# for i in range(n)]
+import sys
+s = sys.stdin.readlines()
+mm = [list(map(int, x.strip().split())) for x in s]
+
+
+#рабочая функция
 def is_isolate(*nn):
-    n = len(nn[0]) - 1
-    c = 0
-    for i in range(n):
-        for j in range(n):
-            print(nn[i][j])
-            # if nn[i][j] + nn[i + 1][j] + nn[i + 1][j + 1] + nn[i][j + 1] > 1:
-            #     return False
-    #     c += 1
-    # if c == n:
-    #     return True
-
-print(is_isolate(lst_in))
+	fl = True
+	a = len(nn[0])-1
+	for i in range(a):
+		for j in range(a):			
+			if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
+				fl = False
+	return fl
 
 
-# def verify():
-#     n = len(lst_in) - 1
-#
-#     for i in range(n):
-#         for j in range(n):
-#             if lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1] > 1:
-#                 print('НЕТ')
-#                 break
-#         else:
-#             continue
-#         break  # выход из внешнего цикла
-#     else:
-#         print('ДА')
-#
-#
-#
+
+def verify(*nn):
+	return is_isolate(*nn)
+	
+print(verify(*mm))
+
+# def is_isolate(*nn, i=0, j=0):	
+# 	fl = True
+# 	if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
+# 		fl = False
+# 	return fl
+
+#print(is_isolate(*mm))
+
+
+	# a = len(nn[0])-1
+	# fl = None
+	# for i in range(a):
+	# 	for j in range(a):
+	# 		if nn[i][j] == 1:
+	# 			fl = is_isolate(*nn, i, j)
+	# return fl
+
+
+
+
 #
 # n = len(lst_in) - 1
 #
