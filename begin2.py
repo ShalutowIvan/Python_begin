@@ -4625,23 +4625,47 @@ lst_in = [
 [0, 1, 0, 1, 0],
 [0, 0, 0, 0, 0]
 ]
-def is_isolate():
-    if lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1] > 1:
+def is_isolate(*nn):
+    n = len(nn[0]) - 1
+    c = 0
+    for i in range(n):
+        for j in range(n):
+            print(nn[i][j])
+            # if nn[i][j] + nn[i + 1][j] + nn[i + 1][j + 1] + nn[i][j + 1] > 1:
+            #     return False
+    #     c += 1
+    # if c == n:
+    #     return True
 
-def verify():
+print(is_isolate(lst_in))
 
 
-
-
-n = len(lst_in) - 1
-
-for i in range(n):
-    for j in range(n):
-        if lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1] > 1:
-            print('НЕТ')
-            break
-    else:
-        continue
-    break # выход из внешнего цикла
-else:
-    print('ДА')
+# def verify():
+#     n = len(lst_in) - 1
+#
+#     for i in range(n):
+#         for j in range(n):
+#             if lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1] > 1:
+#                 print('НЕТ')
+#                 break
+#         else:
+#             continue
+#         break  # выход из внешнего цикла
+#     else:
+#         print('ДА')
+#
+#
+#
+#
+# n = len(lst_in) - 1
+#
+# for i in range(n):
+#     for j in range(n):
+#         if lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1] > 1:
+#             print('НЕТ')
+#             break
+    #else:
+    #    continue
+    #break # выход из внешнего цикла
+#else:
+#    print('ДА')
