@@ -4618,24 +4618,28 @@
 #
 # P. S. При реализации функции is_isolate не следует прописывать восемь операторов if. Подумайте, как это можно сделать красивее (с точки зрения реализации алгоритма).
 
-# mm = [
-# [1, 0, 0, 0, 0],
-# [0, 0, 1, 0, 0],
-# [0, 0, 0, 0, 0],
-# [0, 1, 0, 1, 0],
-# [0, 0, 0, 0, 0]
-# ]
+
+
+
+
+mm = [
+[1, 0, 0, 0, 0],
+[0, 0, 1, 0, 0],
+[0, 0, 0, 0, 0],
+[0, 1, 0, 1, 0],
+[0, 0, 0, 0, 0]
+]
 # n = int(input())
 # mm = [
 # list(map(int, input().split()))
 # for i in range(n)]
-import sys
-s = sys.stdin.readlines()
-mm = [list(map(int, x.strip().split())) for x in s]
+# import sys
+# s = sys.stdin.readlines()
+# mm = [list(map(int, x.strip().split())) for x in s]
 
 
-#рабочая функция
-def is_isolate(*nn):
+# #рабочая функция
+def is_isolate(nn):
 	fl = True
 	a = len(nn[0])-1
 	for i in range(a):
@@ -4646,10 +4650,36 @@ def is_isolate(*nn):
 
 
 
-def verify(*nn):
-	return is_isolate(*nn)
+
+def verify(nn):	
+	k = len(nn[0])-1
+	f1 = ""
+	f2 = ""
+	for i in range(k):
+		for j in range(k):
+			if nn[i][j] == 1:
+				if is_isolate(nn) == False:
+					f1 = False
+				else:
+					f2 = True
+	if f1 == False:
+		return False
+	elif f2 == True:
+		return True
+
+
+print(verify(mm))
+
+
+#без распаковки тоже работает
+
+
+
+
+# def verify(*nn):
+# 	return is_isolate(*nn)
 	
-print(verify(*mm))
+# print(verify(*mm))
 
 # def is_isolate(*nn, i=0, j=0):	
 # 	fl = True
