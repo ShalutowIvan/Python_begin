@@ -4608,6 +4608,9 @@
 #     kwargs = [kwargs[i] for i in ['type', 'color', 'closed', 'width'] if i in kwargs]
 #     return (sum(args), *kwargs)
 
+
+
+#7.5 Функции с произвольным числом параметров. Большой подвиг 6.
 # (Для закрепления предыдущего материала). Вводится таблица целых чисел (см. пример ниже) размером N x N элементов (N определяется по входным данным). Эта таблица содержит нули, но кое-где - единицы. С помощью функции с именем verify, на вход которой передается двумерный список чисел, необходимо проверить, являются ли единицы изолированными друг от друга, то есть, вокруг каждой единицы должны быть нули.
 #
 # Рекомендуется следующий алгоритм. В функции verify производить перебор двумерного списка. Для каждого элемента (списка) со значением 1 вызывать еще одну вспомогательную функцию is_isolate для проверки изолированности единицы. То есть, функция is_isolate должна возвращать True, если единица изолирована и False - в противном случае.
@@ -4618,17 +4621,30 @@
 #
 # P. S. При реализации функции is_isolate не следует прописывать восемь операторов if. Подумайте, как это можно сделать красивее (с точки зрения реализации алгоритма).
 
+# mm = [ 
+# [1, 0, 0, 0, 0],
+# [0, 0, 1, 0, 0],
+# [0, 0, 0, 0, 0],
+# [0, 1, 0, 1, 0],
+# [0, 0, 0, 0, 0]
+# ]
 
+# mm = [
+# [0, 1, 0, 0, 1],
+# [1, 0, 0, 1, 0],
+# [0, 0, 1, 0, 0],
+# [0, 1, 0, 0, 1],
+# [1, 0, 0, 1, 0]
+# ]
 
+# mm = [
+# [1, 1, 1, 1, 1],
+# [1, 0, 0, 0, 1],
+# [1, 0, 0, 0, 1],
+# [1, 0, 0, 0, 1],
+# [1, 1, 1, 1, 1]
+# ]
 
-
-mm = [
-[1, 0, 0, 0, 0],
-[0, 0, 1, 0, 0],
-[0, 0, 0, 0, 0],
-[0, 1, 0, 1, 0],
-[0, 0, 0, 0, 0]
-]
 # n = int(input())
 # mm = [
 # list(map(int, input().split()))
@@ -4639,78 +4655,140 @@ mm = [
 
 
 # #рабочая функция
-def is_isolate(nn):
-	fl = True
-	a = len(nn[0])-1
-	for i in range(a):
-		for j in range(a):			
-			if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
-				fl = False
-	return fl
+# def is_isolate(nn):
+# 	fl = True
+# 	if len(nn) == 1:
+
+# 		return True
+# 	a = len(nn[0])-1
+
+# 	for i in range(a):
+# 		for j in range(a):			
+# 			if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
+# 				fl = False
+# 	return fl
+
+# def verify(nn):	
+# 	k = len(nn[0])-1
+# 	f1 = ""
+# 	f2 = ""
+# 	for i in range(k):
+# 		for j in range(k):
+# 			if nn[i][j] == 1:
+# 				if is_isolate(nn) == False:
+# 					f1 = False
+# 				else:
+# 					f2 = True
+# 	if f1 == False:
+# 		return False
+# 	elif f2 == True:
+# 		return True
 
 
-
-
-def verify(nn):	
-	k = len(nn[0])-1
-	f1 = ""
-	f2 = ""
-	for i in range(k):
-		for j in range(k):
-			if nn[i][j] == 1:
-				if is_isolate(nn) == False:
-					f1 = False
-				else:
-					f2 = True
-	if f1 == False:
-		return False
-	elif f2 == True:
-		return True
-
-
-print(verify(mm))
 
 
 #без распаковки тоже работает
 
+# def verify(nn):
+# 	k = len(nn)-1
+# 	c = 0
+# 	c2 = 0
+# 	for i in range(k):
+# 		for j in range(k):
+# 			if nn[i][j] == 1:
+# 				c2 += 1
+# 				if is_isolate(nn):
+# 					c += 1
+				
+# 	if c2 == c:
+# 		return True		
+# 	else:
+# 		return False
+
+# print(verify(mm))
+
+
+#мой рабочий вариант, ура степик не пишет ошибку
+# def is_isolate(nn, i, j):
+#     if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
+#         return False
+#     else:
+#         return True
+
+# def verify(nn):
+# 	k = len(nn)-1
+# 	c = 0
+# 	c2 = 0
+# 	for i in range(k):
+# 		for j in range(k):
+# 			if nn[i][j] == 1:
+# 				c2 += 1
+# 				if is_isolate(nn, i, j):
+# 					c += 1
+# 	if c2 == c:
+# 		return True		
+# 	else:
+# 		return False
+
+
+#алгоритм из комментов, степик не пишет ошибку с ним
+# def is_isolate(*args,mines=set()):
+#     x,y = args
+#     if (y,x) in mines: return False
+#     mines.add((y-1,x-1))
+#     mines.add((y-1,x+1))
+#     mines.add((y-1,x))
+#     mines.add((y+1,x-1))
+#     mines.add((y+1,x+1))
+#     mines.add((y+1,x))
+#     mines.add((y,x+1))
+#     mines.add((y,x-1))
+#     return True
+
+# def verify(lst_c):
+#     for y,row in enumerate(lst_c):
+#         for x,u in enumerate(row):
+#             if u == 1:
+#                 if not is_isolate(y,x): return False
+#     return True
+
+#7.5 Функции с произвольным числом параметровЗначимый подвиг 7.
+# (Для закрепления предыдущего материала). Объявите функцию с именем str_min, которая сравнивает две переданные строки и возвращает минимальную из них (то есть, выполняется лексикографическое сравнение строк). Затем, используя функциональный подход к программированию (то есть, более сложные функции реализуются путем вызова более простых), реализовать еще две аналогичные функции:
+
+# - с именем str_min3 для поиска минимальной строки из трех переданных строк;
+# - с именем str_min4 для поиска минимальной строки из четырех переданных строк.
+
+# Выполнять функции не нужно, только записать.
+#мой вариант
+# def str_min(a, b):
+# 	return a if a < b else b
+
+# def str_min3(a, b, c):
+# 	return c if c < str_min(a, b) else str_min(a, b)
+
+# def str_min4(a, b, c, d):
+# 	return d if d < str_min3(a, b, c) else str_min3(a, b, c)
+
+#вариант со списками
+# def str_min(*args):
+#     return min(args)
+
+
+# def str_min3(*args):
+#     return min(args[0], str_min(*args[1:]))
+
+
+# def str_min4(*args):
+#     return min(args[0], str_min3(*args[1:]))
+
+#Операторы * и ** упаковки распаковки коллекций!!!!!!!!!!!!!!!!!!!!!!
 
 
 
-# def verify(*nn):
-# 	return is_isolate(*nn)
-	
-# print(verify(*mm))
-
-# def is_isolate(*nn, i=0, j=0):	
-# 	fl = True
-# 	if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
-# 		fl = False
-# 	return fl
-
-#print(is_isolate(*mm))
-
-
-	# a = len(nn[0])-1
-	# fl = None
-	# for i in range(a):
-	# 	for j in range(a):
-	# 		if nn[i][j] == 1:
-	# 			fl = is_isolate(*nn, i, j)
-	# return fl
 
 
 
 
-#
-# n = len(lst_in) - 1
-#
-# for i in range(n):
-#     for j in range(n):
-#         if lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1] > 1:
-#             print('НЕТ')
-#             break
-    #else:
-    #    continue
-    #break # выход из внешнего цикла
-#else:
-#    print('ДА')
+
+
+
