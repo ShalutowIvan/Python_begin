@@ -5001,23 +5001,36 @@
 lst = [8, 11, -5, 4, 3]
 #lst = map(int, input().split())
 
-def summ(ls, s, i):
+def summ(*ls, i = 0, s = 0):
+	
+	
+	if i > len(ls)-2:
+				
+		return s
 
-	if i < len(ls):
+	else:
+		s += ls[i]
+		return summ(ls[i+1])
+		
+		
 
-		summ(ls, i + 1, s + ls[i])
-	return s
-
-print(summ(lst, s = 0, i = 0))
-
-
-
+print(summ(lst))
 
 
+# def fact(n):
+#     if n <= 0:
+#         return 1
+#     else:
+#         return n * fact(n-1)
+# print(fact(5))
 
-
-
-
+#возведение в степень
+# def some(num, st):
+# 	if st == 0:
+# 		return 1
+# 	else:
+# 		return num * some(num, st-1)#рекурсия должна при автозапуске возвращать саму себя
+# print(some(5,5))
 
 
 
