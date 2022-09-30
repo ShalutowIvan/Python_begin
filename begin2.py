@@ -4997,7 +4997,7 @@
  #Вводится список целых чисел в одну строчку через пробел. Необходимо вычислить сумму этих введенных значений, используя рекурсивную функцию (для перебора элементов списка) с именем get_rec_sum. Функция должна возвращать значение суммы. (Выводить на экран она ничего не должна).
 
 #Вызовите эту функцию и выведите вычисленное значение суммы на экран.
-
+#мой вариант
 # lst = [8, 11, -5, 4, 3]
 
 # def summ(ls, i = 0):
@@ -5031,44 +5031,18 @@
 
 N = int(input())
 
-def fib_rec(N, f=[]):
-	# if N == 1:
-	# 	return [1]
-	# elif N == 2:
-	# 	return [1]
-	# else:
-	# 	f.append(list(fib_rec(N-1) + fib_rec(N-2)))
-	# 	# if fib_rec(N-1) + fib_rec(N-2) ==
-	# 	# print(fib_rec(N-1) + fib_rec(N-2))
-	# 	#return fib_rec(N-1, f) + fib_rec(N-2, f)
-	# 	return f
-		
-	#новый
-	if N == 1:
-		return 1
-	elif N == 2:
-		return 1
-	else:
-		fib_rec(N-1) + fib_rec(N-2)
+def fib_rec(N, f=[], i=2):
+	if f == []:
+		f = [1, 1]
+	if i < N:
+		f.append(f[i - 1] + f[i - 2])
+		fib_rec(N, f, i + 1)
+		return f
+
+print(*fib_rec(N))
 
 
 
-
-
-
-#print(fib_rec(N))
-print(fib_rec(N))
-# def fib_rec(N, f=[]):
-# 	if N == 1:
-# 		return 1
-# 	elif N == 2:
-# 		return 1
-# 	else:
-# 		#print(fib_rec(N-1) + fib_rec(N-2))
-# 		#f.append(fib_rec(N-1) + fib_rec(N-2))
-# 		return fib_rec(N-1) + fib_rec(N-2)
-
-# print(fib_rec(N))
 
 
 
