@@ -4998,41 +4998,77 @@
 
 #Вызовите эту функцию и выведите вычисленное значение суммы на экран.
 
-lst = [8, 11, -5, 4, 3]
-#lst = map(int, input().split())
+# lst = [8, 11, -5, 4, 3]
 
-def summ(*ls, i = 0, s = 0):
-	
-	
-	if i > len(ls)-2:
-				
-		return s
+# def summ(ls, i = 0):
+# 	if i == len(ls):
+# 		return 0
+# 	else:
+# 		return ls[i] + summ(ls, i+1)#чтобы вернулся список правильно тут надо было убрать распаковку и для того чтобы значение подставилось в рекурсию то нужно возвращать значение
 
+# print(summ(lst))
+
+#вариант с пустым элементов списка, то есть когда список заканчивается, то он становится равен []
+# lst1 = [int(i) for i in input().split()]
+
+# def get_rec_sum(lst):
+#     head, *tail = lst
+#     return head + get_rec_sum(tail) if tail else head
+
+# print(get_rec_sum(lst1))
+
+#круто выглядит, но пока не понятно как работает
+# n = list(map(int, input().split()))
+
+# def get_rec_sum(n):
+#     return 0 if len(n) == 0 else get_rec_sum(n[1:]) + n[0]
+
+# print(get_rec_sum(n))
+
+#Вводится натуральное число N. Необходимо с помощью рекурсивной функции fib_rec(N, f=[]) (здесь N - общее количество чисел Фибоначчи; f - начальный список этих чисел) сформировать последовательность чисел Фибоначчи по правилу: первые два числа равны 1 и 1, а каждое следующе значение равно сумме двух предыдущих. Пример такой последовательности для первых 7 чисел: 1, 1, 2, 3, 5, 8, 13, ...
+#Функция должна возвращать список сформированной последовательности длиной N.
+#Вызывать функцию не нужно, только объявить.
+
+N = int(input())
+
+def fib_rec(N, f=[]):
+	# if N == 1:
+	# 	return [1]
+	# elif N == 2:
+	# 	return [1]
+	# else:
+	# 	f.append(list(fib_rec(N-1) + fib_rec(N-2)))
+	# 	# if fib_rec(N-1) + fib_rec(N-2) ==
+	# 	# print(fib_rec(N-1) + fib_rec(N-2))
+	# 	#return fib_rec(N-1, f) + fib_rec(N-2, f)
+	# 	return f
+		
+	#новый
+	if N == 1:
+		return 1
+	elif N == 2:
+		return 1
 	else:
-		s += ls[i]
-		return summ(ls[i+1])
-		
-		
-
-print(summ(lst))
+		fib_rec(N-1) + fib_rec(N-2)
 
 
-# def fact(n):
-#     if n <= 0:
-#         return 1
-#     else:
-#         return n * fact(n-1)
-# print(fact(5))
 
-#возведение в степень
-# def some(num, st):
-# 	if st == 0:
+
+
+
+#print(fib_rec(N))
+print(fib_rec(N))
+# def fib_rec(N, f=[]):
+# 	if N == 1:
+# 		return 1
+# 	elif N == 2:
 # 		return 1
 # 	else:
-# 		return num * some(num, st-1)#рекурсия должна при автозапуске возвращать саму себя
-# print(some(5,5))
+# 		#print(fib_rec(N-1) + fib_rec(N-2))
+# 		#f.append(fib_rec(N-1) + fib_rec(N-2))
+# 		return fib_rec(N-1) + fib_rec(N-2)
 
-
+# print(fib_rec(N))
 
 
 
