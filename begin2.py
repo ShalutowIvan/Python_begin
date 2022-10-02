@@ -5203,13 +5203,76 @@
 
 n = [8, 11, -6, 3, 0, 1, 1]
 
-def sortir(n, i = 0):
-	if len(n) != 1:
+#n = [8, 11, -6, 3, 0, 1, 1, 5, 2, 3, 7, 2, 1]
+
+def razbiv(n):
+	if len(n) == 1:
+		return n[0]
+	else:
 		z = len(n) // 2
 		n1 = n[:z]
 		n2 = n[z:]
-		
-		sortir()
+		return [razbiv(n = n1), razbiv(n = n2)]
+
+#[[8, [11, -6]], [[3, 0], [1, 1]]]
+r = razbiv(n)
+def merger(n, t=[]):
+	for i in n:
+		if type(i) == list:
+			# if i[1] < i[0]:
+			# 	i[0], i[1] = i[1], i[0]
+			merger(i)
+		else:
+			
+			if type(n[0]) != list and len(n) > 1: тут скорее всего будет аутофрейндж, сделать првоерку на длину n
+				if type(n[1]) == list:
+					if i < n[1][0] and i < n[1][1]:
+						t.append(i)
+					elif n[1][0] < n[1][1]:
+						t.append(pop(n[1][0]))
+					else:
+						t.append(pop(n[1][1]))
+				else:
+					тут прописать условие для вложенного списка
+					
+			elif len(n) == 1:
+				t.append(i)
+			
+
+
+не пройдет если будет элемент из двух элементов в вложенном списке
+
+
+
+
+
+
+			# if i[1] < i[0]:
+			# 	i[0], i[1] = i[1], i[0]
+
+	return t
+	#return n
+
+print(merger(r))
+
+
+
+
+
+# def get_line_list(d,a=[]):
+# 	for i in d:
+# 		if type(i) == list:
+# 			get_line_list(d=i)
+# 		else:
+# 			a.append(i)
+# 	return a
+
+
+
+
+
+
+
 
 
 
