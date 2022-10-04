@@ -5201,111 +5201,125 @@
 # Подсказка. Для разбиения списка и его последующей сборки используйте рекурсивные функции.
 
 # P. S. Теория сортировки в видео предыдущего шага.
+#мой вариант
+#n = [8, 11, -6, 3, 0, 1, 1]
 
-n = [8, 11, -6, 3, 0, 1, 1]
+# n = [8, 11, -6, 3, 0, 1, 1, 5, 2, 3, 7, 2, 1]
 
-#n = [8, 11, -6, 3, 0, 1, 1, 5, 2, 3, 7, 2, 1]
+# def merger(a:list, b:list):
+# 	c = [0] * (len(a) + len(b))
+# 	i = k = n = 0
+# 	while i < len(a) and k < len(b):
+# 		if a[i]<=b[k]:
+# 			c[n] = a[i]
+# 			i+=1
+# 			n+=1
+# 		else:
+# 			c[n] = b[k]
+# 			k+=1
+# 			n+=1
+# 	while i < len(a):
+# 		c[n] = a[i]
+# 		i+=1
+# 		n+=1
+# 	while k < len(b):
+# 		c[n] = b[k]
+# 		k+=1
+# 		n+=1
+# 	return c
 
-def razbiv(n):
-	if len(n) == 1:
-		return n[0]
-	else:
-		z = len(n) // 2
-		n1 = n[:z]
-		n2 = n[z:]
-		return [razbiv(n = n1), razbiv(n = n2)]
 
 # def razbiv(n):
-# 	if len(n) == 1:
+# 	if len(n) <= 1:
 # 		return n[0]
 # 	else:
 # 		z = len(n) // 2
 # 		n1 = n[:z]
 # 		n2 = n[z:]
-# 		a = razbiv(n1)#сделали рекурсии и они записались в стек, и потом значения из этих кортежей можно использовать
-# 		b = razbiv(n2)
-# 	return a, b
-
-
-
-
-
-#[[8, [11, -6]], [[3, 0], [1, 1]]]
-r = razbiv(n)
-
-def merger(n, t=[]):
-	z = 0
-	for i in n:
-		if type(i) == list:
-			merger(i)
-		else:
-			if type(n[1]) == list:
-				if i < n[1][0] and i < n[1][1]:
-					t.append(i)
-
-					#тут убрать лишние добавления из вложеного списка, и добавить в элсе присвоение 8 и потом к нему можно обратиться
-				else:
-					z = n[0]
-			elif n[0] <= n[1]:
-				t.append(n[0])
-				t.append(n[1])
-				t.append(z)
-				#нужно обратиться к элементу со значением 8, так как если мы его не добавили, то нужно добавить
-			elif n[1] <= n[0]:
-				t.append(n[0])
-				t.append(n[1])
-				t.append(z)
-
-	return t
-
-
-print(merger(r))
-
+# 		razbiv(n1)
+# 		razbiv(n2)	
+# 		c = merger(n1, n2)		
+# 		n[:] = c[:]
+		
+# #n = [8, 11, -6, 3, 0, 1, 1]
+# n = [8, 11, -6, 3, 0, 1, 1, 5, 2, 3, 7, 2, 1]
+# razbiv(n)
+# print(n)
 
 #при рекурсии всегда нужно сначала проверять крайний случай. Если написать просто return то будет возвращен None
 
-# if type(n[0]) != list and len(n) > 1:
-# if type(n[1]) == list:
-# 	if i < n[1][0] and i < n[1][1]:
-# 		t.append(i)
-# 	elif n[1][0] < n[1][1]:
-# 		t.append(pop(n[1][0]))
-# 	else:
-# 		t.append(pop(n[1][1]))
-# else:
-#
-#
-# elif len(n) == 1:
-# t.append(i)
 
+#более короткий вариант
+# l = [int(i) for i in input().split()]
 
+# def merge_two_lists(a, b):
+#     res = []
+#     while a and b:          
+#         res += [a.pop(0) if a[0] < b[0] else b.pop(0)]
+#     return res + a + b
+    
+# def merge_sort(l):
+#     if len(l) == 1:
+#         return l
+#     mid = len(l) // 2
+#     a, b = l[:mid], l[mid:]
+#     return merge_two_lists(merge_sort(a), merge_sort(b))
 
+# print(*merge_sort(l))
+#тоже самое что и у меня, но больше срезов
+# def merge_two_list(a, b):
+#     c = []
+#     i = j = 0
+#     len_a, len_b = len(a), len(b)
+#     while i < len_a and j < len_b:
+#         if a[i] < b[j]:
+#             c.append(a[i])
+#             i += 1
+#         else:
+#             c.append(b[j])
+#             j += 1
+#     c += a[i:] + b[j:]
+#     return c    
+        
 
+# def merge_sort(s):
+#     if len(s) == 1:
+#         return s
+#     middle = len(s) // 2
+#     left = merge_sort(s[:middle])
+#     right = merge_sort(s[middle:])
+#     return merge_two_list(left, right)
 
-# def get_line_list(d,a=[]):
-# 	for i in d:
-# 		if type(i) == list:
-# 			get_line_list(d=i)
-# 		else:
-# 			a.append(i)
-# 	return a
+# s = list(map(int, input().split()))
+# print(*merge_sort(s))
 
+#еще один короткий вариант
+# def merge(lst1, lst2):
+#     res, i, j = [], 0, 0
+#     while lst1 and lst2:
+#         res.append((lst1, lst2)[lst1[-1] < lst2[-1]].pop())
+#     return lst1 + lst2 + res[::-1]
 
+# def merge_sort(lst):
+#     hl = len(lst) // 2
+#     return hl and merge(merge_sort(lst[:hl]), merge_sort(lst[hl:])) or lst
 
+# lst = list(map(int, input().split())) 
+# print(*merge_sort(lst))
 
+#еще один вариант
+# def get_sort(lst):
+#     if len(lst) < 2:
+#         return lst
+#     else:
+#         op_val = lst[0]
+#         sp_min = [i for i in lst[1:] if i <= op_val]
+#         sp_max = [i for i in lst[1:] if i > op_val]
 
+#         return get_sort(sp_min) + [op_val] + get_sort(sp_max)
 
-
-
-
-
-
-
-
-
-
-
-
+# lst_in = [int(i) for i in input(). split()]
+# print(*get_sort(lst_in))
 
 
 
