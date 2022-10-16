@@ -7201,29 +7201,52 @@
 # Например, первые семь начальных сочетаний имеют вид:
 
 # aa ab ac ad ae af ag
+#мой вариант с вложенным генератором и вывод с вложенным циклом
+# from string import ascii_lowercase
+# gen1 = ( (ascii_lowercase[i] + y for x, y in enumerate(ascii_lowercase)) for i, j in enumerate(ascii_lowercase) )
+# c = 0
+# for i, j in enumerate(gen1):
+#     for x, y in enumerate(j):
+#         print(y, end=" ")
+#         c += 1
+#         if c == 50:
+#             break
+#     if c == 50:
+#         break
 
-from string import ascii_lowercase
+#короткий вариант
+# from string import ascii_lowercase as al
+#
+# combinations = (x + y for x in al for y in al)# тут сначала берется первый элемент первого списка, потом перебирается второй цикл и там с первым элементом первого цикла складываются все элементы поочередно с элементами второго
+# print(*[next(combinations) for _ in range(50)])#а тут генератор списка в котором вызывается при каждоый итерации функция next и она перескакивает по итерациям
 
-# print(len(ascii_lowercase))#это строка
-# gen = ( y + j for y in ascii_lowercase
-# 	(j for i, j in enumerate(ascii_lowercase)) )
-# внешний сделать со перебором
+#  Имеется список из названий городов:
+#
+# cities = ["Москва", "Ульяновск", "Самара", "Уфа", "Омск", "Тула"]
+#
+# Необходимо записать генератор, который бы используя этот список, выдавал 1 000 000 наименований городов по циклу. То есть, дойдя до конца списка, возвращался в начало и повторял перебор. И так, для выдачи миллиона названий. Вывести на экран первые 20 наименований городов с помощью генератора в одну строчку через пробел.
+
+# cities = ["Москва", "Ульяновск", "Самара", "Уфа", "Омск", "Тула"]
+# gen = ( j for i in range(1000000, 0, -len(cities)) for j in cities )
+# for i in range(20):
+#     print(next(gen), end=" ")
+
+#вариант с указанием индекса в виде остатка от деления
+# cities = ["Москва", "Ульяновск", "Самара", "Уфа", "Омск", "Тула"]
+# n = len(cities)
+# gen = (cities[i % n] for i in range(1_000_000))
+#
+# print(*(next(gen) for i in range(20)))
+
+# Имеется график функции f(x) = 0.5x^2 - 2. Необходимо записать генератор, который бы выдавал значения этой функции для аргумента x в диапазоне [a; b] с шагом 0.01. Величины a, b вводятся с клавиатуры в одну строчку через пробел как целые числа (a< b). Вывести на экран первые 20 значений функции с точностью до сотых, взятых из генератора.
+#
+# P.S. Значения функции вычислять командой:
+#
+# f(x) = 0.5 * pow(x, 2) - 2.0
 
 
 
 
-gen1 = (
 
-(y for x, y in enumerate(ascii_lowercase)) + j
-for i, j in enumerate(ascii_lowercase)
-)
-
-	
-# gen2 = (
-# j + ascii_lowercase[i]
-# for i, j in enumerate(gen1)
-
-# 	)
-print(list(gen1))
 
 
