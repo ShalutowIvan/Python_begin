@@ -7245,8 +7245,46 @@
 # f(x) = 0.5 * pow(x, 2) - 2.0
 
 
+a, b = map(int, input().split())
+if a > b:
+	a, b = b, a
+gen = ( 0.5 * pow(x/100, 2) - 2.0 for x in range(a*100, b*100+1, 1) )
+
+for i in range(20):
+	print(round(next(gen), 2), end=" ")
+
+#замудренный но крутой алгоритм с расчетом итераций и значений x для подстановки в формулу
+# a, b = map(int, input().split())
+# step = 0.01
+# n = int((b - a) / step) + 1
+# gen1 = (a + i * step for i in range(n))
+# gen2 = (0.5 * x * x - 2 for x in gen1)
+# print(*(round(next(gen2), 2) for i in range(20)))
+
+# с модулем typing
+# from typing import Generator
 
 
+# def f(x: int | float) -> float:
+#     """Принимает число x и возвращает 0.5x^2 - 2"""
+#     return 0.5 * x**2 - 2
+
+
+# a: int
+# b: int   
+# a, b = (int(x) for x in input().split())
+# gen_function_values: Generator = (f(x / 100) for x in range(100 * a, 100 * b + 1, 1))
+
+# for _ in range(20):
+#     print(round(next(gen_function_values), 2), end=" ")
+
+#еще один замудреный вариант с лямбдой
+# a, b = map(lambda x: 100 * int(x), input().split())
+# f = lambda x: round(0.5 * x ** 2 - 2, 2)
+# gen = (f(_ / 100) for _ in range(a, b + 1))
+# print(*[next(gen) for _ in range(20)])
+
+# Функция-генератор. Оператор yield!!!!!!!!!!!!!!!!!!!!
 
 
 
