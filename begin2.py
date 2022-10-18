@@ -7375,22 +7375,47 @@
 
 # Реализуйте эту функцию без использования коллекций (списков, кортежей, словарей и т.п.). Вызовите ее N раз для получения N чисел и выведите полученные числа на экран в одну строчку через пробел.
 # Sample Input:
-
 # 7
 n = 7
 # n = int(input())
 
+# def getF(n):
+# 	for i in range(n+1):
+# 		if i <= 2:
+# 			a = 1
+# 			yield a
+# 		else:
+# 			a = a + i-1 + i-2
+# 			yield
+# a = 0
+# def getF(n):
+# 	if n > 3:
+# 		a = getF(n - 1) + getF(n - 2) + getF(n - 3)
+# 		return a
+# 	else:
+# 		return 1
+
 def getF(n):
-	for i in range(n+1):
-		if i <= 2:
-			a = 1
-			yield a
-		else:
-			a = a + i-1 + i-2
-			yield 
+	a = [1, 1, 1]
+	for i in range(3, n):
+		a.append(a[i-1] + a[i-2] + a[i-3])
+		yield a
+
+
+
+# 1, 1, 1, 3, 5, 9, 17, 31, 57, ...
+# 0, 1, 2, 3, 4, 5, 6,  7,  8
+# 1, 2, 3, 4, 5, 6, 7,  8
 
 z = getF(n)
-print(list(z))
+q = []
+for i in range(n-3):
+	q = next(z)
+print(*q)
+
+
+
+# print(list(z))
 # придумать что с индексом цикла
 		
 
@@ -7406,8 +7431,20 @@ print(list(z))
 # a = get_list()
 # print(list(a))#перебрали с помощью функции list и сделали список
 
+# def fib_rec(N, f=[], i=2):
+# 	if f == []:
+# 		f = [1, 1]
+# 	if i < N:
+# 		f.append(f[i - 1] + f[i - 2])
+# 		fib_rec(N, f, i + 1)
+# 		return f
+# 	else:
+# 		if N == 2:
+# 			return f
+# 		elif N == 1:
+# 			return f[0]
 
-
+# print(*fib_rec(N))
 
 
 
