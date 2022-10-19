@@ -7376,76 +7376,203 @@
 # Реализуйте эту функцию без использования коллекций (списков, кортежей, словарей и т.п.). Вызовите ее N раз для получения N чисел и выведите полученные числа на экран в одну строчку через пробел.
 # Sample Input:
 # 7
-n = 7
+# n = 7
+#вариант со списком
+# def getF(n):
+# 	a = [1, 1, 1]
+# 	for i in range(3, n):
+# 		a.append(a[i-1] + a[i-2] + a[i-3])
+# 		yield a
+
+# z = getF(n)
+# q = []
+# for i in range(n-3):
+# 	q = next(z)
+# print(*q)
 # n = int(input())
 
 # def getF(n):
-# 	for i in range(n+1):
-# 		if i <= 2:
-# 			a = 1
-# 			yield a
+# 	a = 1
+# 	b = 1
+# 	c = 1
+# 	d = 0
+# 	for i in range(1, n+1):
+# 		if i < 4:
+# 			yield 1
 # 		else:
-# 			a = a + i-1 + i-2
-# 			yield
-# a = 0
-# def getF(n):
-# 	if n > 3:
-# 		a = getF(n - 1) + getF(n - 2) + getF(n - 3)
-# 		return a
-# 	else:
-# 		return 1
-
-def getF(n):
-	a = [1, 1, 1]
-	for i in range(3, n):
-		a.append(a[i-1] + a[i-2] + a[i-3])
-		yield a
+# 			d = a + b + c
+# 			a = b
+# 			b = c
+# 			c = d
+# 			yield d
 
 
-
-# 1, 1, 1, 3, 5, 9, 17, 31, 57, ...
-# 0, 1, 2, 3, 4, 5, 6,  7,  8
-# 1, 2, 3, 4, 5, 6, 7,  8
-
-z = getF(n)
-q = []
-for i in range(n-3):
-	q = next(z)
-print(*q)
+# z = getF(n)
+# for i in range(n):
+# 	print(next(z), end=" ")
 
 
+#тоже самое что и у меня, но более короткий вариант, с присвоением в одну строку
+# N = int(input())
 
-# print(list(z))
-# придумать что с индексом цикла
+# def get_sum(N):
+#     a = b = c = 1
+#     for _ in range(N):
+#         yield a
+#         a, b, c = b, c, a + b + c
+        
+# print(*get_sum(N))
+
+#вариант через рекурсию
+# def gen(N):
+#     def seq(i):
+#         return seq(i - 1) + seq(i - 2) + seq(i - 3) if i > 3 else 1
+    
+#     for i in range(1, N+1):
+#         yield seq(i)
+
+        
+# print(*gen(int(input())))
+
+# Вводится натуральное число N (N > 8). Необходимо определить функцию-генератор, которая бы выдавала пароль длиной N символов из случайных букв, цифр и некоторых других знаков. Для получения последовательности допустимых символов для генерации паролей в программе импортированы две строки: ascii_lowercase, ascii_uppercase (см. листинг ниже), на основе которых формируется общий список:
+
+# from string import ascii_lowercase, ascii_uppercase
+# chars = ascii_lowercase + ascii_uppercase + "0123456789!?@#$*"
+# Функция-генератор должна при каждом вызове возвращать новый пароль из случайно выбранных символов chars длиной N и делать это бесконечно, то есть, вызывать ее можно бесконечное число раз. Сгенерировать случайный индекс indx в диапазоне [a; b] для символа можно с помощью функции randint модуля random:
+
+# import random
+# random.seed(1)
+# indx = random.randint(a, b)
+# Сгенерируйте с помощью этой функции первые пять паролей и выведите их в столбик (каждый с новой строки).
+
+# Sample Input:
+
+# 10
+# мое решение
+# n = 10
+# import random
+# from string import ascii_lowercase, ascii_uppercase
+
+# # установка зерна датчика случайных чисел (не менять)
+# random.seed(1)
+
+# # здесь продолжайте программу
+# chars = ascii_lowercase + ascii_uppercase + "0123456789!?@#$*"
+
+# def gen(n):	
+# 	while True:
+# 		pas = ""		
+# 		for i in range(n):
+# 			indx = random.randint(0, len(chars))#тут генерируется рандомное значение индекса
+# 			pas += chars[indx]#прибавляется символ из строки chars по псевдорандомному индексу
+# 		yield pas#возвращаем этот набор символов, типа пароль сделали
+# z = gen(n)
+# for i in range(5):
+# 	print(next(z))
+
+#вариант с join и списком
+# import random
+# from string import ascii_lowercase, ascii_uppercase
+
+# # установка зерна датчика случайных чисел (не менять)
+# random.seed(1)
+
+# # здесь продолжайте программу
+# def gen_pwd(n):
+#     chars = ascii_lowercase + ascii_uppercase + "0123456789!?@#$*"
+#     while True:
+#         yield ''.join([chars[random.randint(0, len(chars))] for _ in range(n)])
+
+# pwd = gen_pwd(int(input()))
+# [print(next(pwd)) for _ in range(5)]
+
+# вариант без while
+
+# import random
+# from string import ascii_lowercase, ascii_uppercase
+
+# # установка зерна датчика случайных чисел (не менять)
+# random.seed(1)
+# chars = ascii_lowercase + ascii_uppercase + "0123456789!?@#$*"
+
+# def password(n):
+#     for i in range(n):
+#         indx = random.randint(0, len(chars) - 1)
+#         yield chars[indx]
+
+# x = int(input())
+# for _ in range(5):
+#     print(*password(x), sep='')
+
+
+
+# Вводится натуральное число N. Используя строки из латинских букв ascii_lowercase и ascii_uppercase:
+
+# from string import ascii_lowercase, ascii_uppercase
+# chars = ascii_lowercase + ascii_uppercase
+# задайте функцию-генератор, которая бы возвращала случайно сформированные email-адреса с доменом mail.ru и длиной в N символов. Например, при N=6, получим адрес: SCrUZo@mail.ru
+
+# Для формирования случайного индекса для строки chars используйте функцию randint модуля random:
+
+# import random
+# random.seed(1)
+# indx = random.randint(0, len(chars)-1)
+# Функция-генератор должна возвращать бесконечное число таких адресов, то есть, генерировать постоянно. Выведите первые пять сгенерированных email и выведите их в столбик (каждый с новой строки).
+
+# Sample Input:
+# 8
+
+# from string import ascii_lowercase, ascii_uppercase
+# chars = ascii_lowercase + ascii_uppercase
+# import random
+# random.seed(1)
+# n = 8
+# def get_mail(n):	
+# 	while True:
+# 		mail = ""		
+# 		for i in range(n):
+# 			indx = random.randint(0, len(chars)-1)
+# 			mail += chars[indx]
+# 		yield mail+"@mail.ru"
+
+# z = get_mail(n)
+# for i in range(5):
+# 	print(next(z))
+
+# Определите функцию-генератор, которая бы возвращала простые числа. (Простое число - это натуральное число, которое делится только на себя и на 1). Выведите с помощью этой функции первые 20 простых чисел (начиная с 2) в одну строчку через пробел.
+
+def simple_n():
+	i = 2
+	while True:
+		c = 0
+		for j in range(2, i):
+			if i % j == 0:
+				c += 1
 		
+		if c == 1:
+			yield i
+		i += 1
+
+z = simple_n()
+for i in range(2, 22):
+	print(next(z))
 
 
 
 
 
-# def get_list():
-#     for i in range(1, 10):#сделали цикл от 1 до 9 цифры
-#         a = range(i, 11)#тут мы формируем переменную a в которую записывается последовательность от i который каждый раз увеличивается до 10 включительно
-#         yield sum(a) / len(a)#считаем среднеарифметическое для последовательности
-#
-# a = get_list()
-# print(list(a))#перебрали с помощью функции list и сделали список
 
-# def fib_rec(N, f=[], i=2):
-# 	if f == []:
-# 		f = [1, 1]
-# 	if i < N:
-# 		f.append(f[i - 1] + f[i - 2])
-# 		fib_rec(N, f, i + 1)
-# 		return f
-# 	else:
-# 		if N == 2:
-# 			return f
-# 		elif N == 1:
-# 			return f[0]
 
-# print(*fib_rec(N))
 
+
+# n = int(input())
+# for i in range(2, n):
+#     c = 0
+#     for j in range(2, n):
+#         if i % j == 0:
+#             c += 1
+#     if c == 1:
+#         print(i, end=" ")
 
 
 
