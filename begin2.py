@@ -8423,10 +8423,18 @@ def vl(el):
 
 lst_in = [ vl(i) for i in lst_in ]
 
-ts = list( (sorted(i.items(), key=lambda x: x[1])) for i in lst_in ) #отсортированный словарь, его нужно переделать в кортеж, чтобы не было значений, в кортеж долджны пойти только ключи
-print(ts)
-t_sorted = ( [j[0]	for j in i] for i in ts )
-print(list(t_sorted))
+lst_in = ( (sorted(i.items(), key=lambda x: x[1])) for i in lst_in ) #отсортированный словарь, его нужно переделать в кортеж, чтобы не было значений, в кортеж долджны пойти только ключи
+# print(ts)
+t_sorted = list( tuple(int(j[0]) if j[0].isdigit() else j[0] for j in i) for i in lst_in )
+
+t_sorted = tuple(sorted(t_sorted, key=lambda x: x[3] if type(x[3]) == int else 0))
+
+
+# есть вероятность что шапку надо отдельно от списка сортировать, точнее просто добавлять, а сортировать только другие элементы
+
+# t_sorted = sorted(t_sorted, key=lambda x: x[3] if x)
+# t_sorted = tuple( ";".join(j[0] for j in i) for i in lst_in )
+print(t_sorted)
 
 # # print(t_sorted)
 # for i in t_sorted:
