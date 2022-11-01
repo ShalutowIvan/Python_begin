@@ -8396,15 +8396,27 @@
 
 lst_in = ['Номер;Имя;Оценка;Зачет', '1;Портос;5;Да', '2;Арамис;3;Да', '3;Атос;4;Да', "4;д'Артаньян;2;Нет", '5;Балакирев;1;Нет']
 
-lst_in = tuple(map(lambda el: tuple((el.split(";"))), lst_in))
+lst_in = list(map(lambda el: tuple((el.split(";"))), lst_in))
+
 # вложенный кортеж потом сделать, пока вложенные списки будут
 sl = "Имя;Зачет;Оценка;Номер".split(";")
-sl = {sl[i]: i for i in range(len(sl))}# словарь пример для формирования списка
+sm = {sl[i]: i for i in range(len(sl))}# словарь пример для формирования списка
 
+for i in range(len(lst_in)-1):
+	z = 0
+	for j in lst_in[i]:
+		if j.isalpha():
+			z += 1
+	if z == 4:
+		ud = lst_in.pop(i)
+# print(ud)
+# print(lst_in) #все работает
 lst_in = [ {i[j]: j for j in range(len(i))} for i in lst_in ]#сделал словари нашего списка
 # shablon = {i[0]: sl[i[0]]  for i in lst_in[0].items()}#шаблон для других элементов
-sk = [sl[i[0]] for i in lst_in[0].items()]
-
+# скорее всего тут удалить лучше первый элемент
+ud = {ud[i]: i for i in range(len(ud))}
+sk = [sm[i[0]] for i in ud.items()]
+# print(sk)
 def vl(el):
     j = 0
     res = {}
@@ -8423,18 +8435,26 @@ def vl(el):
 
 lst_in = [ vl(i) for i in lst_in ]
 
-lst_in = ( (sorted(i.items(), key=lambda x: x[1])) for i in lst_in ) #отсортированный словарь, его нужно переделать в кортеж, чтобы не было значений, в кортеж долджны пойти только ключи
+lst_in = ( (sorted(i.items(), key=lambda x: x[1])) for i in lst_in ) #отсортированный словарь, его нужно переделать в кортеж, чтобы не было значений словаря, в кортеж должны пойти только ключи
 # print(ts)
-t_sorted = list( tuple(int(j[0]) if j[0].isdigit() else j[0] for j in i) for i in lst_in )
 
-t_sorted = tuple(sorted(t_sorted, key=lambda x: x[3] if type(x[3]) == int else 0))
+t_sorted = tuple( tuple(int(j[0]) if j[0].isdigit() else j[0] for j in i) for i in lst_in )
+
+# t_sorted = tuple(sorted(t_sorted, key=lambda x: x[3]))
+t_sorted = (tuple(sl),) + t_sorted
+print(t_sorted)
+
+# посмотреть что делает прога чевука с гитхаба, она без сортировки, но действия делает верные
 
 
+
+# t_sorted = tuple(sorted(t_sorted, key=lambda x: x[3] if type(x[3]) == int else 0))
+# print(t_sorted)
 # есть вероятность что шапку надо отдельно от списка сортировать, точнее просто добавлять, а сортировать только другие элементы
 
 # t_sorted = sorted(t_sorted, key=lambda x: x[3] if x)
 # t_sorted = tuple( ";".join(j[0] for j in i) for i in lst_in )
-print(t_sorted)
+# print(t_sorted)
 
 # # print(t_sorted)
 # for i in t_sorted:
