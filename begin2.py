@@ -8725,6 +8725,10 @@
 
 # P. S. Считывание входного списка делать не нужно!!! Только определить функцию.
 
-lst = ['# x o', 'x # x', 'o o #']
-def is_free(lst):
-
+# lst = ['# x o', 'x # x', 'o o #']
+# def is_free(lst):
+#     if any(map(lambda x: "#" in x, lst)):
+#         return True
+#     else:
+#         return False
+# print(is_free(lst))
