@@ -9135,7 +9135,7 @@
 # print(a)
 # Функции для коллекций!!!!!!!!!!!!!!!!!!!
 # lst = [4, 5, 0, -1, 10, 76, 3]
-# choice(переменная списка) выбирает случайный элемент списка
+# choice(переменная списка) выбирает случайный элемент списка возвращает его значение
 # a = random.choice(lst)
 # print(a)
 # shuffle(lst)#меняет сам список перемешивая значения. Работает только с изменяемыми тиапми данных
@@ -9241,7 +9241,39 @@ random.seed(1)
 N = 10
 # N = int(input())
 P = [[0] * N for i in range(N)]
+a = 1
+for i in P:
+    i[random.randint(0,9)] = 1
 
+def is_isolate(nn, i, j):
+    if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
+        return True
+    else:
+        return False
+
+def verify(nn):
+	edge = len(nn)-1
+	c = 0
+	c2 = 0
+	for i in range(edge):
+        for j in range(edge):
+            if nn[i][j] == 1:
+                if is_isolate(nn, i, j):
+
+
+
+
+
+	if c2 == c:
+		return True
+	else:
+		return False
+
+
+for i in P:
+    print(i)
+    
+        
 
 
 # a = random.random()#возвращает псевдослучайные числа
@@ -9257,4 +9289,39 @@ P = [[0] * N for i in range(N)]
 # a = random.sample(lst, 3)#возвращает неповторяющиеся элементы из списка, первый аргумент это переменная списка, второй аргумент это колво элементов, там нельзя указать цифру которая больше длины списка
 
 
+
+# for i in range(n):
+#     for j in range(n):
+#         if lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1] > 1:
+#             print('НЕТ')
+#             break
+#     else:
+#         continue
+#     break # выход из внешнего цикла
+# else:
+#     print('ДА')
+# проверяем квадратики по 4 элемента, везде сумма должна быть только 1 единица
+
+
+#второй вариант
+# def is_isolate(nn, i, j):
+#     if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
+#         return False
+#     else:
+#         return True
+
+# def verify(nn):
+# 	k = len(nn)-1
+# 	c = 0
+# 	c2 = 0
+# 	for i in range(k):
+# 		for j in range(k):
+# 			if nn[i][j] == 1:
+# 				c2 += 1
+# 				if is_isolate(nn, i, j):
+# 					c += 1
+# 	if c2 == c:
+# 		return True
+# 	else:
+# 		return False
 
