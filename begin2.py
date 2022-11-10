@@ -9241,24 +9241,77 @@ random.seed(1)
 N = 10
 # N = int(input())
 P = [[0] * N for i in range(N)]
-a = 1
+
 for i in P:
     i[random.randint(0,9)] = 1
 
-def is_isolate(nn, i, j):
-    if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
+# def is_isolate(nn, i, j):
+#     if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
+#         return True
+#     else:
+#         return False
+#функция по проверке изолированности единиц, то есть вокруг каждой единицы нули, в квадратной матрице из нулей и единиц
+def isolated_unit(nn):
+    c = 0
+    for q, w in enumerate(nn):
+    	for a, s in enumerate(w):
+            if s == 1:
+                c += 1
+
+    x = 0
+    for i, row in enumerate(nn):
+        for j, el in enumerate(row):
+            if i == 0 and j == 0 and el == 1:
+                if row[j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+                    x += 1
+
+            if i == 0 and j == len(nn) - 1 and el == 1:
+                if row[j - 1] == 0 and nn[i + 1][j - 1:] == [0, 0]:
+                    x += 1
+
+            if i == len(nn) - 1 and j == 0 and el == 1:
+                if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+                    x += 1
+
+            if i == len(nn) - 1 and j == len(nn) - 1 and el == 1:
+                if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0]:
+                    x += 1
+
+            if 1 <= i <= len(nn) - 2 and (j == 0 and el == 1):
+                if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+                    x += 1
+
+            if 1 <= i <= len(nn) - 2 and j == len(nn) - 1 and el == 1:
+                if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0] and nn[i + 1][j - 1:] == [0, 0]:
+                    x += 1
+
+            if i == 0 and 1 <= j <= len(nn) - 2 and el == 1:
+                if row[j - 1] == 0 and row[j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+                    x += 1
+
+            if i == len(nn) - 1 and 1 <= j <= len(nn) - 2 and el == 1:
+                if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+                    x += 1
+
+            if (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2) and el == 1:
+                if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+                    x += 1
+    
+    if x == c:
         return True
     else:
         return False
 
-def separate(nn):
-	edge = len(nn)-1
-	c = 0
-	c2 = 0
-	for i in range(edge):
-        for j in range(edge):
-            if nn[i][j] == 1:
-                if is_isolate(nn, i, j):
+print(isolated_unit(P))
+#теперь нужно придумать что делать, чтобы единицы стали изолированными
+# def separate(nn):
+# 	edge = len(nn)-1
+# 	c = 0
+# 	c2 = 0
+# 	for i in range(edge):
+#         for j in range(edge):
+#             if nn[i][j] == 1:
+#                 if is_isolate(nn, i, j):
 
 
 	# if c2 == c:
@@ -9267,11 +9320,10 @@ def separate(nn):
 	# 	return False
 
 
-for i in P:
-    print(i)
-    
+# for i in P:
+#     print(i)
+#
         
-
 
 # a = random.random()#возвращает псевдослучайные числа
 # uniform(a, b) - случайное значение по равномернуому закону в диапазоне от a до b. Каждый раз новое дробное значение от a до b
@@ -9324,62 +9376,62 @@ for i in P:
 
 # nn = [[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
 # [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-# [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
 # [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-# [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
 # [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 # [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-# [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-# [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-# [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]]
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+# [0, 0, 0, 1, 0, 0, 0, 0, 0, 1]]
 
 # print(verify(nn))
 #сделать 9 условий
 
 # for i, row in enumerate(lst_in):
-
+#
 # 	for j, el in enumerate(row):
 # 		if el == 1:
 # 			c += 1
 # x = 0
 # for i, row in enumerate(lst_in):
-
+#
 # 	for j, el in enumerate(row):
 # 		if i == 0 and j == 0 and el == 1:
 # 			if row[j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
 # 				x += 1
-
-# 		if i == 0 and j == 4 and el == 1:
+#
+# 		if i == 0 and j == len(nn)-1 and el == 1:
 # 			if row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]:
 # 				x += 1
-
-# 		if i == 4 and j == 0 and el == 1:
+#
+# 		if i == len(nn)-1 and j == 0 and el == 1:
 # 			if row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
 # 				x += 1
-
-# 		if i == 4 and j == 4 and el == 1:
+#
+# 		if i == len(nn)-1 and j == len(nn)-1 and el == 1:
 # 			if row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]:
 # 				x += 1
-
-
-# 		if 1 <= i <= 3 and (j == 0 and el == 1):
+#
+#
+# 		if 1 <= i <= len(nn)-2 and (j == 0 and el == 1):
 # 			if row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
 # 				x += 1
-
-# 		if 1 <= i <= 3 and j == 4 and el == 1:
+#
+# 		if 1 <= i <= len(nn)-2 and j == len(nn)-1 and el == 1:
 # 			if row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]:
 # 				x += 1
-
-# 		if i == 0 and 1 <= j <= 3 and el == 1:
+#
+# 		if i == 0 and 1 <= j <= len(nn)-2 and el == 1:
 # 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
 # 				x += 1
-
-# 		if i == 4 and 1 <= j <= 3 and el == 1:
+#
+# 		if i == len(nn)-1 and 1 <= j <= len(nn)-2 and el == 1:
 # 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
 # 				x += 1
-
-
-# 		if (1 <= i <= 3) and (1 <= j <= 3) and el == 1:
+#
+#
+# 		if (1 <= i <= len(nn)-2) and (1 <= j <= len(nn)-2) and el == 1:
 # 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
 # 				x += 1
 
