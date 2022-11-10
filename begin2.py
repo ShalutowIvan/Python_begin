@@ -9251,7 +9251,7 @@ def is_isolate(nn, i, j):
     else:
         return False
 
-def verify(nn):
+def separate(nn):
 	edge = len(nn)-1
 	c = 0
 	c2 = 0
@@ -9261,13 +9261,10 @@ def verify(nn):
                 if is_isolate(nn, i, j):
 
 
-
-
-
-	if c2 == c:
-		return True
-	else:
-		return False
+	# if c2 == c:
+	# 	return True
+	# else:
+	# 	return False
 
 
 for i in P:
@@ -9321,7 +9318,72 @@ for i in P:
 # 				if is_isolate(nn, i, j):
 # 					c += 1
 # 	if c2 == c:
-# 		return True
+# 		return c2, True
 # 	else:
-# 		return False
+# 		return c2, False
 
+# nn = [[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+# [0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+# [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+# [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]]
+
+# print(verify(nn))
+#сделать 9 условий
+
+# for i, row in enumerate(lst_in):
+
+# 	for j, el in enumerate(row):
+# 		if el == 1:
+# 			c += 1
+# x = 0
+# for i, row in enumerate(lst_in):
+
+# 	for j, el in enumerate(row):
+# 		if i == 0 and j == 0 and el == 1:
+# 			if row[j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 				x += 1
+
+# 		if i == 0 and j == 4 and el == 1:
+# 			if row[j-1] == 0 and lst_in[i+1][j-1:] == [0,0]:
+# 				x += 1
+
+# 		if i == 4 and j == 0 and el == 1:
+# 			if row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
+# 				x += 1
+
+# 		if i == 4 and j == 4 and el == 1:
+# 			if row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0]:
+# 				x += 1
+
+
+# 		if 1 <= i <= 3 and (j == 0 and el == 1):
+# 			if row[j+1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 				x += 1
+
+# 		if 1 <= i <= 3 and j == 4 and el == 1:
+# 			if row[j-1] == 0 and lst_in[i-1][j-1:] == [0,0] and lst_in[i+1][j-1:] == [0,0]:
+# 				x += 1
+
+# 		if i == 0 and 1 <= j <= 3 and el == 1:
+# 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 				x += 1
+
+# 		if i == 4 and 1 <= j <= 3 and el == 1:
+# 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0:
+# 				x += 1
+
+
+# 		if (1 <= i <= 3) and (1 <= j <= 3) and el == 1:
+# 			if row[j-1] == 0 and row[j+1] == 0 and lst_in[i-1][j-1] == 0 and lst_in[i-1][j] == 0 and lst_in[i-1][j+1] == 0 and lst_in[i+1][j-1] == 0 and lst_in[i+1][j] == 0 and lst_in[i+1][j+1] == 0:
+# 				x += 1
+
+# if c == x:
+# 	print("ДА")
+# else:
+# 	print("НЕТ")
