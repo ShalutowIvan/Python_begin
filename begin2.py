@@ -9250,59 +9250,93 @@ for i in P:
 #         return True
 #     else:
 #         return False
-#функция по проверке изолированности единиц, то есть вокруг каждой единицы нули, в квадратной матрице из нулей и единиц
-def isolated_unit(nn):
-    c = 0
-    for q, w in enumerate(nn):
-    	for a, s in enumerate(w):
-            if s == 1:
-                c += 1
+#ниже функция по проверке изолированности единиц, то есть вокруг каждой единицы нули, в квадратной матрице из нулей и единиц
+# def isolated_unit(nn):
+#     c = 0
+#     for q, w in enumerate(nn):
+#     	for a, s in enumerate(w):
+#             if s == 1:
+#                 c += 1
 
-    x = 0
-    for i, row in enumerate(nn):
-        for j, el in enumerate(row):
-            if i == 0 and j == 0 and el == 1:
-                if row[j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-                    x += 1
+#     x = 0
+#     for i, row in enumerate(nn):
+#         for j, el in enumerate(row):
+#             if i == 0 and j == 0 and el == 1:
+#                 if row[j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+#                     x += 1
 
-            if i == 0 and j == len(nn) - 1 and el == 1:
-                if row[j - 1] == 0 and nn[i + 1][j - 1:] == [0, 0]:
-                    x += 1
+#             if i == 0 and j == len(nn) - 1 and el == 1:
+#                 if row[j - 1] == 0 and nn[i + 1][j - 1:] == [0, 0]:
+#                     x += 1
 
-            if i == len(nn) - 1 and j == 0 and el == 1:
-                if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
-                    x += 1
+#             if i == len(nn) - 1 and j == 0 and el == 1:
+#                 if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+#                     x += 1
 
-            if i == len(nn) - 1 and j == len(nn) - 1 and el == 1:
-                if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0]:
-                    x += 1
+#             if i == len(nn) - 1 and j == len(nn) - 1 and el == 1:
+#                 if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0]:
+#                     x += 1
 
-            if 1 <= i <= len(nn) - 2 and (j == 0 and el == 1):
-                if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-                    x += 1
+#             if 1 <= i <= len(nn) - 2 and (j == 0 and el == 1):
+#                 if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+#                     x += 1
 
-            if 1 <= i <= len(nn) - 2 and j == len(nn) - 1 and el == 1:
-                if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0] and nn[i + 1][j - 1:] == [0, 0]:
-                    x += 1
+#             if 1 <= i <= len(nn) - 2 and j == len(nn) - 1 and el == 1:
+#                 if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0] and nn[i + 1][j - 1:] == [0, 0]:
+#                     x += 1
 
-            if i == 0 and 1 <= j <= len(nn) - 2 and el == 1:
-                if row[j - 1] == 0 and row[j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-                    x += 1
+#             if i == 0 and 1 <= j <= len(nn) - 2 and el == 1:
+#                 if row[j - 1] == 0 and row[j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+#                     x += 1
 
-            if i == len(nn) - 1 and 1 <= j <= len(nn) - 2 and el == 1:
-                if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
-                    x += 1
+#             if i == len(nn) - 1 and 1 <= j <= len(nn) - 2 and el == 1:
+#                 if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+#                     x += 1
 
-            if (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2) and el == 1:
-                if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-                    x += 1
+#             if (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2) and el == 1:
+#                 if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+#                     x += 1
     
-    if x == c:
-        return True
-    else:
-        return False
+#     if x == c:
+#         return True
+#     else:
+#         return False
 
-print(isolated_unit(P))
+#проверка изолиованности одной единицы
+def isolated_unit(nn, i, j):
+    if i == 0 and j == 0:
+    	if row[j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+    		return True
+    elif i == 0 and j == len(nn) - 1:
+    	if row[j - 1] == 0 and nn[i + 1][j - 1:] == [0, 0]:
+    		return True
+    elif i == len(nn) - 1 and j == 0:
+    	if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+    		return True
+    elif i == len(nn) - 1 and j == len(nn) - 1:
+    	if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0]:
+    		return True
+    elif 1 <= i <= len(nn) - 2 and j == 0:
+    	if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+    		return True
+    elif 1 <= i <= len(nn) - 2 and j == len(nn) - 1:
+    	if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0] and nn[i + 1][j - 1:] == [0, 0]:
+    		return True
+    elif i == 0 and 1 <= j <= len(nn) - 2:
+    	if row[j - 1] == 0 and row[j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+    		return True
+    elif i == len(nn) - 1 and 1 <= j <= len(nn) - 2:
+    	if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+    		return True
+    elif (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2):
+    	if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+    		return True
+    else:
+    	return False
+# сделать проверку для одной единицы
+print(isolated_unit(P, i=3, j=4))
+
+# print(isolated_unit(P))
 #теперь нужно придумать что делать, чтобы единицы стали изолированными
 # def separate(nn):
 # 	edge = len(nn)-1
@@ -9311,7 +9345,7 @@ print(isolated_unit(P))
 # 	for i in range(edge):
 #         for j in range(edge):
 #             if nn[i][j] == 1:
-#                 if is_isolate(nn, i, j):
+#                 if isolated_unit(nn, i, j):
 
 
 	# if c2 == c:
