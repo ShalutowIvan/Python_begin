@@ -7267,7 +7267,7 @@
 # def get_list():
 #     for x in [1, 2, 3, 4]:
 #         yield x#теперь функция стала генератором, то есть этот оператор yield он создает генератор
-        # return x  # в этом случае как только мы сделали return то функция завершит свою работу и далее ничего выводить не будет, то есть будет выведен только первый элемент списка. Но можно прописать другой оператор yield
+		# return x  # в этом случае как только мы сделали return то функция завершит свою работу и далее ничего выводить не будет, то есть будет выведен только первый элемент списка. Но можно прописать другой оператор yield
 
 
 # a = get_list()
@@ -7278,7 +7278,7 @@
 # print(next(a))
 #то есть оператор yield возвращает текущее значение функции, и замараживает переменные функции до следующего вызова функции next. Также можно и перебрать генератор через цикл
 #for i in a:
-    #print(i)#работает так, вызывается функция и берется первое значение которое возвратил yield, выводится через цикл, потом вызывается функция еще раз и берется следующее замороженное значение переменная x возвращает следующий элемент списка точнее значение следующего элемента списка и передает его в цикл и выводит, и тд до конца, каждый раз возвращается значение элемента списка в переменную x и это значение попадает при итерациях цикла. Цикл for тоже вызывает функции next постоянно и перебирает итерируемый объект, в наше случае генератор
+	#print(i)#работает так, вызывается функция и берется первое значение которое возвратил yield, выводится через цикл, потом вызывается функция еще раз и берется следующее замороженное значение переменная x возвращает следующий элемент списка точнее значение следующего элемента списка и передает его в цикл и выводит, и тд до конца, каждый раз возвращается значение элемента списка в переменную x и это значение попадает при итерациях цикла. Цикл for тоже вызывает функции next постоянно и перебирает итерируемый объект, в наше случае генератор
 #то есть вместо return пишем yield и тем самым превращаем обычную функцию в функцию генератор. Писать в таких функциях можно любые сложные алгоритмы
 
 #пример использования
@@ -7420,18 +7420,18 @@
 #     for _ in range(N):
 #         yield a
 #         a, b, c = b, c, a + b + c
-        
+
 # print(*get_sum(N))
 
 #вариант через рекурсию
 # def gen(N):
 #     def seq(i):
 #         return seq(i - 1) + seq(i - 2) + seq(i - 3) if i > 3 else 1
-    
+
 #     for i in range(1, N+1):
 #         yield seq(i)
 
-        
+
 # print(*gen(int(input())))
 
 # Вводится натуральное число N (N > 8). Необходимо определить функцию-генератор, которая бы выдавала пароль длиной N символов из случайных букв, цифр и некоторых других знаков. Для получения последовательности допустимых символов для генерации паролей в программе импортированы две строки: ascii_lowercase, ascii_uppercase (см. листинг ниже), на основе которых формируется общий список:
@@ -8600,7 +8600,7 @@
 #     return list(filter(lambda x: isinstance(x, (int, float)) and type(x) != bool, lst))
 # a = get_list_dig([5, 6, 7.4, '8', 5, '4'])
 # print(a)
-	
+
 #вариант с type
 # def get_list_dig(it):
 #     return list(filter(lambda x: type(x) in (int, float), it))
@@ -9243,7 +9243,7 @@ N = 10
 P = [[0] * N for i in range(N)]
 
 for i in P:
-    i[random.randint(0,9)] = 1
+	i[random.randint(0,9)] = 1
 
 # def is_isolate(nn, i, j):
 #     if nn[i][j] + nn[i+1][j] + nn[i+1][j+1] + nn[i][j+1] > 1:
@@ -9296,68 +9296,88 @@ for i in P:
 #             if (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2) and el == 1:
 #                 if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
 #                     x += 1
-    
+
 #     if x == c:
 #         return True
 #     else:
 #         return False
 
-#проверка изолиованности одной единицы
+#проверка изолиованности одной единицы, точнее проверка что вкруг элемента нули для квадратной матрицы
 def isolated_unit(nn, i, j):
-    if i == 0 and j == 0:
-    	if row[j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-    		return True
-    elif i == 0 and j == len(nn) - 1:
-    	if row[j - 1] == 0 and nn[i + 1][j - 1:] == [0, 0]:
-    		return True
-    elif i == len(nn) - 1 and j == 0:
-    	if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
-    		return True
-    elif i == len(nn) - 1 and j == len(nn) - 1:
-    	if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0]:
-    		return True
-    elif 1 <= i <= len(nn) - 2 and j == 0:
-    	if row[j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-    		return True
-    elif 1 <= i <= len(nn) - 2 and j == len(nn) - 1:
-    	if row[j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0] and nn[i + 1][j - 1:] == [0, 0]:
-    		return True
-    elif i == 0 and 1 <= j <= len(nn) - 2:
-    	if row[j - 1] == 0 and row[j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-    		return True
-    elif i == len(nn) - 1 and 1 <= j <= len(nn) - 2:
-    	if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
-    		return True
-    elif (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2):
-    	if row[j - 1] == 0 and row[j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-    		return True
-    else:
-    	return False
+	if i == 0 and j == 0:
+		if nn[i][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+			return True
+		else:
+			return False
+	elif i == 0 and j == len(nn) - 1:
+		if nn[i][j - 1] == 0 and nn[i + 1][j - 1:] == [0, 0]:
+			return True
+		else:
+			return False
+	elif i == len(nn) - 1 and j == 0:
+		if nn[i][j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+			return True
+		else:
+			return False
+	elif i == len(nn) - 1 and j == len(nn) - 1:
+		if nn[i][j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0]:
+			return True
+		else:
+			return False
+	elif 1 <= i <= len(nn) - 2 and j == 0:
+		if nn[i][j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+			return True
+		else:
+			return False
+	elif 1 <= i <= len(nn) - 2 and j == len(nn) - 1:
+		if nn[i][j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0] and nn[i + 1][j - 1:] == [0, 0]:
+			return True
+		else:
+			return False
+	elif i == 0 and 1 <= j <= len(nn) - 2:
+		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+			return True
+		else:
+			return False
+	elif i == len(nn) - 1 and 1 <= j <= len(nn) - 2:
+		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+			return True
+		else:
+			return False
+	elif (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2):
+		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+			return True
+		else:
+			return False
+
 # сделать проверку для одной единицы
-print(isolated_unit(P, i=3, j=4))
 
 # print(isolated_unit(P))
 #теперь нужно придумать что делать, чтобы единицы стали изолированными
-# def separate(nn):
-# 	edge = len(nn)-1
-# 	c = 0
-# 	c2 = 0
-# 	for i in range(edge):
-#         for j in range(edge):
-#             if nn[i][j] == 1:
-#                 if isolated_unit(nn, i, j):
+def separate(nn):
+	edge = len(nn)-1
+	for i in range(edge):
+		for j in range(edge):
+			z = 0
+			v = nn[i][j]
+			while v==1:
+				if isolated_unit(nn, i, j) and nn[i][j] == 1:
+					break
+				nn[i][j], nn[i][z] = nn[i][z], nn[i][j]
+				while not isolated_unit(nn, i, j=z):
+					nn[i][z], nn[i][z+1] = nn[i][z+1], nn[i][z]
+					z += 1
+				else:
+					v = 0
 
 
-	# if c2 == c:
-	# 	return True
-	# else:
-	# 	return False
 
+separate(P)
 
-# for i in P:
-#     print(i)
+for i in P:
+	print(i)
 #
-        
+
 
 # a = random.random()#возвращает псевдослучайные числа
 # uniform(a, b) - случайное значение по равномернуому закону в диапазоне от a до b. Каждый раз новое дробное значение от a до b
