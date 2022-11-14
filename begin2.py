@@ -9238,8 +9238,8 @@ import random
 # установка "зерна" датчика случайных чисел, чтобы получались одни и те же случайные величины
 random.seed(1)
 # начальная инициализация поля (переменные P и N не менять, единицы записывать в список P)
-# N = 10
-N = int(input())
+N = 10
+# N = int(input())
 P = [[0] * N for i in range(N)]
 M = 10
 i = 0
@@ -9255,8 +9255,8 @@ while M > 0:
 
 P = list(map(list, list(zip(*P))))
 
-for i in P:
-	random.shuffle(i)
+# for i in P:
+# 	random.shuffle(i)
 
 # переделаь тапл в лист все элементы
 
@@ -9323,52 +9323,52 @@ for i in P:
 #         return False
 
 #проверка изолиованности одной единицы, точнее проверка что вкруг элемента нули для квадратной матрицы
-def isolated_unit(nn, i, j):
-	if i == 0 and j == 0:
-		if nn[i][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-			return True
-		else:
-			return False
-	elif i == 0 and j == len(nn) - 1:
-		if nn[i][j - 1] == 0 and nn[i + 1][j - 1:] == [0, 0]:
-			return True
-		else:
-			return False
-	elif i == len(nn) - 1 and j == 0:
-		if nn[i][j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
-			return True
-		else:
-			return False
-	elif i == len(nn) - 1 and j == len(nn) - 1:
-		if nn[i][j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0]:
-			return True
-		else:
-			return False
-	elif 1 <= i <= len(nn) - 2 and j == 0:
-		if nn[i][j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-			return True
-		else:
-			return False
-	elif 1 <= i <= len(nn) - 2 and j == len(nn) - 1:
-		if nn[i][j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0] and nn[i + 1][j - 1:] == [0, 0]:
-			return True
-		else:
-			return False
-	elif i == 0 and 1 <= j <= len(nn) - 2:
-		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-			return True
-		else:
-			return False
-	elif i == len(nn) - 1 and 1 <= j <= len(nn) - 2:
-		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
-			return True
-		else:
-			return False
-	elif (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2):
-		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
-			return True
-		else:
-			return False
+# def isolated_unit(nn, i, j):
+# 	if i == 0 and j == 0:
+# 		if nn[i][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+# 			return True
+# 		else:
+# 			return False
+# 	elif i == 0 and j == len(nn) - 1:
+# 		if nn[i][j - 1] == 0 and nn[i + 1][j - 1:] == [0, 0]:
+# 			return True
+# 		else:
+# 			return False
+# 	elif i == len(nn) - 1 and j == 0:
+# 		if nn[i][j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+# 			return True
+# 		else:
+# 			return False
+# 	elif i == len(nn) - 1 and j == len(nn) - 1:
+# 		if nn[i][j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0]:
+# 			return True
+# 		else:
+# 			return False
+# 	elif 1 <= i <= len(nn) - 2 and j == 0:
+# 		if nn[i][j + 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+# 			return True
+# 		else:
+# 			return False
+# 	elif 1 <= i <= len(nn) - 2 and j == len(nn) - 1:
+# 		if nn[i][j - 1] == 0 and nn[i - 1][j - 1:] == [0, 0] and nn[i + 1][j - 1:] == [0, 0]:
+# 			return True
+# 		else:
+# 			return False
+# 	elif i == 0 and 1 <= j <= len(nn) - 2:
+# 		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+# 			return True
+# 		else:
+# 			return False
+# 	elif i == len(nn) - 1 and 1 <= j <= len(nn) - 2:
+# 		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0:
+# 			return True
+# 		else:
+# 			return False
+# 	elif (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2):
+# 		if nn[i][j - 1] == 0 and nn[i][j + 1] == 0 and nn[i - 1][j - 1] == 0 and nn[i - 1][j] == 0 and nn[i - 1][j + 1] == 0 and nn[i + 1][j - 1] == 0 and nn[i + 1][j] == 0 and nn[i + 1][j + 1] == 0:
+# 			return True
+# 		else:
+# 			return False
 
 # сделать проверку для одной единицы
 
@@ -9389,21 +9389,21 @@ def isolated_unit(nn, i, j):
 # 				else:
 # 					v = 0
 	# return nn
-
-def separate(nn):	
-	for i in range(len(nn)):
-		for j in range(len(nn)):
-			z = len(nn)-1
-			v = nn[i][j]
-			while v==1:
-				if isolated_unit(nn, i, j) and nn[i][j] == 1:
-					break
-				nn[i][j], nn[i][z] = nn[i][z], nn[i][j]
-				while not isolated_unit(nn, i, j=z):
-					nn[i][z], nn[i][z-1] = nn[i][z-1], nn[i][z]
-					z -= 1
-				else:
-					v = 0
+#функция изолирования
+# def separate(nn):	
+# 	for i in range(len(nn)):
+# 		for j in range(len(nn)):
+# 			z = len(nn)-1
+# 			v = nn[i][j]
+# 			while v==1:
+# 				if isolated_unit(nn, i, j) and nn[i][j] == 1:
+# 					break
+# 				nn[i][j], nn[i][z] = nn[i][z], nn[i][j]
+# 				while not isolated_unit(nn, i, j=z):
+# 					nn[i][z], nn[i][z-1] = nn[i][z-1], nn[i][z]
+# 					z -= 1
+# 				else:
+# 					v = 0
 
 
 
@@ -9412,14 +9412,14 @@ def separate(nn):
 # нужно расставить все 10 единиц при любой размерности
 #первые 2 строки не сортируются, нужн изначальный список поправить
 
-separate(P)
+# separate(P)
 
-s = 0
-for i in P:
-	print(i)
-	s += sum(i)
-
-print(s)#должно быть 10 тут
+# s = 0
+# for i in P:
+# 	print(i)
+# 	s += sum(i)
+# # ПОСМОТРЕТЬ НОРМАЛЬНЫЕ ВАРИАНТЫ!!!!!!!!!!!!!!!!!
+# print(s)#должно быть 10 тут
 # for i in range(10):
 # 	print(random.random())
 
@@ -9538,3 +9538,27 @@ print(s)#должно быть 10 тут
 # 	print("ДА")
 # else:
 # 	print("НЕТ")
+
+
+#супер алгоритм для расстановки единиц
+# for _ in range(10):
+#     while True:
+#         r, c = random.randint(0, N - 1), random.randint(0, N - 1)
+#         if not sum(P[i][y] for i in range(max(0, r - 1), min(r + 2, N)) 
+#                            for y in range(max(0, c - 1), min(c + 2, N))):
+#             P[r][c] = 1
+#             break   
+
+# тоже самое что и у меня но с randrange
+# while sum(map(sum, P)) < 10:        
+#     P[randrange(0, N, 2)][randrange(0, N, 2)] = 1
+
+
+# Аннотация базовыми типами!!!!!!!!!!!!!!!!!!!!
+
+
+
+print(chr(29))
+
+
+
