@@ -475,7 +475,7 @@
 # Затем, вызовите метод draw() через объект graph_1. На экране должна появиться строка с соответствующим набором чисел, записанных через пробел. Например (вывод без кавычек):
 
 # "10 0 2 5 7"
-
+#мой вариант
 # class Graph:
 # 	# LIMIT_Y = [0, 10]
 # 	def set_data(self, data):
@@ -542,8 +542,39 @@
 # Питон - основы мастерства
 # 512
 
+import sys
 
+# здесь объявляется класс StreamData
+class StreamData:
+    def create(self, fields, lst_values):
+        for i in range(len(fields)):
+            setattr(StreamData, fields[i], lst_values[i])
 
+        if len(fields) == len(lst_values):
+            for i in range(len(fields)):
+                k = StreamData.__dict__.keys()
+                self.k = self.StreamData.__dict__.values()
+                # self.fields[i] = lst_values[i]#тут нужно сделать чтобы локальные свойства то есть атрибуты имели имена полей из fields
+            return True
+        else:
+            return False
+
+sd = StreamData()
+sd.create(('id', 'title', 'pages'), ['10', 'Питон - основы мастерства', '512'])
+print(StreamData.__dict__)
+
+# class StreamReader:
+#     FIELDS = ('id', 'title', 'pages')
+#
+#     def readlines(self):
+#         lst_in = list(map(str.strip, sys.stdin.readlines()))  # считывание списка строк из входного потока
+#         sd = StreamData()
+#         res = sd.create(self.FIELDS, lst_in)
+#         return sd, res
+#
+#
+# sr = StreamReader()
+# data, result = sr.readlines()
 
 
 
