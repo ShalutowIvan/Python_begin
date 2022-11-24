@@ -542,39 +542,156 @@
 # Питон - основы мастерства
 # 512
 
-import sys
+# мое решение
+# import sys
 
-# здесь объявляется класс StreamData
-class StreamData:
-    def create(self, fields, lst_values):
-        for i in range(len(fields)):
-            setattr(StreamData, fields[i], lst_values[i])
+# sd = StreamData()
+# sd.create(('id', 'title', 'pages'), ['10', 'Питон - основы мастерства', '512'])
+# print(StreamData.__dict__)
 
-        if len(fields) == len(lst_values):
-            for i in range(len(fields)):
-                k = StreamData.__dict__.keys()
-                self.k = self.StreamData.__dict__.values()
-                # self.fields[i] = lst_values[i]#тут нужно сделать чтобы локальные свойства то есть атрибуты имели имена полей из fields
-            return True
-        else:
-            return False
+# class StreamData:
+# 	def create(self, fields, lst_values):
+# 		# self.fields = fields
+# 		# self.lst_values = lst_values
+# 		if len(fields) == len(lst_values):
+# 			for i in range(len(fields)):
+# 				setattr(self, fields[i], lst_values[i])#оказывается так можно передавать атрибуты в объект. И этого достаточно для задания оказалось
+# 			return True
+# 		else:
+# 			return False
 
-sd = StreamData()
-sd.create(('id', 'title', 'pages'), ['10', 'Питон - основы мастерства', '512'])
-print(StreamData.__dict__)
+
+# sd = StreamData()
+# sd.create(('id', 'title', 'pages'), ['10', 'Питон - основы мастерства', '512'])
+
+# for i in range(len(sd.__dict__['fields'])):
+# 			setattr(sd, sd.__dict__['fields'][i], sd.__dict__['lst_values'][i])
+# print(sd.__dict__)
+
 
 # class StreamReader:
 #     FIELDS = ('id', 'title', 'pages')
-#
+
 #     def readlines(self):
 #         lst_in = list(map(str.strip, sys.stdin.readlines()))  # считывание списка строк из входного потока
 #         sd = StreamData()
 #         res = sd.create(self.FIELDS, lst_in)
 #         return sd, res
-#
-#
+
+
 # sr = StreamReader()
 # data, result = sr.readlines()
+
+# вариант с зип функцией
+# class StreamData:
+#     def create(self, fields, values):
+#         if len(fields) == len(values):
+#             for name, value in zip(fields, values):
+#                 setattr(self, name, value)
+#             return True    
+#         return False
+
+# вариант с дикт, просто записали в дикт объекта нужный нам словарь. То есть список атрибутов это словарь и мы в этот словарь через self передаем и формируем нужный нам словарь
+# class StreamData:
+#     def create(self, fields, lst_values):
+#         self.__dict__ = dict(zip(fields, lst_values))
+#         return len(lst_values) == len(fields)
+
+# еще один дикт
+# class StreamData:
+#     def create(self, FIELDS, lst_in):
+#         if len(FIELDS) == len(lst_in):
+#             for key, value in zip(FIELDS, lst_in):
+#                 self.__dict__[key] = value 
+#             return True
+#         return False
+
+# копия моего варианта
+# class StreamData:
+
+#     def create(self, FIELDS, lst_values):
+#         if len(FIELDS) == len(lst_values):
+#             for i in range(len(FIELDS)):
+#                 setattr(self, FIELDS[i], lst_values[i])
+#             return True
+#         return False
+
+#проще говоря можно со списком атрибутов экземпляра объекта класса через self работать как с обычным словарем. Либо юзать функцию setattr
+
+
+# Подвиг 9. 
+# Из входного потока читаются строки данных с помощью команды:
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))  # считывание списка строк из входного потока
+# в формате: id, name, old, salary (записанные через пробел). Например:
+
+# 1 Сергей 35 120000
+# 2 Федор 23 12000
+# 3 Иван 13 1200
+# ...
+
+# То есть, каждая строка - это элемент списка lst_in.
+
+# Необходимо в класс DataBase:
+
+# class DataBase:
+#     lst_data = []
+#     FIELDS = ('id', 'name', 'old', 'salary')
+# добавить два метода:
+
+# select(self, a, b) - возвращает список из элементов списка lst_data в диапазоне [a; b] (включительно) по их индексам (не id, а индексам списка); также учесть, что граница b может превышать длину списка.
+# insert(self, data) - для добавления в список lst_data новых данных из переданного списка строк data;
+
+# Каждая запись в списке lst_data должна быть представлена словарем в формате:
+
+# {'id': 'номер', 'name': 'имя', 'old': 'возраст', 'salary': 'зарплата'}
+
+# Например:
+
+# {'id': '1', 'name': 'Сергей', 'old': '35', 'salary': '120000'}
+
+# Примечание: в этой задаче число элементов в строке (разделенных пробелом) всегда совпадает с числом полей в коллекции FIELDS.
+
+# P. S. Ваша задача только добавить два метода в класс DataBase.
+
+# Sample Input:
+
+# 1 Сергей 35 120000
+# 2 Федор 23 12000
+# 3 Иван 13 1200
+
+# мое решение
+
+import sys
+
+# программу не менять, только добавить два метода
+lst_in = list(map(str.strip, sys.stdin.readlines()))  # считывание списка строк из входного потока
+
+
+class DataBase:
+    lst_data = []
+    FIELDS = ('id', 'name', 'old', 'salary')
+
+    # здесь добавлять методы
+    def select(self, a, b):
+
+
+
+    def insert(self, data):
+    	
+
+
+db = DataBase()
+db.insert(lst_in)
+
+
+
+
+
+
+
+
+
 
 
 
