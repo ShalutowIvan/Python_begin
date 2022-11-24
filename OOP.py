@@ -661,34 +661,64 @@
 # 3 Иван 13 1200
 
 # мое решение
-
-import sys
+# import sys
 
 # программу не менять, только добавить два метода
-lst_in = list(map(str.strip, sys.stdin.readlines()))  # считывание списка строк из входного потока
+# lst_in = ['1 Сергей 35 120000', '2 Федор 23 12000', '3 Иван 13 1200']
+# # lst_in = list(map(str.strip, sys.stdin.readlines()))  # считывание списка строк из входного потока
+# class DataBase:
+#     lst_data = []
+#     FIELDS = ('id', 'name', 'old', 'salary')
+#
+#     # здесь добавлять методы
+#     def select(self, a, b):
+#         return self.lst_data[a:b]
+#
+#
+#     def insert(self, data):
+#         self.lst_data += [{i[0]: i[1] for i in zip(self.FIELDS, j)} for j in map(lambda x: x.split(), data)]
+#
+#
+# db = DataBase()
+# db.insert(lst_in)
+# print(db.__dict__)
 
+# вариант с дикт и зип
+# def insert(self, data):
+#     for c in data:
+#         self.lst_data += [dict(zip(self.FIELDS, c.split()))]
+#
+#
+# def select(self, a, b):
+#     return self.lst_data[a: b + 1]
+#
+# генератор с зипом и дикт
+# def insert(self, data):
+#     self.lst_data.extend([dict(zip(self.FIELDS, data[i].split())) for i in range(len(data))])
 
-class DataBase:
-    lst_data = []
-    FIELDS = ('id', 'name', 'old', 'salary')
-
-    # здесь добавлять методы
-    def select(self, a, b):
-
-
-
-    def insert(self, data):
-    	
-
-
-db = DataBase()
-db.insert(lst_in)
-
-
-
-
-
-
+# Подвиг 10. Объявите класс с именем Translator (для перевода с английского на русский) со следующими методами:
+#
+# add(self, eng, rus) - для добавления новой связки английского и русского слова (если английское слово уже существует, то новое русское слово добавляется как синоним для перевода, например, go - идти, ходить, ехать); если связка eng-rus уже существует, то второй раз ее добавлять не нужно, например:  add('go', 'идти'), add('go', 'идти');
+# remove(self, eng) - для удаления связки по указанному английскому слову;
+# translate(self, eng) - для перевода с английского на русский (метод должен возвращать список из русских слов, соответствующих переводу английского слова, даже если в списке всего одно слово).
+#
+# Все добавления и удаления связок должны выполняться внутри каждого конкретного объекта класса Translator, т.е. связки хранить локально внутри экземпляров классов класса Translator.
+#
+# Создайте экземпляр tr класса Translator и вызовите метод add для следующих связок:
+#
+# tree - дерево
+# car - машина
+# car - автомобиль
+# leaf - лист
+# river - река
+# go - идти
+# go - ехать
+# go - ходить
+# milk - молоко
+#
+# Затем методом remove() удалите связку для английского слова car. С помощью метода translate() переведите слово go. Результат выведите на экран в виде строки из всех русских слов, связанных со словом go:
+#
+# Вывод в формате: идти ехать ходить
 
 
 
