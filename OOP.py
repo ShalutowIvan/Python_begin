@@ -722,7 +722,10 @@
 
 class Translator:
     def add(self, eng, rus):
+    	self.word = [{
 
+    	
+    	}]
 
 # тут словари скорее всего добавляются
     def remove(self, eng):
@@ -732,8 +735,14 @@ class Translator:
     def translate(self, eng):
 
 
+# lst = ["tree - дерево", "car - машина", "car - автомобиль", "leaf - лист", "river - река", "go - идти", "go - ехать", "go - ходить", "milk - молоко"]
+# lst = list(map(lambda x: x.split(" - "), lst))
+lst1 = ['tree', 'car', 'car', 'leaf', 'river', 'go', 'go', 'go', 'milk']
+lst2 = ['дерево', 'машина', 'автомобиль', 'лист', 'река', 'идти', 'ехать', 'ходить', 'молоко']
 
 
+# tr = Translator()
+tr.add(lst1, lst2)
 
 
 
