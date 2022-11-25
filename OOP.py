@@ -720,6 +720,18 @@
 #
 # Вывод в формате: идти ехать ходить
 
+class Translator:
+    def add(self, eng, rus):
+
+
+# тут словари скорее всего добавляются
+    def remove(self, eng):
+
+
+
+    def translate(self, eng):
+
+
 
 
 
