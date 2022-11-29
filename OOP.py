@@ -924,6 +924,9 @@
 # pt2 = Point(11, 22)#тут будут наши значения
 # print(pt2.__dict__)
 
+
+# Задачки!!!!!!!!!!!!!!!!
+
 # Подвиг 2. Объявите класс Money так, чтобы объекты этого класса можно было создавать следующим образом:
 #
 # my_money = Money(100)
@@ -962,6 +965,110 @@
 # p2 = Point(12, 5, 'red')
 # points = [ Point(i, i) if i != 3 else Point(i, i, 'yellow') for i in range(1, 2001, 2) ]
 # print(len(points))
+
+
+# Подвиг 4. Объявите три класса геометрических фигур: Line, Rect, Ellipse. Должна быть возможность создавать объекты каждого класса следующими командами:
+
+# g1 = Line(a, b, c, d)
+# g2 = Rect(a, b, c, d)
+# g3 = Ellipse(a, b, c, d)
+# Здесь в качестве аргументов a, b, c, d передаются координаты верхнего правого и нижнего левого углов (произвольные числа). В каждом объекте координаты должны сохраняться в локальных свойствах sp (верхний правый угол) и ep (нижний левый) в виде кортежей (a, b) и (c, d) соответственно.
+
+# Сформируйте 217 объектов этих классов: для каждого текущего объекта класс выбирается случайно (или Line, или Rect, или Ellipse). Координаты также генерируются случайным образом (числовые значения). Все объекты сохраните в списке elements.
+
+# В списке elements обнулите координаты объектов только для класса Line.
+
+# P.S. На экран в программе ничего выводить не нужно.
+
+# import random
+# class Line:
+# 	def __init__(self, a, b, c, d):
+# 		self.sp = (a, b)
+# 		self.ep = (c, d)
+
+
+# class Rect:
+# 	def __init__(self, a, b, c, d):
+# 		self.sp = (a, b)
+# 		self.ep = (c, d)
+
+
+# class Ellipse:
+# 	def __init__(self, a, b, c, d):
+# 		self.sp = (a, b)
+# 		self.ep = (c, d)
+
+
+# lst = [Line, Rect, Ellipse]
+# elements = []
+# for i in range(217):
+# 	elements.append(lst[random.randint(0, 2)](random.randint(0, 999), random.randint(0, 999), random.randint(0, 999), random.randint(0, 999)))
+# 	if type(elements[i]) == Line:
+# 		elements[i].sp = (0,0)
+# 		elements[i].ep = (0,0)
+
+
+# решение с генератором, но потом присвоение через обычный цикл
+# import random
+# class Line:
+#     def __init__(self, a, b, c, d):
+#         self.sp = (a, b)
+#         self.ep = (c, d)
+
+
+# class Rect:
+#     def __init__(self, a, b, c, d):
+#         self.sp = (a, b)
+#         self.ep = (c, d)
+
+        
+# class Ellipse:
+#     def __init__(self, a, b, c, d):
+#         self.sp = (a, b)
+#         self.ep = (c, d)
+        
+# classes = [Line, Rect, Ellipse]
+# elements = [random.choice(classes)(*[random.randint(1, 100) for i in '____']) for i in range(217)]
+# for i, y in enumerate(elements):
+#     if isinstance(y, Line):
+#         elements[i].sp = (0, 0); elements[i].ep = (0, 0)
+
+
+# Подвиг 5. Объявите класс TriangleChecker, объекты которого можно было бы создавать командой:
+
+# tr = TriangleChecker(a, b, c)
+# Здесь a, b, c - длины сторон треугольника.
+
+# В классе TriangleChecker необходимо объявить метод is_triangle(), который бы возвращал следующие коды:
+
+# 1 - если хотя бы одна сторона не число (не float или int) или хотя бы одно число меньше или равно нулю;
+# 2 - указанные числа a, b, c не могут являться длинами сторон треугольника;
+# 3 - стороны a, b, c образуют треугольник.
+
+# Проверку параметров a, b, c проводить именно в таком порядке.
+
+# Прочитайте из входного потока строку, содержащую три числа, разделенных пробелами, командой:
+
+# a, b, c = map(int, input().split())
+# Затем, создайте объект tr класса TriangleChecker и передайте ему прочитанные значения a, b, c. Вызовите метод is_triangle() из объекта tr и выведите результат на экран (код, который она вернет).
+
+# Sample Input:
+
+# 3 4 5
+# Sample Output:
+
+# 3
+
+
+# здесь объявите класс TriangleChecker
+class TriangleChecker:
+	def is_triangle():
+		
+
+
+a, b, c = map(int, input().split()) # эту строчку не менять
+# здесь создайте экземпляр tr класса TriangleChecker и вызовите метод is_triangle() с выводом информации на экран
+
 
 
 
