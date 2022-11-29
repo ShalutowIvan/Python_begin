@@ -1052,24 +1052,87 @@
 # a, b, c = map(int, input().split())
 # Затем, создайте объект tr класса TriangleChecker и передайте ему прочитанные значения a, b, c. Вызовите метод is_triangle() из объекта tr и выведите результат на экран (код, который она вернет).
 
+# мой вариант
+# # здесь объявите класс TriangleChecker
+# class TriangleChecker:
+# 	def __init__(self, a, b, c):
+# 		self.a = a
+# 		self.b = b
+# 		self.c = c
+#
+# 	def is_triangle(self):
+# 		if any([type(i) not in (int, float) or i <= 0 for i in [self.a, self.b, self.c]]):
+# 			return 1
+# 		if self.a + self.b < self.c or self.a + self.c < self.b or self.b + self.c < self.a:
+# 			return 2
+# 		else:
+# 			return 3
+#
+#
+# # a, b, c = map(int, input().split()) # эту строчку не менять
+# a, b, c = True, True, 0
+# # здесь создайте экземпляр tr класса TriangleChecker и вызовите метод is_triangle() с выводом информации на экран
+# tr = TriangleChecker(a, b, c)
+# print(tr.is_triangle())
+
+# интересный вариант
+# class TriangleChecker:
+# 	def __init__(self, a, b, c):
+# 		self.lst = [a, b, c]
+#
+# 	def is_triangle(self):
+# 		for num in self.lst:
+# 			if not isinstance(num, int) or num <= 0:
+# 				return 1
+# 		if max(self.lst) >= sum(self.lst) - max(self.lst):#нахождение возможности существования треугольника могут ли существовать длины сторон треугольника
+# 			return 2
+# 		return 3
+#
+#
+# a, b, c = map(int, input().split())
+# tr = TriangleChecker(a, b, c)
+# print(tr.is_triangle())
+
+# Подвиг 6. Объявите класс Graph, объекты которого можно было бы создавать с помощью команды:
+#
+# gr_1 = Graph(data)
+# где data - список из числовых данных (данные для графика). При создании каждого экземпляра класса должны формироваться следующие локальные свойства:
+#
+# data - ссылка на список из числовых данных (у каждого объекта должен быть свой список с данными, нужно создавать копию переданного списка);
+# is_show - булево значение (True/False) для показа (True) и сокрытия (False) данных графика (по умолчанию True);
+#
+# В этом классе объявите следующие методы:
+#
+# set_data(self, data) - для передачи нового списка данных в текущий график;
+# show_table(self) - для отображения данных в виде строки из списка чисел (числа следуют через пробел);
+# show_graph(self) - для отображения данных в виде графика (метод выводит в консоль сообщение: "Графическое отображение данных: <строка из чисел следующих через пробел>");
+# show_bar(self) - для отображения данных в виде столбчатой диаграммы (метод выводит в консоль сообщение: "Столбчатая диаграмма: <строка из чисел следующих через пробел>");
+# set_show(self, fl_show) - метод для изменения локального свойства is_show на переданное значение fl_show.
+#
+# Если локальное свойство is_show равно False, то методы show_table(), show_graph() и show_bar() должны выводить сообщение:
+#
+# "Отображение данных закрыто"
+#
+# Прочитайте из входного потока числовые данные с помощью команды:
+#
+# data_graph = list(map(int, input().split()))
+# Создайте объект gr класса Graph с набором прочитанных данных, вызовите метод show_bar(), затем метод set_show() со значением fl_show = False и вызовите метод show_table(). На экране должны отобразиться две соответствующие строки.
+#
 # Sample Input:
-
-# 3 4 5
+#
+# 8 11 10 -32 0 7 18
 # Sample Output:
-
-# 3
-
-
-# здесь объявите класс TriangleChecker
-class TriangleChecker:
-	def is_triangle():
-		
-
-
-a, b, c = map(int, input().split()) # эту строчку не менять
-# здесь создайте экземпляр tr класса TriangleChecker и вызовите метод is_triangle() с выводом информации на экран
+#
+# Столбчатая диаграмма: 8 11 10 -32 0 7 18
+# Отображение данных закрыто
 
 
 
 
+
+
+
+
+
+data_graph = [8, 11, 10, -32, 0, 7, 18]
 
