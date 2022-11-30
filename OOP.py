@@ -1237,7 +1237,6 @@
 
 # P.S. Отображать на экране ничего не нужно, только создать объект по указанным требованиям.
 
-
 class CPU:
 	def __init__(self, name, fr):
 		self.name = name
@@ -1250,44 +1249,54 @@ class Memory:
 		self.volume = volume
 
 
-
-
 class MotherBoard:
 	def __init__(self, name, cpu, mem_slots, total_mem_slots = 4):
 		self.name = name
 		self.cpu = cpu
-		if len(mem_slots) <= total_mem_slots:
-			self.mem_slots = mem_slots
+		self.mem_slots = mem_slots[:total_mem_slots]
 
 	def get_config(self):
-		m = [i.
-		for i in self.mem_slots
-		]
+
 		res = [
-		f"Материнская плата: {self.name}",
-		 f"'Центральный процессор: {self.cpu}",
-		 f"Слотов памяти: {len(self.mem_slots)}",
-		 f"Память: {self.mem_slots}"
+			'Материнская плата: ', self.name, 'Центральный процессор: ', self.cpu.name, self.cpu.fr, 'Слотов памяти: ', len(self.mem_slots), 'Память: ', self.mem_slots
 		 ]
 		return res
-		# обратится к объекту класса Memory нужно и вывсести список 
-		# ['Материнская плата: <наименование>',
-# 'Центральный процессор: <наименование>, <тактовая частота>',
-# 'Слотов памяти: <общее число слотов памяти>',
-# 'Память: <наименование_1> - <объем_1>; <наименование_2> - <объем_2>; ...; <наименование_N> - <объем_N>']
 
-
-
+# self.mem_slots[0][0], self.mem_slots[0][1], self.mem_slots[1][0], self.mem_slots[1][1]
 c = CPU("intel core i5", "2.9 ГГц")
 m1 = Memory("Kingston FURY Renegade RGB [KF436C16RBAK2/16]", 16)
 m2 = Memory("G.Skill TRIDENT Z RGB [F4-3200C16D-16GTZR]", 16)
-mb = MotherBoard("ASUS TUF GAMING B550M-E", [c.name, c.fr], [m1, m2])
-# print(mb.get_config())
+# mb = MotherBoard("ASUS TUF GAMING B550M-E", [c.name, c.fr], [f"{m1.name} - {m1.volume};", f"{m2.name} - {m2.volume};"])
+mb = MotherBoard("ASUS TUF GAMING B550M-E", [c.name, c.fr], [[m1.name, m1.volume], [m2.name, m2.volume]])
+print(mb.get_config())
+# print(mb.__dict__)
+# res1 = ("".join(mb.get_config())).replace(" ", "")
+# print(res1)
 
+# ['Материнская плата: <наименование>',
+# 'Центральный процессор: <наименование>, <тактовая частота>',
+# 'Слотов памяти: <общее число слотов памяти>',
+# 'Память: <наименование_1> - <объем_1>; <наименование_2> - <объем_2>; ...; <наименование_N> - <объем_N>']
+	# def get_config(self):
+	#
+	# 	res = [
+	# 		'Материнская плата: ', self.name,
+	# 	 'Центральный процессор: ', self.cpu.name, self.cpu.fr,
+	# 	 'Слотов памяти: ', len(self.mem_slots),
+	# 	 'Память: ', self.mem_slots
+	# 	 ]
+	# 	return res
 
+# res = [
+# 			f'Материнская плата: , {self.name}', f'Центральный процессор: ,{self.cpu[0]}, {self.cpu[1]}', f'Слотов памяти: ,{len(self.mem_slots)}', f'Память: , {self.mem_slots}'
+# 		 ]
 
-
-
-
-
-
+# Error:
+# Traceback (most recent call last):
+#   File "jailed_code", line 42, in <module>
+#     res2 = ("".join(get_config())).replace(" ", "")
+#   File "jailed_code", line 34, in get_config
+#     mem_str = "; ".join([f"{x.name} - {x.volume}" for x in mb.mem_slots])
+#   File "jailed_code", line 34, in <listcomp>
+#     mem_str = "; ".join([f"{x.name} - {x.volume}" for x in mb.mem_slots])
+# AttributeError: 'list' object has no attribute 'name'
