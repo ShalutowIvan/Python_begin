@@ -1126,6 +1126,163 @@
 # Столбчатая диаграмма: 8 11 10 -32 0 7 18
 # Отображение данных закрыто
 
+# class Graph:
+# 	def __init__(self, data, is_show = True) -> list:
+# 		self.data = data[:]
+# 		self.is_show = is_show
+
+# 	def set_show(self, fl_show):
+# 		self.is_show = fl_show
+
+# 	def set_data(self, data):
+# 		self.data = data
+
+# 	def show_table(self):
+# 		if self.is_show == False:
+# 			print("Отображение данных закрыто")
+# 		else:
+# 			print(*self.data)
+
+# 	def show_graph(self):
+# 		if self.is_show == False:
+# 			print("Отображение данных закрыто")
+# 		else:
+# 			print("Столбчатая диаграмма:", *self.data)
+
+# 	def show_bar(self):
+# 		if self.is_show == False:
+# 			print("Отображение данных закрыто")
+# 		else:
+# 			print("Столбчатая диаграмма:", *self.data)
+
+	
+# data_graph = [8, 11, 10, -32, 0, 7, 18]
+# # data = " ".join(map(str, data_graph))
+
+# gr = Graph(data_graph)
+# gr.show_bar()
+# gr.set_show(False)
+# gr.show_table()
+
+# вариант добавления условия с помощью декоратора
+# # здесь объявляются все необходимые классы
+# class Graph:
+#     def __init__(self, data):
+#         self.data = data
+#         self.is_show = True
+    
+#     def check_show(func):
+#         def wrapper(self):
+#             if self.is_show == False:
+#                 return 'Отображение данных закрыто'
+#             else:
+#                 return (func(self))
+#         return wrapper       
+    
+#     def set_data(self, data):
+#         self.data = data
+    
+#     @check_show    
+#     def show_table(self):
+#         return ' '.join(map(str, self.data))
+
+#     @check_show
+#     def show_graph(self):
+#         print( f"Графическое отображение данных: {self.show_table()}")
+
+#     @check_show
+#     def show_bar(self):
+#         print(f'Столбчатая диаграмма: {self.show_table()}')
+
+#     def set_show(self, fl_show):
+#         self.is_show = fl_show
+        
+# # считывание списка из входного потока (эту строку не менять)
+# data_graph = list(map(int, input().split()))
+
+# # здесь создаются объекты классов и вызываются нужные методы
+# gr = Graph(data_graph)
+# gr.show_bar()
+# gr.set_show(False)
+# print(gr.show_table())
+
+
+# Подвиг 7. Объявите в программе следующие несколько классов:
+
+# CPU - класс для описания процессоров;
+# Memory - класс для описания памяти;
+# MotherBoard - класс для описания материнских плат.
+
+# Обеспечить возможность создания объектов каждого класса командами:
+
+# cpu = CPU(наименование, тактовая частота)
+# mem = Memory(наименование, размер памяти)
+# mb = MotherBoard(наименование, процессор, память1, память2, ..., памятьN)
+# Обратите внимание при создании объекта класса MotherBoard можно передавать несколько объектов класса Memory, максимум N - по числу слотов памяти на материнской плате (N = 4).
+
+# Объекты классов должны иметь следующие локальные свойства: 
+
+# для класса CPU: name - наименование; fr - тактовая частота;
+# для класса Memory: name - наименование; volume - объем памяти;
+# для класса MotherBoard: name - наименование; cpu - ссылка на объект класса CPU; total_mem_slots = 4 - общее число слотов памяти (атрибут прописывается с этим значением и не меняется); mem_slots - список из объектов класса Memory (максимум total_mem_slots = 4 штук по максимальному числу слотов памяти).
+
+# Класс MotherBoard должен иметь метод get_config(self) для возвращения текущей конфигурации компонентов на материнской плате в виде следующего списка из четырех строк:
+
+# ['Материнская плата: <наименование>',
+# 'Центральный процессор: <наименование>, <тактовая частота>',
+# 'Слотов памяти: <общее число слотов памяти>',
+# 'Память: <наименование_1> - <объем_1>; <наименование_2> - <объем_2>; ...; <наименование_N> - <объем_N>']
+
+# Создайте объект mb класса MotherBoard с одним CPU (объект класса CPU) и двумя слотами памяти (объекты класса Memory).
+
+# P.S. Отображать на экране ничего не нужно, только создать объект по указанным требованиям.
+
+
+class CPU:
+	def __init__(self, name, fr):
+		self.name = name
+		self.fr = fr
+
+
+class Memory:
+	def __init__(self, name, volume):
+		self.name = name
+		self.volume = volume
+
+
+
+
+class MotherBoard:
+	def __init__(self, name, cpu, mem_slots, total_mem_slots = 4):
+		self.name = name
+		self.cpu = cpu
+		if len(mem_slots) <= total_mem_slots:
+			self.mem_slots = mem_slots
+
+	def get_config(self):
+		m = [i.
+		for i in self.mem_slots
+		]
+		res = [
+		f"Материнская плата: {self.name}",
+		 f"'Центральный процессор: {self.cpu}",
+		 f"Слотов памяти: {len(self.mem_slots)}",
+		 f"Память: {self.mem_slots}"
+		 ]
+		return res
+		# обратится к объекту класса Memory нужно и вывсести список 
+		# ['Материнская плата: <наименование>',
+# 'Центральный процессор: <наименование>, <тактовая частота>',
+# 'Слотов памяти: <общее число слотов памяти>',
+# 'Память: <наименование_1> - <объем_1>; <наименование_2> - <объем_2>; ...; <наименование_N> - <объем_N>']
+
+
+
+c = CPU("intel core i5", "2.9 ГГц")
+m1 = Memory("Kingston FURY Renegade RGB [KF436C16RBAK2/16]", 16)
+m2 = Memory("G.Skill TRIDENT Z RGB [F4-3200C16D-16GTZR]", 16)
+mb = MotherBoard("ASUS TUF GAMING B550M-E", [c.name, c.fr], [m1, m2])
+# print(mb.get_config())
 
 
 
@@ -1133,6 +1290,4 @@
 
 
 
-
-data_graph = [8, 11, 10, -32, 0, 7, 18]
 
