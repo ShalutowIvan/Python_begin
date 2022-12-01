@@ -1237,66 +1237,131 @@
 
 # P.S. Отображать на экране ничего не нужно, только создать объект по указанным требованиям.
 
-class CPU:
-	def __init__(self, name, fr):
-		self.name = name
-		self.fr = fr
+# class CPU:
+# 	def __init__(self, name, fr):
+# 		self.name = name
+# 		self.fr = fr
 
 
-class Memory:
-	def __init__(self, name, volume):
-		self.name = name
-		self.volume = volume
+# class Memory:
+# 	def __init__(self, name, volume):
+# 		self.name = name
+# 		self.volume = volume
 
 
-class MotherBoard:
-	def __init__(self, name, cpu, mem_slots, total_mem_slots = 4):
-		self.name = name
-		self.cpu = cpu
-		self.mem_slots = mem_slots[:total_mem_slots]
+# class MotherBoard:
+# 	def __init__(self, name, cpu, mem_slots, total_mem_slots = 4):
+# 		self.name = name
+# 		self.cpu = cpu
+# 		self.mem_slots = mem_slots[:total_mem_slots]
+# 		self.total_mem_slots = total_mem_slots
 
-	def get_config(self):
+# 	def get_config(self):
+# 		r = [
+# 		f'Материнская плата: {self.name}', 
+# f'Центральный процессор: {self.cpu.name}, {self.cpu.fr}',
+# f'Слотов памяти: {self.total_mem_slots}',
+# f'Память: {self.mem_slots[0].name} - {self.mem_slots[0].volume}; {self.mem_slots[1].name} - {self.mem_slots[1].volume}'
+# 		]
+# 		return r
 
-		res = [
-			'Материнская плата: ', self.name, 'Центральный процессор: ', self.cpu.name, self.cpu.fr, 'Слотов памяти: ', len(self.mem_slots), 'Память: ', self.mem_slots
-		 ]
-		return res
+	
 
-# self.mem_slots[0][0], self.mem_slots[0][1], self.mem_slots[1][0], self.mem_slots[1][1]
-c = CPU("intel core i5", "2.9 ГГц")
-m1 = Memory("Kingston FURY Renegade RGB [KF436C16RBAK2/16]", 16)
-m2 = Memory("G.Skill TRIDENT Z RGB [F4-3200C16D-16GTZR]", 16)
+
+# c = CPU("intel core i5", "2.9 ГГц")
+# m1 = Memory("Kingston FURY Renegade RGB", 16)
+# m2 = Memory("G.Skill TRIDENT Z RGB", 16)
+# # mb = MotherBoard("ASUS TUF GAMING B550M-E", c, [[m1.name, m1.volume], [m2.name, m2.volume]])
+# mb = MotherBoard("ASUS TUF GAMING B550M-E", c, [m1, m2])
+# # print(mb.get_config())
+# print(mb.__dict__)
 # mb = MotherBoard("ASUS TUF GAMING B550M-E", [c.name, c.fr], [f"{m1.name} - {m1.volume};", f"{m2.name} - {m2.volume};"])
-mb = MotherBoard("ASUS TUF GAMING B550M-E", [c.name, c.fr], [[m1.name, m1.volume], [m2.name, m2.volume]])
-print(mb.get_config())
+
 # print(mb.__dict__)
 # res1 = ("".join(mb.get_config())).replace(" ", "")
 # print(res1)
 
-# ['Материнская плата: <наименование>',
-# 'Центральный процессор: <наименование>, <тактовая частота>',
-# 'Слотов памяти: <общее число слотов памяти>',
-# 'Память: <наименование_1> - <объем_1>; <наименование_2> - <объем_2>; ...; <наименование_N> - <объем_N>']
-	# def get_config(self):
-	#
-	# 	res = [
-	# 		'Материнская плата: ', self.name,
-	# 	 'Центральный процессор: ', self.cpu.name, self.cpu.fr,
-	# 	 'Слотов памяти: ', len(self.mem_slots),
-	# 	 'Память: ', self.mem_slots
-	# 	 ]
-	# 	return res
 
-# res = [
-# 			f'Материнская плата: , {self.name}', f'Центральный процессор: ,{self.cpu[0]}, {self.cpu[1]}', f'Слотов памяти: ,{len(self.mem_slots)}', f'Память: , {self.mem_slots}'
-# 		 ]
+# Подвиг 8. Объявите в программе класс Cart (корзина), объекты которого создаются командой:
 
-# Error:
-# Traceback (most recent call last):
-#   File "jailed_code", line 42, in <module>
-#     res2 = ("".join(get_config())).replace(" ", "")
-#   File "jailed_code", line 34, in get_config
-#     mem_str = "; ".join([f"{x.name} - {x.volume}" for x in mb.mem_slots])
-#   File "jailed_code", line 34, in <listcomp>
-#     mem_str = "; ".join([f"{x.name} - {x.volume}" for x in mb.mem_slots])
-# AttributeError: 'list' object has no attribute 'name'
+# cart = Cart()
+# Каждый объект класса Cart должен иметь локальное свойство goods - список объектов для покупки (объекты классов Table, TV, Notebook и Cup). Изначально этот список должен быть пустым.
+
+# В классе Cart объявить методы:
+
+# add(self, gd) - добавление в корзину товара, представленного объектом gd;
+# remove(self, indx) - удаление из корзины товара по индексу indx;
+# get_list(self) - получение из корзины товаров в виде списка из строк:
+
+# ['<наименовние_1>: <цена_1>',
+# '<наименовние_2>: <цена_2>',
+# ...
+# '<наименовние_N>: <цена_N>']
+
+# Объявите в программе следующие классы для описания товаров:
+
+# Table - столы;
+# TV - телевизоры;
+# Notebook - ноутбуки;
+# Cup - кружки.
+
+# Объекты этих классов должны создаваться командой:
+
+# gd = ИмяКласса(name, price)
+# Каждый объект классов товаров должен содержать локальные свойства:
+
+# name - наименование;
+# price - цена.
+
+# Создайте в программе объект cart класса Cart. Добавьте в него два телевизора (TV), один стол (Table), два ноутбука (Notebook) и одну кружку (Cup). Названия и цены придумайте сами. 
+
+# P.S. Отображать на экране ничего не нужно, только создать объекты по указанным требованиям.
+
+class Cart:
+	goods = []
+	def add(self, gd):
+		self.gd = gd
+
+
+	 # - добавление в корзину товара, представленного объектом gd, имеется ввиду любой объект коорый мы добавляем;
+
+	def remove(self, indx):
+	 # - удаление из корзины товара по индексу indx;
+
+	def get_list(self):
+		self.goods
+		# - получение из корзины товаров в виде списка из строк:
+			# ['<наименовние_1>: <цена_1>',
+# '<наименовние_2>: <цена_2>',
+# ...
+# '<наименовние_N>: <цена_N>']
+
+
+class Table:
+	def __init__(self, name, price):
+		self.name = name
+		self.price = price
+
+class TV:
+	def __init__(self, name, price):
+		self.name = name
+		self.price = price
+
+class Notebook:
+	def __init__(self, name, price):
+		self.name = name
+		self.price = price
+
+class Cup:
+	def __init__(self, name, price):
+		self.name = name
+		self.price = price
+
+
+gd1 = Table(name, price)# 1
+gd2 = TV(name, price)# 2
+gd3 = Notebook(name, price)# 2
+gd4 = Cup(name, price)# 1
+cart = Cart()
+
+
