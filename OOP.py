@@ -1317,51 +1317,124 @@
 
 # P.S. Отображать на экране ничего не нужно, только создать объекты по указанным требованиям.
 
-class Cart:
-	goods = []
-	def add(self, gd):
-		self.gd = gd
+# мой вариант
+# class Cart:
+# 	goods = []
+# 	def add(self, gd):
+# 		self.goods += gd
+
+# 	def remove(self, indx):
+# 		del self.goods[indx]
+
+# 	def get_list(self):
+# 		lst = [f"{i.name}: {i.price}" for i in self.goods]
+# 		return lst
+			
+
+# class Table:
+# 	def __init__(self, name, price):
+# 		self.name = name
+# 		self.price = price
+
+# class TV:
+# 	def __init__(self, name, price):
+# 		self.name = name
+# 		self.price = price
+
+# class Notebook:
+# 	def __init__(self, name, price):
+# 		self.name = name
+# 		self.price = price
+
+# class Cup:
+# 	def __init__(self, name, price):
+# 		self.name = name
+# 		self.price = price
 
 
-	 # - добавление в корзину товара, представленного объектом gd, имеется ввиду любой объект коорый мы добавляем;
-
-	def remove(self, indx):
-	 # - удаление из корзины товара по индексу indx;
-
-	def get_list(self):
-		self.goods
-		# - получение из корзины товаров в виде списка из строк:
-			# ['<наименовние_1>: <цена_1>',
-# '<наименовние_2>: <цена_2>',
-# ...
-# '<наименовние_N>: <цена_N>']
+# gdTable = Table("Стол для компа", "2000")# 1
+# gdTV1 = TV("Samsung", "100000")# 2
+# gdTV2 = TV("DEXP", "10000")# 2
+# gdNote1 = Notebook("ACER", "40000")# 2
+# gdNote2 = Notebook("Samsung", "50000")# 2
+# gdCup = Cup("Кружка", "1000")# 1
+# cart = Cart()
+# cart.add([gdTable, gdTV1, gdTV2, gdNote1, gdNote2, gdCup])
+# print(cart.get_list())
 
 
-class Table:
-	def __init__(self, name, price):
-		self.name = name
-		self.price = price
 
-class TV:
-	def __init__(self, name, price):
-		self.name = name
-		self.price = price
-
-class Notebook:
-	def __init__(self, name, price):
-		self.name = name
-		self.price = price
-
-class Cup:
-	def __init__(self, name, price):
-		self.name = name
-		self.price = price
+# Подвиг 9. Вам необходимо реализовать односвязный список (не список языка Python, объекты в списке не хранить, а формировать связанную структуру, показанную на рисунке) из объектов класса ListObject:
 
 
-gd1 = Table(name, price)# 1
-gd2 = TV(name, price)# 2
-gd3 = Notebook(name, price)# 2
-gd4 = Cup(name, price)# 1
-cart = Cart()
+# Для этого объявите в программе класс ListObject, объекты которого создаются командой:
+
+# obj = ListObject(data)
+# Каждый объект класса ListObject должен содержать локальные свойства:
+
+# next_obj - ссылка на следующий присоединенный объект (если следующего объекта нет, то next_obj = None);
+# data - данные объекта в виде строки.
+
+# В самом классе ListObject должен быть объявлен метод:
+
+# link(self, obj) - для присоединения объекта obj такого же класса к текущему объекту self (то есть, атрибут next_obj объекта self должен ссылаться на obj).
+
+# Прочитайте список строк из входного потока командой:
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# Затем сформируйте односвязный список, в объектах которых (в атрибуте data) хранятся строки из списка lst_in (первая строка в первом объекте, вторая - во втором и  т.д.). На первый добавленный объект класса ListObject должна ссылаться переменная head_obj.
+
+# P.S. В программе что-либо выводить на экран не нужно.
+
+# Sample Input:
+
+# 1. Первые шаги в ООП
+# 1.1 Как правильно проходить этот курс
+# 1.2 Концепция ООП простыми словами
+# 1.3 Классы и объекты. Атрибуты классов и объектов
+# 1.4 Методы классов. Параметр self
+# 1.5 Инициализатор init и финализатор del
+# 1.6 Магический метод new. Пример паттерна Singleton
+# 1.7 Методы класса (classmethod) и статические методы (staticmethod)
+
+
+# import sys
+
+# здесь объявляются все необходимые классы
+
+# считывание списка из входного потока (эту строку не менять)
+lst_in = ['1. Первые шаги в ООП', '1.1 Как правильно проходить этот курс', '1.2 Концепция ООП простыми словами', '1.3 Классы и объекты. Атрибуты классов и объектов', '1.4 Методы классов. Параметр self', '1.5 Инициализатор init и финализатор del', '1.6 Магический метод new. Пример паттерна Singleton', '1.7 Методы класса (classmethod) и статические методы (staticmethod)']
+# lst_in = list(map(str.strip, sys.stdin.readlines())) # список lst_in в программе не менять
+
+# здесь создаются объекты классов и вызываются нужные методы
+
+class ListObject:
+	res = []
+
+	def __init__(self, data):
+		self.data = data
+		# self.next_obj = ListObject(data)
+		self.next_obj = self.link(data)
+
+
+
+	def link(self, obj):
+		self.res.append(obj)
+		return self.res
+
+
+# список объектов формируется внутри класса
+# скорее всего в инициализаторе вызывается метод link
+	
+
+# посмотреть как сделать ссылку на след объект
+# ссылка идет next_obj на data
+head_obj = []
+for i in lst_in:
+	head_obj.append(ListObject(i))
+
+for j in head_obj:
+	print(i)
+
 
 
