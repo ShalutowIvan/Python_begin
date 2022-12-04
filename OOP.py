@@ -1409,20 +1409,21 @@ lst_in = ['1. Первые шаги в ООП', '1.1 Как правильно �
 # здесь создаются объекты классов и вызываются нужные методы
 
 class ListObject:
-	res = []
 
 	def __init__(self, data):
 		self.data = data
-		# self.next_obj = ListObject(data)
-		for i in data:
-			self.next_obj = self.ListObject(i)
+		self.next_obj = None
+		for i in self.data:
+			self.next_obj(self.link(i))
 
-# написать что то в ините
-
+# переделать под шпору
 	def link(self, obj):
+
 		self.next_obj = obj
+
 		# self.res.append(obj)
 		# return self.res
+
 
 
 # список объектов формируется внутри класса
@@ -1431,12 +1432,30 @@ class ListObject:
 
 # посмотреть как сделать ссылку на след объект
 # ссылка идет next_obj на data
-head_obj = []
-for i in lst_in:
-	head_obj.append(ListObject(i))
+# head_obj = []
+head_obj = ListObject(lst_in)
 
-for j in head_obj:
-	print(i)
+print(head_obj.__dict__)
+# for j in head_obj:
+# 	print(i)
+# head_obj = ListObject(lst_in)
+# print(head_obj.__dict__)
 
-
-
+# шпора
+# # Node class
+# class Node:
+#
+# 	# Function to initialize the node object
+# 	def __init__(self, data):
+# 		self.data = data  # Assign data
+# 		self.nextnode = None  # Initialize next as null
+#
+#
+# a = Node(1)  # declaring data in each node
+# b = Node(2)
+# c = Node(3)
+#
+# a.nextnode = b  # link first node to second node
+# b.nextnode = c  # link second node to third node
+#
+# a.next.value  # will return the value of the next node b = 2
