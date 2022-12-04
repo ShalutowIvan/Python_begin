@@ -1414,13 +1414,15 @@ class ListObject:
 	def __init__(self, data):
 		self.data = data
 		# self.next_obj = ListObject(data)
-		self.next_obj = self.link(data)
+		for i in data:
+			self.next_obj = self.ListObject(i)
 
-
+# написать что то в ините
 
 	def link(self, obj):
-		self.res.append(obj)
-		return self.res
+		self.next_obj = obj
+		# self.res.append(obj)
+		# return self.res
 
 
 # список объектов формируется внутри класса
