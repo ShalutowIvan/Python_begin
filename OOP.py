@@ -1413,33 +1413,38 @@ class ListObject:
 	def __init__(self, data):
 		self.data = data
 		self.next_obj = None
-		for i in self.data:
-			self.next_obj(self.link(i))
+
+			
 
 # переделать под шпору
 	def link(self, obj):
-
+		self.data = obj
+		self.obj = ListObject(obj)
 		self.next_obj = obj
+		# self.next_obj = obj#тут нужно чтобы ссылка шла на след элемент
+		
+		# for i in range(1, len(obj)-1):
+		# 	self.data = obj[i]
+		# 	self.next_obj = obj[i+1]
+		
 
 		# self.res.append(obj)
 		# return self.res
 
 
 
-# список объектов формируется внутри класса
-# скорее всего в инициализаторе вызывается метод link
-	
-
 # посмотреть как сделать ссылку на след объект
 # ссылка идет next_obj на data
 # head_obj = []
-head_obj = ListObject(lst_in)
 
-print(head_obj.__dict__)
-# for j in head_obj:
-# 	print(i)
-# head_obj = ListObject(lst_in)
-# print(head_obj.__dict__)
+head_obj = ListObject(lst_in[0])
+
+for i in range(1, len(lst_in)-1):
+	head_obj.link(lst_in[i])
+	head_obj.next_obj = lst_in[i+1]
+
+	print(head_obj.__dict__)
+
 
 # шпора
 # # Node class
