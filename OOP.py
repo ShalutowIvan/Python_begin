@@ -1403,64 +1403,150 @@
 # здесь объявляются все необходимые классы
 
 # считывание списка из входного потока (эту строку не менять)
-lst_in = ['1. Первые шаги в ООП', '1.1 Как правильно проходить этот курс', '1.2 Концепция ООП простыми словами', '1.3 Классы и объекты. Атрибуты классов и объектов', '1.4 Методы классов. Параметр self', '1.5 Инициализатор init и финализатор del', '1.6 Магический метод new. Пример паттерна Singleton', '1.7 Методы класса (classmethod) и статические методы (staticmethod)']
+# lst_in = ['1. Первые шаги в ООП', '1.1 Как правильно проходить этот курс', '1.2 Концепция ООП простыми словами', '1.3 Классы и объекты. Атрибуты классов и объектов', '1.4 Методы классов. Параметр self', '1.5 Инициализатор init и финализатор del', '1.6 Магический метод new. Пример паттерна Singleton', '1.7 Методы класса (classmethod) и статические методы (staticmethod)']
 # lst_in = list(map(str.strip, sys.stdin.readlines())) # список lst_in в программе не менять
 
 # здесь создаются объекты классов и вызываются нужные методы
-
-class ListObject:
-
-	def __init__(self, data):
-		self.data = data
-		self.next_obj = None
-
-			
-
-# переделать под шпору
-	def link(self, obj):
-		self.data = obj
-		self.obj = ListObject(obj)
-		self.next_obj = obj
-		# self.next_obj = obj#тут нужно чтобы ссылка шла на след элемент
-		
-		# for i in range(1, len(obj)-1):
-		# 	self.data = obj[i]
-		# 	self.next_obj = obj[i+1]
-		
-
-		# self.res.append(obj)
-		# return self.res
-
-
-
-# посмотреть как сделать ссылку на след объект
-# ссылка идет next_obj на data
-# head_obj = []
-
-head_obj = ListObject(lst_in[0])
-
-for i in range(1, len(lst_in)-1):
-	head_obj.link(lst_in[i])
-	head_obj.next_obj = lst_in[i+1]
-
-	print(head_obj.__dict__)
-
-
-# шпора
-# # Node class
-# class Node:
+#мой вариант. Сделал частично сам
+# class ListObject:
 #
-# 	# Function to initialize the node object
 # 	def __init__(self, data):
-# 		self.data = data  # Assign data
-# 		self.nextnode = None  # Initialize next as null
+# 		self.data = data
+# 		self.next_obj = None
 #
 #
-# a = Node(1)  # declaring data in each node
-# b = Node(2)
-# c = Node(3)
+# 	def link(self, obj):
+# 		object = ListObject(obj)
+# 		q = self
+# 		while q.next_obj:
+# 			q = q.next_obj
+# 		q.next_obj = object
 #
-# a.nextnode = b  # link first node to second node
-# b.nextnode = c  # link second node to third node
 #
-# a.next.value  # will return the value of the next node b = 2
+# head_obj = ListObject(lst_in[0])
+#
+# for i in range(1, len(lst_in)):
+# 	head_obj.link(lst_in[i])
+#
+# print(head_obj.data)
+# for i in range(len(lst_in)-1):
+# 	head_obj = head_obj.next_obj
+# 	print(head_obj.data)
+
+# шпора по связный список односвязный список:
+# https://pythonist.ru/svyaznyj-spisok-na-python-chto-eto-takoe-i-kak-ego-realizovat/
+
+# решение препода
+# class ListObject:
+# 	def __init__(self, data):
+# 		self.data = data
+# 		self.next_obj = None
+#
+# 	def link(self, obj):
+# 		self.next_obj = obj#функция которая делает ссылка на следующий объект
+#
+#
+# head_obj = ListObject(lst_in[0])#создали первый объект
+# obj = head_obj#записали его в переменную, скорее всего это для того чтобы сработал тест на степике
+# for i in range(1, len(lst_in)):
+# 	obj_new = ListObject(lst_in[i])#создали новый объект
+# 	obj.link(obj_new)#вызвали функцию которая в переменную next_obj которая принадлежит первому объекту присвоили значение следующего объекта
+# 	obj = obj_new# теперь в переменной obj хранится новый объект, и потом в переменную нового объекта мы также присвоим новое значение и в цикле будет идти переприсвоение
+
+#прикольный вариант
+# import sys
+#
+#
+# # здесь объявляются все необходимые классы
+# class ListObject:
+# 	next_obj = None
+#
+# 	def __init__(self, data):
+# 		self.data = data[0]
+# 		if len(data[1:]) != 0:
+# 			self.link(ListObject(data[1:]))#будет запускаться создание объекта пока не дойдет до конца каждый раз с первым элементом, и получается наш next_obj каждый разменяет ссылка на сам новый объект который мы создаем
+#
+# 	def link(self, obj):
+# 		self.next_obj = obj
+#
+#
+# # считывание списка из входного потока (эту строку не менять)
+# lst_in = list(map(str.strip, sys.stdin.readlines()))  # список lst_in в программе не менять
+#
+# # здесь создаются объекты классов и вызываются нужные методы
+# head_obj = ListObject(lst_in)
+
+# еще один вариант
+# import sys
+#
+# # здесь объявляются все необходимые классы
+# class ListObject:
+#     def __init__(self, data):
+#         self.data = data
+#         self.next_obj = None
+#
+#     def link(self, obj):
+#         if not self.next_obj:
+#             self.next_obj = obj
+#             return
+#         else:
+#             self.next_obj.link(obj)
+#
+#
+# # считывание списка из входного потока (эту строку не менять)
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+#
+# # здесь создаются объекты классов и вызываются нужные методы
+# head_obj = ListObject(lst_in[0])
+# for data_ in lst_in[1:]:
+#     head_obj.link(ListObject(data_))
+
+#еще одинр вариант
+# import sys
+#
+# # здесь объявляются все необходимые классы
+# class ListObject:
+#     def __init__(self, data, next_obj=None):
+#         self.data = data
+#         self.next_obj = next_obj
+#
+#     def link(self, obj):
+#         self.next_obj = obj
+#
+# # считывание списка из входного потока (эту строку не менять)
+# lst_in = list(map(str.strip, sys.stdin.readlines())) # список lst_in в программе не менять
+#
+# # здесь создаются объекты классов и вызываются нужные методы
+# head_obj = None
+# for i in reversed(lst_in):
+#     head_obj = ListObject(i, head_obj)
+
+
+# import sys
+#
+# # здесь объявляются все необходимые классы
+#
+# # считывание списка из входного потока (эту строку не менять)
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+
+
+# здесь создаются объекты классов и вызываются нужные методы
+
+# class ListObject:
+# 	def __init__(self, data, next_obj=None):
+# 		self.data = data
+# 		self.next_obj = next_obj
+#
+# 	def link(self, obj):
+# 		self.next_obj = obj
+#
+#
+# head_obj = ListObject(lst_in[0])
+# obj = head_obj
+# for i in range(1, len(lst_in)):
+# 	obj.link(ListObject(lst_in[i]))
+# 	obj = obj.next_obj
+
+
+
+
