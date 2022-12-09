@@ -1615,54 +1615,61 @@
 # P.S. На экран в программе ничего выводить не нужно.
 import random
 
-class Cell:
-    def __init__(self, around_mines, mine, fl_open = False):
-        self.around_mines = around_mines#число мин вокруг клетки
-        self.mine = mine#наличие мины, тру или фолз
-        self.fl_open = fl_open
-# тут создаются объекты клеток в которых или будут мины или нет и если мины нет, то число мин вокруг клетки
+# class Cell:
+#     def __init__(self, around_mines, mine, fl_open = False):
+#         self.around_mines = around_mines#число мин вокруг клетки
+#         self.mine = mine#наличие мины, тру или фолз
+#         self.fl_open = fl_open
+# # тут создаются объекты клеток в которых или будут мины или нет и если мины нет, то число мин вокруг клетки
 
 
-class GamePole:
-    def __init__(self, N, M):
-        self.pole = [[0] * N] * N
-        self.M = M
-        # self.pole =
-        self.init()
+# class GamePole:
+#     def __init__(self, N, M):
+#         self.pole = [[0] * N] * N
+#         self.M = M
+#         # self.pole =
+#         self.init()
 
 
-    def init(self):
-        b = self.M
-        for i in range(len(self.pole)):
-            for j in range(len(self.pole)):
-                self.pole[i][j] = random.randint(True, False)
-                if self.pole[i][j] == True:
-                    b -= 1
-                if b == 0:
-                    break
+#     def init(self):
+#         b = self.M
+#         for i in range(len(self.pole)):
+#             for j in range(len(self.pole)):
+#                 self.pole[i][j] = random.randint(True, False)
+#                 if self.pole[i][j] == True:
+#                     b -= 1
+#                 if b == 0:
+#                     break
 
 
-    def show(self):
-        pass
+#     def show(self):
+#         pass
 
 
 
 # pole_game = GamePole(10, 12)
-pole = [[0] * 10] * 10
-b = 10
-i = 0
-while b > 0:
-    if i > len(pole)-1:
-        break
-    for j in range(len(pole)):
-        if b <= 0:
-            break
-        pole[i][j] = random.randint(False, True)
-        b -= 1
+# p = [[0] * 10] * 10
+pole = [[0] * 10 for i in range(10)]
+b = 12
+for i in range(len(pole)):
+	# if i > len(pole)-1:
+	# 	break
+	if b <= 0:
+		break
+	for j in range(len(pole)):
+		if b <= 0:
+			break
+		pole[i][j] = random.randint(0, 1)		
+		if pole[i][j] == 1:
+			b -= 1
+		
+pole = list(map(list, list(zip(*pole))))
+	
 
-    i += 1
+for i in pole:
+	print(i)
 
-print(pole)
+# print(pole)
 
 
 
