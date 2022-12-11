@@ -1615,61 +1615,107 @@
 # P.S. На экран в программе ничего выводить не нужно.
 import random
 
-# class Cell:
-#     def __init__(self, around_mines, mine, fl_open = False):
-#         self.around_mines = around_mines#число мин вокруг клетки
-#         self.mine = mine#наличие мины, тру или фолз
-#         self.fl_open = fl_open
-# # тут создаются объекты клеток в которых или будут мины или нет и если мины нет, то число мин вокруг клетки
+class Cell:
+    def __init__(self, around_mines, mine, fl_open = False):
+        self.around_mines = around_mines#число мин вокруг клетки
+        self.mine = mine#наличие мины, тру или фолз
+        self.fl_open = fl_open#открыта клетка или нет
+# тут создаются объекты клеток в которых или будут мины или нет и если мины нет, то число мин вокруг клетки
 
 
-# class GamePole:
-#     def __init__(self, N, M):
-#         self.pole = [[0] * N] * N
-#         self.M = M
-#         # self.pole =
-#         self.init()
+class GamePole:
+
+	def __init__(self, N, M):
+		pol = [[0] * N for i in range(N)]
+		self.pole = pol
+		self.M = M
+		pol = self.init(pol)
+
+		for i in range(len(pol)):
+			for j in range(len(pol)):
+				a = self.count_mine(pol, i, j)
+				self.pole[i][j] = Cell(around_mines=a, mine=bool(pol[i][j]))
 
 
-#     def init(self):
-#         b = self.M
-#         for i in range(len(self.pole)):
-#             for j in range(len(self.pole)):
-#                 self.pole[i][j] = random.randint(True, False)
-#                 if self.pole[i][j] == True:
-#                     b -= 1
-#                 if b == 0:
-#                     break
+	def init(self, pol):
+		b = self.M
+		for i in range(len(pol)):
+			if b <= 0:
+				break
+			for j in range(len(pol)):
+				if b <= 0:
+					break
+				pol[i][j] = random.randint(False, True)
+				if pol[i][j] == True:
+					b -= 1
+
+		pol = list(map(list, list(zip(*pol))))
+		for i in pol:
+			random.shuffle(i)
+		return pol
+
+	def count_mine(self, nn, i, j):
+		if i == 0 and j == 0:
+			res = nn[i][j + 1] + nn[i + 1][j] + nn[i + 1][j + 1]
+			return res
+		elif i == 0 and j == len(nn) - 1:
+			res = nn[i][j - 1] + nn[i + 1][j - 1] + nn[i + 1][j]
+			return res
+		elif i == len(nn) - 1 and j == 0:
+			res = nn[i][j + 1] + nn[i - 1][j] + nn[i - 1][j + 1]
+			return res
+		elif i == len(nn) - 1 and j == len(nn) - 1:
+			res = nn[i][j - 1] + nn[i - 1][j - 1] + nn[i - 1][j]
+			return res
+		elif 1 <= i <= len(nn) - 2 and j == 0:
+			res = nn[i][j + 1] + nn[i - 1][j] + nn[i - 1][j + 1] + nn[i + 1][j] + nn[i + 1][j + 1]
+			return res
+		elif 1 <= i <= len(nn) - 2 and j == len(nn) - 1:
+			res = nn[i][j - 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i + 1][j - 1] + nn[i + 1][j]
+			return res
+		elif i == 0 and 1 <= j <= len(nn) - 2:
+			res = nn[i][j - 1] + nn[i][j + 1] + nn[i + 1][j - 1] + nn[i + 1][j] + nn[i + 1][j + 1]
+			return res
+		elif i == len(nn) - 1 and 1 <= j <= len(nn) - 2:
+			res = nn[i][j - 1] + nn[i][j + 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i - 1][j + 1]
+			return res
+		elif (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2):
+			res = nn[i][j - 1] + nn[i][j + 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i - 1][j + 1] + nn[i + 1][j - 1] + nn[i + 1][j] + nn[i + 1][j + 1]
+			return res
+
+	def show(self):
+		for i in range(len(self.pole)):
+			for j in range(len(self.pole)):
+				if self.pole[i][j].fl_open == False:
+					print("#")
+				else:
+					print(self.pole[i][j])
 
 
-#     def show(self):
-#         pass
+
+pole_game = GamePole(10, 12)
+for i in pole_game.pole:
+	for j in i:
+		print(j.mine, end=" ")
+	print()
 
 
-
-# pole_game = GamePole(10, 12)
-# p = [[0] * 10] * 10
-pole = [[0] * 10 for i in range(10)]
-b = 12
-for i in range(len(pole)):
-	# if i > len(pole)-1:
-	# 	break
-	if b <= 0:
-		break
-	for j in range(len(pole)):
-		if b <= 0:
-			break
-		pole[i][j] = random.randint(0, 1)		
-		if pole[i][j] == 1:
-			b -= 1
-		
-pole = list(map(list, list(zip(*pole))))
-	
-
-for i in pole:
-	print(i)
-
-# print(pole)
+# pole = [[0] * 10 for i in range(10)]
+# b = 12
+# for i in range(len(pole)):
+# 	if b <= 0:
+# 		break
+# 	for j in range(len(pole)):
+# 		if b <= 0:
+# 			break
+# 		pole[i][j] = random.randint(0, 1)
+# 		if pole[i][j] == 1:
+# 			b -= 1
+#
+# pole = map(list, list(zip(*pole)))
+# for i in pole:
+# 	random.shuffle(i)
+# 	print(i)
 
 
 
