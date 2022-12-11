@@ -1581,7 +1581,7 @@
 # while head_obj.next_obj:
 #     print(1)
 
-
+# раздел 1.5 инициализатор __init__
 # Большой подвиг 10. Объявите два класса:
 #
 # Cell - для представления клетки игрового поля;
@@ -1613,109 +1613,203 @@
 # Создайте экземпляр pole_game класса GamePole с размером поля N = 10 и числом мин M = 12.
 #
 # P.S. На экран в программе ничего выводить не нужно.
-import random
 
-class Cell:
-    def __init__(self, around_mines, mine, fl_open = False):
-        self.around_mines = around_mines#число мин вокруг клетки
-        self.mine = mine#наличие мины, тру или фолз
-        self.fl_open = fl_open#открыта клетка или нет
-# тут создаются объекты клеток в которых или будут мины или нет и если мины нет, то число мин вокруг клетки
+# мое решение. Игра сапер!!!!!!!!!!!!
+# import random
 
-
-class GamePole:
-
-	def __init__(self, N, M):
-		pol = [[0] * N for i in range(N)]
-		self.pole = pol
-		self.M = M
-		pol = self.init(pol)
-
-		for i in range(len(pol)):
-			for j in range(len(pol)):
-				a = self.count_mine(pol, i, j)
-				self.pole[i][j] = Cell(around_mines=a, mine=bool(pol[i][j]))
+# class Cell:
+#     def __init__(self, around_mines, mine, fl_open = True):
+#         self.around_mines = around_mines#число мин вокруг клетки
+#         self.mine = mine#наличие мины, тру или фолз
+#         self.fl_open = fl_open#открыта клетка или нет
+# # тут создаются объекты клеток в которых или будут мины или нет и если мины нет, то число мин вокруг клетки
 
 
-	def init(self, pol):
-		b = self.M
-		for i in range(len(pol)):
-			if b <= 0:
-				break
-			for j in range(len(pol)):
-				if b <= 0:
-					break
-				pol[i][j] = random.randint(False, True)
-				if pol[i][j] == True:
-					b -= 1
+# class GamePole:
 
-		pol = list(map(list, list(zip(*pol))))
-		for i in pol:
-			random.shuffle(i)
-		return pol
+# 	def __init__(self, N, M):
+# 		pol = [[0] * N for i in range(N)]
+# 		self.pole = pol
+# 		self.M = M
+# 		pol = self.init(pol)
 
-	def count_mine(self, nn, i, j):
-		if i == 0 and j == 0:
-			res = nn[i][j + 1] + nn[i + 1][j] + nn[i + 1][j + 1]
-			return res
-		elif i == 0 and j == len(nn) - 1:
-			res = nn[i][j - 1] + nn[i + 1][j - 1] + nn[i + 1][j]
-			return res
-		elif i == len(nn) - 1 and j == 0:
-			res = nn[i][j + 1] + nn[i - 1][j] + nn[i - 1][j + 1]
-			return res
-		elif i == len(nn) - 1 and j == len(nn) - 1:
-			res = nn[i][j - 1] + nn[i - 1][j - 1] + nn[i - 1][j]
-			return res
-		elif 1 <= i <= len(nn) - 2 and j == 0:
-			res = nn[i][j + 1] + nn[i - 1][j] + nn[i - 1][j + 1] + nn[i + 1][j] + nn[i + 1][j + 1]
-			return res
-		elif 1 <= i <= len(nn) - 2 and j == len(nn) - 1:
-			res = nn[i][j - 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i + 1][j - 1] + nn[i + 1][j]
-			return res
-		elif i == 0 and 1 <= j <= len(nn) - 2:
-			res = nn[i][j - 1] + nn[i][j + 1] + nn[i + 1][j - 1] + nn[i + 1][j] + nn[i + 1][j + 1]
-			return res
-		elif i == len(nn) - 1 and 1 <= j <= len(nn) - 2:
-			res = nn[i][j - 1] + nn[i][j + 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i - 1][j + 1]
-			return res
-		elif (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2):
-			res = nn[i][j - 1] + nn[i][j + 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i - 1][j + 1] + nn[i + 1][j - 1] + nn[i + 1][j] + nn[i + 1][j + 1]
-			return res
-
-	def show(self):
-		for i in range(len(self.pole)):
-			for j in range(len(self.pole)):
-				if self.pole[i][j].fl_open == False:
-					print("#")
-				else:
-					print(self.pole[i][j])
+# 		for i in range(len(pol)):
+# 			for j in range(len(pol)):
+# 				a = self.count_mine(pol, i, j)
+# 				self.pole[i][j] = Cell(around_mines=a, mine=bool(pol[i][j]))
 
 
+# 	def init(self, pol):
+# 		b = self.M
+# 		for i in range(len(pol)):
+# 			if b <= 0:
+# 				break
+# 			for j in range(len(pol)):
+# 				if b <= 0:
+# 					break
+# 				pol[i][j] = random.randint(False, True)
+# 				if pol[i][j] == True:
+# 					b -= 1
 
-pole_game = GamePole(10, 12)
-for i in pole_game.pole:
-	for j in i:
-		print(j.mine, end=" ")
-	print()
+# 		pol = list(map(list, list(zip(*pol))))
+# 		for i in pol:
+# 			random.shuffle(i)
+# 		return pol
+
+# 	def count_mine(self, nn, i, j):
+# 		if i == 0 and j == 0:
+# 			res = nn[i][j + 1] + nn[i + 1][j] + nn[i + 1][j + 1]
+# 			return res
+# 		elif i == 0 and j == len(nn) - 1:
+# 			res = nn[i][j - 1] + nn[i + 1][j - 1] + nn[i + 1][j]
+# 			return res
+# 		elif i == len(nn) - 1 and j == 0:
+# 			res = nn[i][j + 1] + nn[i - 1][j] + nn[i - 1][j + 1]
+# 			return res
+# 		elif i == len(nn) - 1 and j == len(nn) - 1:
+# 			res = nn[i][j - 1] + nn[i - 1][j - 1] + nn[i - 1][j]
+# 			return res
+# 		elif 1 <= i <= len(nn) - 2 and j == 0:
+# 			res = nn[i][j + 1] + nn[i - 1][j] + nn[i - 1][j + 1] + nn[i + 1][j] + nn[i + 1][j + 1]
+# 			return res
+# 		elif 1 <= i <= len(nn) - 2 and j == len(nn) - 1:
+# 			res = nn[i][j - 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i + 1][j - 1] + nn[i + 1][j]
+# 			return res
+# 		elif i == 0 and 1 <= j <= len(nn) - 2:
+# 			res = nn[i][j - 1] + nn[i][j + 1] + nn[i + 1][j - 1] + nn[i + 1][j] + nn[i + 1][j + 1]
+# 			return res
+# 		elif i == len(nn) - 1 and 1 <= j <= len(nn) - 2:
+# 			res = nn[i][j - 1] + nn[i][j + 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i - 1][j + 1]
+# 			return res
+# 		elif (1 <= i <= len(nn) - 2) and (1 <= j <= len(nn) - 2):
+# 			res = nn[i][j - 1] + nn[i][j + 1] + nn[i - 1][j - 1] + nn[i - 1][j] + nn[i - 1][j + 1] + nn[i + 1][j - 1] + nn[i + 1][j] + nn[i + 1][j + 1]
+# 			return res
+
+# 	def show(self):		
+# 		res = [ [ "*" if j.mine == True else j.around_mines for j in i] for i in self.pole ]
+# 		for i in res:
+# 			print(i)
+
+# pole_game = GamePole(10, 12)
+# pole_game.show()
+
+# for i in pole_game.pole:
+# 	for j in i:
+# 		print(j.mine, end=" ")
+# 	print()
+
+# решение препода(крутой алгоритм не единички)
+
+# from random import randint
+
+# class Cell:
+#     def __init__(self, around_mines, mine):
+#         self.around_mines = around_mines
+#         self.mine = mine
+#         self.fl_open = False
+
+# class GamePole:
+# 	def __init__(self, N, M):
+# 		self._n = N
+# 		self._m = M
+# 		self.pole = [[Cell() for n in range(self._n)] for n in range(self._n)]
+# 		self.init()
+
+# 	def init(self):
+# 		m = 0
+# 		while m < self._m:
+# 			i = randint(0, self._n - 1)
+# 			j = randint(0, self._n - 1)
+# 		if self.pole[i][j].mine:
+# 			continue
+# 		self.pole[i][j].mine = True
+# 			m += 1
+
+# 		indx = (-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)
+# 		for x in range(self._n):
+# 			for y in range(self._n):
+# 				if not self.pole[x][y].mine:
+# 					mines = sum((self.pole[x+i][y+j].mine for i, j in indx if 0 <= x + i < self._n and 0 <= y + j <= self._n))
+# 					self.pole[x][y].around_mines = mines
+
+# 	def show(self):
+# 		for row in self.pole:
+# 			print(*map(lambda x: "#" if not x.fl_opne else x.around_mines if not x.mine else "*", row))
+
+# pole_game = GamePole(10, 12)
 
 
-# pole = [[0] * 10 for i in range(10)]
-# b = 12
-# for i in range(len(pole)):
-# 	if b <= 0:
-# 		break
-# 	for j in range(len(pole)):
-# 		if b <= 0:
-# 			break
-# 		pole[i][j] = random.randint(0, 1)
-# 		if pole[i][j] == 1:
-# 			b -= 1
-#
-# pole = map(list, list(zip(*pole)))
-# for i in pole:
-# 	random.shuffle(i)
-# 	print(i)
+# Магический метод __new__. Пример паттерна Singleton!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# __new__() - автоматически вызывается перед созданием объекта класса
+# class Point:
+# 	def __new__(cls, *args, **kwargs):
+# 		print("вызов __new__ для " + str(cls))#str(cls) это строковая надпись с названием класса
+
+# 	def __init__(self, x=0, y=0):
+# 		print("вызов __init__ для " + str(self))#str(self) - это строковая надпись с названием объекта
+# 		self.x = x
+# 		self.y = y
+
+# cls - это ссылка на текущий экземпляр класса, в случае выше на класс Point. А параметр self ссылается на создаваемый экземпляр класса, то есть на объекта класса 
+
+# pt = Point(1, 2)
+#если сейчас запустить то в консоль выйдет только принт из метода __new__. Так как объект не был создан, и вызвался только метод __new__ так как он вызывается перед созданием класса
+# print(pt)#тут выведен None, а не объект, так тут объект еще не создан
+# это произошло потому что метод __new__ должен возвращать адрес нового созданного объекта, а в нашем случае не возвращает
+
+# class Point:
+# 	def __new__(cls, *args, **kwargs):#параметры *args, **kwargs нужно обязательно прописывать они влияют на все объекты которые будут созданы на основании эого класса. Но и на сам метод тоже влияют, то можно любые колллекци передавать и любые параметры, то в __new__ тоже можно писать любой алгоритм
+# 		print("вызов __new__ для " + str(cls))
+# 		return super().__new__(cls)#super() это ссылка на базовый класс и из него мы вызываем метод __new__(cls) и передаем ему ссылку на текущий класс Point. Так происходит потому что все классы которые мы прописываем являются дочерними от класса базового класса object, у которого также есть метод def __new__(cls):...
+# 		#так приосходит с версии питона 3.0
+# 		# то есть при вызове функции super() мы получаем ссылку на базовый класс. В этом базовом классе вызываем магический метод __new__, и этот метод запускает процесс создания экземпляра класса и возвращает адрес нового созданного объекта, а в программе также его возращаем и он срабатывает
+
+# 	def __init__(self, x=0, y=0):
+# 		print("вызов __init__ для " + str(self))
+# 		self.x = x
+# 		self.y = y
+
+# pt = Point(1, 2)
+# print(pt)#теперь объект будет создан, так как есть возвращение класса
+
+# Пример применения метода __new__ при создании паттерна Singleton!!!!!!!!!!!!!
+# предположим мы делаем класс для работы с базой данных. Далее предполагаем что в программе должен существовать только один экземпляр этого класса. то когда выполним db = DataBase("root", "1234", 80) будет создан экземпляр класса DataBase. Предположим что такой экземпляр класса должен бть только один, два экземпляра не должно быть. Если создадим еще дин объект db2 = DataBase("root", "1234", 80), то ссылка должна вести на тот же самый объек, то есть второй объект создаваться не должен. Так работает паттерн Singleton.
+
+# class DataBase:
+# 	__instance = None#это ссылка на экземпляр класса.Если объекта нет, то значение так и будет None. А если есть объект то это будет ссылка на объект класса. Можно будет контролировать ссылку на метод класса. ЧТобы это реализовать нужно это прописать в методе __new__
+# 	def __new__(cls, *args, **kwargs):
+# 		if cls.__instance is None:
+# 			cls.__instance = super().__new__(cls)
+
+# 		return cls.__instance
+# # мы прописали, что если __instance равно None, тогда создается объект, если объект уже будет создан, то новы йобъект уже не будет создаваться и возвращаться будет старый объект, который создавали ранее. И теперь нам нужно прописать закрывающитй метод __del__
+# 	def __del__(self):
+# 		DataBase.__instance = None#при срабытвании сборщика мусора будет опять присвоено значение None и можно будет при запуске опять создавать объекты
+
+# 	def __init__(self, user, psw, port):
+# 		self.user = user
+# 		self.psw = psw
+# 		self.port = port
+
+# 	def connect(self):
+# 		print(f"Соединение с БД: {self.user}, {self.psw}, {self.port}")
+
+# 	def close(self):
+# 		print("закрытие соединения с БД")
+
+# 	def read(self):
+# 		return "данные из БД"
+
+# 	def write(self, data):
+# 		print(f"запись в БД {data}")
+
+# # сделаем этот метод таким, чтобы объект на основе этого класса можно было создать только один
+
+# db = DataBase("root", "12345", 80)
+# db2 = DataBase("root2", "777", 40)
+# print(id(db), id(db2))#тут id будут одинаковыми, так как второй объект в этом случае не был создан, и только поменял значения, и ссылка осталась на тот же самый объект. И получается обе переменные ссылаются на один объект
+# db.connect()
+# db2.connect()#значения будут только из второго объекта, так как произошло переприсвоение в параметра инициализатора, хотя объект там остался тот же. Это тоже можно исправить, но инфа будет в следующих уроках
 
 
 
