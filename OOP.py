@@ -1741,6 +1741,9 @@
 
 # Магический метод __new__. Пример паттерна Singleton!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # __new__() - автоматически вызывается перед созданием объекта класса и делает действия до создания объекта
+# конструкция
+# def __new__(cls, *args, **kwargs):
+# 	return super().__new__(cls)#cls это ссылка на класс который будет возвращаться при создании объекта на основе класса в котором прописан метод. Ссылка может быть на любой класс
 # class Point:
 # 	def __new__(cls, *args, **kwargs):
 # 		print("вызов __new__ для " + str(cls))#str(cls) это строковая надпись с названием класса
@@ -1894,35 +1897,143 @@
 #
 # P.S. В программе на экран ничего выводить не нужно. Только объявить класс Dialog.
 
-TYPE_OS = 1 # 1 - Windows; 2 - Linux
+# TYPE_OS = 2 # 1 - Windows; 2 - Linux
 
-class DialogWindows:
-	name_class = "DialogWindows"
-	def __init__(self, name):
-		self.name = name
+# class DialogWindows:
+# 	name_class = "DialogWindows"
+# 	def __init__(self, name):
+# 		self.name = name
 
 
-class DialogLinux:
-	name_class = "DialogLinux"
-	def __init__(self, name):
-		self.name = name
-	# def __init__(self, name):
-	# 	self.name = name
-	# def __new__(cls, *args, **kwargs):
-	# 	if cls.name_class == "DialogLinux":
-	# 		return super().__new__(cls)
+# class DialogLinux:
+# 	name_class = "DialogLinux"
+# 	def __init__(self, name):
+# 		self.name = name	
 
-# здесь объявляйте класс Dialog
-class Dialog:
-	w = DialogWindows("Имя")
-	l = DialogLinux("Имя")
-	def __new__(cls, *args, **kwargs):
-		if TYPE_OS == 1:
-			return cls.w
-		else:
-			return cls.l
+# # здесь объявляйте класс Dialog
+# class Dialog:	
+# 	def __new__(cls, args, **kwargs):#в моем случае можно было не убирать распаковщик, а поставить индекс [0] при передаче аргумента при создании объектов
+# 		if TYPE_OS == 1:
+# 			cls.w = DialogWindows(args)
+# 			return cls.w
+# 		else:
+# 			cls.l = DialogLinux(args)
+# 			return cls.l
 
 
 
-dlg = Dialog("Имя")
-print(dlg.name)
+# dlg = Dialog("123")
+# print(dlg.name)
+
+# решение препода
+
+# TYPE_OS = 2 # 1 - Windows; 2 - Linux
+
+# class DialogWindows:
+# 	name_class = "DialogWindows"
+# 	def __init__(self, name):
+# 		self.name = name
+
+
+# class DialogLinux:
+# 	name_class = "DialogLinux"
+# 	def __init__(self, name):
+# 		self.name = name	
+
+# # здесь объявляйте класс Dialog
+# class Dialog:	
+# 	def __new__(cls, args, **kwargs):
+# 		obj = None
+# 		if TYPE_OS == 1:
+# 			obj = super().__new__(DialogWindows)#тут вместо cls можно писать любой другой класс, то есть тут мы пишем ссылку на класс на основе этого класса будет создаваться объект. 			
+# 		else:
+# 			obj = super().__new__(DialogLinux)
+# 		obj.name = args[0]
+
+
+# крутое решение через словари
+# TYPE_OS = 1 # 1 - Windows; 2 - Linux
+
+# class DialogWindows:
+#     name_class = "DialogWindows"
+
+
+# class DialogLinux:
+#     name_class = "DialogLinux"
+
+
+# # здесь объявляйте класс Dialog
+# class Dialog:
+
+#     __os = {1: DialogWindows, 2: DialogLinux}
+
+#     def __new__(cls, *args, **kwargs):
+#         new_obj = super().__new__(cls.__os[TYPE_OS])
+#         new_obj.name = args[0]
+#         return new_obj
+
+# максимально простое решение
+# TYPE_OS = 1 # 1 - Windows; 2 - Linux
+
+# class DialogWindows:
+#     name_class = "DialogWindows"
+
+
+# class DialogLinux:
+#     name_class = "DialogLinux"
+
+
+# # здесь объявляйте класс Dialog
+# class Dialog:
+    
+#     def __new__(cls, name):
+#         if TYPE_OS == 1:
+#             os_sys = DialogWindows()
+#         else:
+#             os_sys = DialogLinux()
+#         os_sys.name = name
+            
+#         return os_sys
+
+
+# Подвиг 9 (на повторение материала). Объявите класс Point для представления точек на плоскости. Создавать объекты этого класса предполагается командой:
+
+# pt = Point(x, y)
+# Здесь x, y - числовые координаты точки на плоскости (числа), то есть, в каждом объекте этого класса создаются локальные свойства x, y, которые хранят конкретные координаты точки.
+
+# Необходимо в классе Point реализовать метод clone(self), который бы создавал новый объект класса Point как копию текущего объекта с локальными атрибутами x, y и соответствующими значениями.
+
+# Создайте в программе объект pt класса Point и еще один объект pt_clone через вызов метода clone.
+
+# P.S. В программе на экран ничего выводить не нужно.
+
+# class Point:
+# 	def __init__(self, x, y):
+# 		self.x = x
+# 		self.y = y
+
+# 	def clone():
+# 		# a = Point(self.x, self.y)
+# 		# self.__dict__.copy()
+# 		# a = getattr(Point, x)
+# 		# b = getattr(Point, y)
+# 		# pt_clone = Point(a, b)
+# 		return self.__dict__.copy()
+# # сделать копию словаря
+
+# pt = Point(55, 77)
+# print(id(pt))
+# print(pt.__dict__)
+
+# pt_clone = Point.clone
+# # print(id(pt_clone))
+# print(pt_clone)
+
+a = 5
+b = 5
+
+print()
+print(id(a))
+print(id(b))
+
+попробовать сделать так чтобы в при измененении объекта 5 он менялся во всех переменных
