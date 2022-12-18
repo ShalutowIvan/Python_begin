@@ -2292,6 +2292,8 @@ from string import ascii_lowercase, digits
 
 # здесь объявляйте классы TextInput и PasswordInput
 class TextInput:
+	CHARS = "абвгдеёжзийклмнопрстуфхцчшщьыъэюя " + ascii_lowercase
+	CHARS_CORRECT = CHARS + CHARS.upper() + digits
 
 	def __init__(self, name, size=10):
 		self.name = name
@@ -2300,7 +2302,15 @@ class TextInput:
 	def get_html(self):
 		return f"<p class='login'>{self.name}: <input type='text' size={self.size} />"
 
+
+
+	@classmethod
 	def check_name(cls, name):
+		if 3 <= len(name) <= 50 and all(map(lambda x: x in cls.CHARS_CORRECT, name)):
+			return True
+		else:
+			raise ValueError("некорректное поле name")
+
 
 
 
@@ -2313,7 +2323,12 @@ class PasswordInput:
 	def get_html(self):
 		return f"<p class='password'>{self.name}: <input type='text' size={self.size} />"
 
+	@classmethod
 	def check_name(cls, name):
+		if 3 <= len(name) <= 50 and all(map(lambda x: x in cls.CHARS_CORRECT, name)):
+			return True
+		else:
+			raise ValueError("некорректное поле name")
 		
 
 
