@@ -2486,5 +2486,270 @@
 #         return len(name.split()) == 2 and not set(name).difference(cls.CHARS_FOR_NAME)
 
 
+# Подвиг 9. Объявите в программе класс Video с двумя методами:
+#
+# create(self, name) - для задания имени name текущего видео (метод сохраняет имя name в локальном атрибуте name объекта класса Video);
+# play(self) - для воспроизведения видео (метод выводит на экран строку "воспроизведение видео <name>").
+#
+# Объявите еще один класс с именем YouTube, в котором объявите два метода (с декоратором @classmethod):
+#
+# add_video(cls, video) - для добавления нового видео (метод помещает объект video класса Video в список);
+# play(cls, video_indx) - для проигрывания видео из списка по указанному индексу (индексация с нуля).
+#
+# (здесь cls - ссылка на класс YouTube). И список (тоже внутри класса YouTube):
+#
+# videos - для хранения добавленных объектов класса Video (изначально список пуст).
+#
+# Метод play() класса YouTube должен обращаться к объекту класса Video по индексу списка videos и, затем, вызывать метод play() класса Video.
+#
+# Методы add_video и play вызывайте напрямую из класса YouTube. Создавать экземпляр этого класса не нужно.
+#
+# Создайте два объекта v1 и v2 класса Video, затем, через метод create() передайте им имена "Python" и "Python ООП". После этого с помощью метода add_video класса YouTube, добавьте в него эти два видео и воспроизведите (с помощью метода play класса YouTube) сначала первое, а затем, второе видео.
+# мое решение
+# class Video:
+#     def create(self, name):
+#         self.name = name
+#     @staticmethod
+#     def play(name):
+#         print(f"воспроизведение видео {name}")
+#
+# class YouTube:
+#     videos = []
+#     @classmethod
+#     def add_video(cls, video):
+#         cls.videos.append(video)
+#
+#     @classmethod
+#     def play(cls, video_indx):
+#         Video.play(cls.videos[video_indx])
+#
+# v1 = Video()
+# v2 = Video()
+# v1.create("Python")
+# v2.create("Python ООП")
+# YouTube.add_video(v1.name)
+# YouTube.add_video(v2.name)
+# YouTube.play(0)
+# YouTube.play(1)
+
+#оказывается методы других классов можно вызывать через точку
+# class Video:
+#     def create(self, name):
+#         self.name = name
+#
+#     def play(self):
+#         print(f"воспроизведение видео {self.name}")
+#
+#
+# class YouTube:
+#     videos = list()
+#
+#     @classmethod
+#     def add_video(cls, video):
+#         cls.videos.append(video)
+#
+#     @classmethod
+#     def play(cls, video_indx):
+#         cls.videos[video_indx].play()#тут появляется нужный нам объект класса Video и мы к нему вызываем метод класса Video. Как это работает не совсем понятно, скорее всего мы берем объект класса Video и к этому объекту можно применить метод play класса Video и он ссылается на этот же объект класса Video, так как там есть self. Получается мы через объект класса Video вызвали метод play из класса Video. При добавлении передаваться нужно объекты, а я передавал свойства объектов
+#
+#
+# v1, v2 = Video(), Video()
+# v1.create("Python")
+# v2.create("Python ООП")
+# YouTube.add_video(v1)
+# YouTube.add_video(v2)
+# YouTube.play(0)
+# YouTube.play(1)
+
+#еще один прикольный вариант
+# class Video:
+#     def create(self, name):
+#         self.name = name
+#
+#     def play(self):
+#         print(f'воспроизведение видео {self.name}')
+#
+#
+# class YouTube:
+#     videos = []
+#
+#     @classmethod
+#     def add_video(cls, *video):
+#         [cls.videos.append(i) for i in video]
+#
+#     @classmethod
+#     def play(cls, *video_indx):
+#         [cls.videos[i].play() for i in video_indx]
+#
+#
+# v1, v2 = Video(), Video()
+# v1.create('Python')
+# v2.create('Python ООП')
+#
+# YouTube.add_video(v1, v2)
+# YouTube.play(0, 1)
+
+# Подвиг 10 (на повторение). Объявите класс AppStore - интернет-магазин приложений для устройств под iOS. В этом классе должны быть реализованы следующие методы:
+#
+# add_application(self, app) - добавление нового приложения app в магазин;
+# remove_application(self, app) - удаление приложения app из магазина;
+# block_application(self, app) - блокировка приложения app (устанавливает локальное свойство blocked объекта app в значение True);
+# total_apps(self) - возвращает общее число приложений в магазине.
+#
+# Класс AppStore предполагается использовать следующим образом (эти строчки в программе не писать):
+#
+# store = AppStore()
+# app_youtube = Application("Youtube")
+# store.add_application(app_youtube)
+# store.remove_application(app_youtube)
+# Здесь Application - класс, описывающий добавляемое приложение с указанным именем. Каждый объект класса Application должен содержать локальные свойства:
+#
+# name - наименование приложения (строка);
+# blocked - булево значение (True - приложение заблокировано; False - не заблокировано, изначально False).
+#
+# Как хранить список приложений в объектах класса AppStore решите сами.
+#
+# P.S. В программе нужно только объявить классы с указанным функционалом.
+
+# class AppStore:
+#
+#     lst = []
+#     def add_application(self, app):
+#         self.lst.append(app)
+#
+#     def remove_application(self, app):
+#         self.lst.remove(app)
+#
+#
+#     def block_application(self, app):
+#         app.blocked = True
+#
+#     def total_apps(self):
+#         return len(self.lst)
+#
+#
+# class Application:
+#     def __init__(self, name, blocked=False):
+#         self.name = name
+#         self.blocked = blocked
+#
+#
+# store = AppStore()
+# app_youtube = Application("Youtube")
+# a1 = Application("TikTok")
+# a2 = Application("VK")
+# a3 = Application("OZON")
+# store.add_application(app_youtube)
+# store.add_application(a1)
+# store.add_application(a2)
+# store.add_application(a3)
+# store.remove_application(app_youtube)
+# store.block_application(a1)
+# print(a1.blocked)
+
+
+# Подвиг 11 (на повторение). Объявите класс для мессенджера с именем Viber. В этом классе должны быть следующие методы:
+#
+# add_message(msg) - добавление нового сообщения в список сообщений;
+# remove_message(msg) - удаление сообщения из списка;
+# set_like(msg) - поставить/убрать лайк для сообщения msg (т.е. изменить атрибут fl_like объекта msg: если лайка нет то он ставится, если уже есть, то убирается);
+# show_last_message(число) - отображение последних сообщений;
+# total_messages() - возвращает общее число сообщений.
+#
+# Эти методы предполагается использовать следующим образом (эти строчки в программе не писать):
+#
+# msg = Message("Всем привет!")
+# Viber.add_message(msg)
+# Viber.add_message(Message("Это курс по Python ООП."))
+# Viber.add_message(Message("Что вы о нем думаете?"))
+# Viber.set_like(msg)
+# Viber.remove_message(msg)
+# Класс Message (необходимо также объявить) позволяет создавать объекты-сообщения со следующим набором локальных свойств:
+#
+# text - текст сообщения (строка);
+# fl_like - поставлен или не поставлен лайк у сообщения (булево значение True - если лайк есть и False - в противном случае, изначально False);
+#
+# P.S. Как хранить список сообщений, решите самостоятельно.
+#мое решение
+# class Viber:
+#     lst = []
+#     @classmethod
+#     def add_message(cls, msg):
+#         cls.lst.append(msg)
+#
+#     @classmethod
+#     def remove_message(cls, msg):
+#         cls.lst.remove(msg)
+#
+#     @classmethod
+#     def set_like(cls, msg):
+#         if msg.fl_like == False:
+#             msg.fl_like = True
+#         elif msg.fl_like == True:
+#             msg.fl_like = False
+#
+#     @classmethod
+#     def show_last_message(cls, n):
+#         print(*[ i.text for i in cls.lst[-n:]])
+#
+#     @classmethod
+#     def total_messages(cls):
+#         return len(cls.lst)
+#
+#
+# class Message:
+#     def __init__(self, text, fl_like=False):
+#         self.text = text
+#         self.fl_like = fl_like
+#
+#
+# msg = Message("Всем привет!")
+# Viber.add_message(msg)
+# Viber.add_message(Message("Это курс по Python ООП."))
+# Viber.add_message(Message("Что вы о нем думаете?"))
+# Viber.set_like(msg)
+# # Viber.remove_message(msg)
+# Viber.show_last_message(2)
+
+#решение через словари от препода
+
+# class Viber:
+#     lst = {}
+#     @classmethod
+#     def add_message(cls, msg):
+#         cls.lst[id(msg)] = msg
+#
+#     @classmethod
+#     def remove_message(cls, msg):
+#         key = id(msg)
+#         if key in cls.lst:
+#             cls.lst.pop(key)
+#
+#     @classmethod
+#     def set_like(cls, msg):
+#         msg.fl_like = not msg.fl_like
+#
+#     @classmethod
+#     def show_last_message(cls, n):
+#         for m in tuple(cls.lst.values())[-n:]:
+#             print(m)
+#
+#     @classmethod
+#     def total_messages(cls):
+#         return len(cls.lst)
+#
+#
+# class Message:
+#     def __init__(self, text, fl_like=False):
+#         self.text = text
+#         self.fl_like = fl_like
+#инициализатор такой же как у меня
+
+
+
+
+
+
+
 
 
