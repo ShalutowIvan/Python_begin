@@ -2815,12 +2815,14 @@
 
 
 # ip = 0
+
 class Server:
 	buffer = []
-	ip = 0
-	def __init__(self):
-		# self.ip += 1
-		self.IP = self.ip+1
+	ip = []
+	def __init__(self):		
+		self.ip.append(1)		
+		self.IP = len(self.ip)
+
 
 # 	def send_data(data):
 
@@ -2834,16 +2836,18 @@ class Server:
 
 
 
-# class Router:
-# 	buffer = []
+class Router:
+	buffer = []
+	lst = []
 
-# 	def link(server):
+	def link(server):
+		self.lst.append(server)
+
+	def unlink(server):
+		self.lst.remove(server)
 
 
-# 	def unlink(server):
-
-
-# 	def send_data():
+	def send_data():
 
 
 
