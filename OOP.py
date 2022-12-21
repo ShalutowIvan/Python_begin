@@ -2823,28 +2823,32 @@ class Server:
 		self.ip.append(1)		
 		self.IP = len(self.ip)
 
+	# - для отправки информационного пакета data(объекта класса Data) с указанным IP - адресом получателя(пакет  отправляется роутеру и сохраняется в его буфере - локальном свойстве buffer);
+	@staticmethod
+	def send_data(data, router):
+		router.buffer.append(data)
 
-# 	def send_data(data):
 
 
 # 	def get_data():
-
 
 # 	def get_ip():
 
 
 
-
-
 class Router:
-	buffer = []
+	def __init__(self):
+		self.buffer = []
 	lst = []
 
-	def link(server):
-		self.lst.append(server)
+	@classmethod
+	def link(cls, server):
+		cls.lst.append(server)
 
-	def unlink(server):
-		self.lst.remove(server)
+
+	@classmethod
+	def unlink(cls, server):
+		cls.lst.remove(server)
 
 
 	def send_data():
