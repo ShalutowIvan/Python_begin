@@ -2817,11 +2817,13 @@
 # ip = 0
 
 class Server:
-	buffer = []
+	
 	ip = []
 	def __init__(self):		
-		self.ip.append(1)		
+		self.ip.append(1)
 		self.IP = len(self.ip)
+		self.buffer = []
+
 
 	# - для отправки информационного пакета data(объекта класса Data) с указанным IP - адресом получателя(пакет  отправляется роутеру и сохраняется в его буфере - локальном свойстве buffer);
 	@staticmethod
@@ -2830,9 +2832,14 @@ class Server:
 
 
 
-# 	def get_data():
+	def get_data(self):
+		res = self.buffer
+		self.buffer = []
+		return res
 
-# 	def get_ip():
+
+	def get_ip(self):
+		return self.IP
 
 
 
@@ -2850,26 +2857,34 @@ class Router:
 	def unlink(cls, server):
 		cls.lst.remove(server)
 
+	# @staticmethod
+	# def send_data(self, data=None, serv=None):#serv это параметр для сервера, data это параметр для объекта  Data. Тут автоматом должен определяться сервер куда отправлять данные и при использовании метода сразу все накполненые данные отправляются 
+	# 	for i in self.buffer:
 
-	def send_data():
+	# 		serv.buffer.append(i)
+ # для отправки всех пакетов (объектов класса Data) из буфера роутера соответствующим серверам (после отправки буфер должен очищаться). тут переделать
 
-
-
-# class Data:
-# 	def __init__(self, data, IP):
-# 		self.data = data
-# 		self.ip = IP
+class Data:
+	def __init__(self, data, IP):
+		self.data = data
+		self.ip = IP
 
 sv_from1 = Server()
 sv_from2 = Server()
 sv_from3 = Server()
 sv_from4 = Server()
-print(sv_from1.IP)
-print(sv_from2.IP)
-print(sv_from3.IP)
-print(sv_from4.IP)
+# print(sv_from3.__doc__)
+# print(sv_from2.IP)
+# print(sv_from3.IP)
+# print(sv_from4.IP)
 
 
+class qwe:
+	def __init__(self, a):
+		self.asd = a
+qw = qwe(1)
+qw.z = 2
+print(qw.__doc__)
 
 #доделать......
 
