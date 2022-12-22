@@ -2813,80 +2813,108 @@
 # msg_lst_to = sv_to.get_data()
 # Ваша задача реализовать классы Router, Server и Data в соответствии с приведенным техническим заданием (ТЗ). Что-либо выводить на экран не нужно.
 
-
-# ip = 0
-
+# мое решение
 class Server:
-	
 	ip = []
-	def __init__(self):		
+	def __init__(self):
+		self.link = None
 		self.ip.append(1)
-		self.IP = len(self.ip)
+		self.ipS = len(self.ip)
 		self.buffer = []
 
-
 	# - для отправки информационного пакета data(объекта класса Data) с указанным IP - адресом получателя(пакет  отправляется роутеру и сохраняется в его буфере - локальном свойстве buffer);
-	@staticmethod
-	def send_data(data, router):
-		router.buffer.append(data)
-
-
+	# @staticmethod
+	def send_data(self, data):
+		self.link.buffer.append(data)
 
 	def get_data(self):
 		res = self.buffer
 		self.buffer = []
 		return res
 
-
 	def get_ip(self):
-		return self.IP
-
+		return self.ipS
 
 
 class Router:
 	def __init__(self):
 		self.buffer = []
-	lst = []
+		self.lst = []
 
-	@classmethod
-	def link(cls, server):
-		cls.lst.append(server)
+	def link(self, server):
+		self.lst.append(server)#добавил в список присоединенных серверов
+		server.link = self#записал в переменную объекта сервера ссылку на объект роутер
 
+	# @classmethod
+	def unlink(self, server):
+		self.lst.remove(server)#удалил сервер и списка роутера
+		server.link = None#удалил ссылку
 
-	@classmethod
-	def unlink(cls, server):
-		cls.lst.remove(server)
+	def send_data(self):#serv это параметр для сервера, data это параметр для объекта  Data. Тут автоматом должен определяться сервер куда отправлять данные и при использовании метода сразу все накполненые данные отправляются
+		for i in self.buffer:
+			for j in self.lst:
+				if i.ipD == j.ipS:
+					j.buffer.append(i)
+		self.buffer = []
 
-	# @staticmethod
-	# def send_data(self, data=None, serv=None):#serv это параметр для сервера, data это параметр для объекта  Data. Тут автоматом должен определяться сервер куда отправлять данные и при использовании метода сразу все накполненые данные отправляются 
-	# 	for i in self.buffer:
-
-	# 		serv.buffer.append(i)
- # для отправки всех пакетов (объектов класса Data) из буфера роутера соответствующим серверам (после отправки буфер должен очищаться). тут переделать
+# для отправки всех пакетов (объектов класса Data) из буфера роутера соответствующим серверам (после отправки буфер должен очищаться). тут переделать
 
 class Data:
 	def __init__(self, data, IP):
 		self.data = data
-		self.ip = IP
+		self.ipD = IP
 
-sv_from1 = Server()
-sv_from2 = Server()
-sv_from3 = Server()
-sv_from4 = Server()
-# print(sv_from3.__doc__)
+# sv_from1 = Server()
+# sv_from2 = Server()
+# sv_from3 = Server()
+# sv_from4 = Server()
+# print(sv_from3.__dict__)
 # print(sv_from2.IP)
 # print(sv_from3.IP)
 # print(sv_from4.IP)
+# router = Router()
+# sv_from = Server()
+# sv_from2 = Server()
+# router.link(sv_from)
+# router.link(sv_from2)
+# router.link(Server())
+# router.link(Server())
+# sv_to = Server()
+# router.link(sv_to)
+# sv_from.send_data(Data("Hello", sv_to.get_ip()))
+# sv_from2.send_data(Data("Hello", sv_to.get_ip()))
+# sv_to.send_data(Data("Hi", sv_from.get_ip()))
+# router.send_data()
+# # for i in sv_to.buffer:
+# # 	print(i.__dict__)
+# msg_lst_from = sv_from.get_data()
+# msg_lst_to = sv_to.get_data()
+# print(msg_lst_from[0].__dict__)
+# print(msg_lst_to[0].__dict__, msg_lst_to[1].__dict__)
+
+# решение препода
+class Router:
+	def __init__(self):
+		self.buffer = []
+		self.servers = {}
+
+	def link(self, server):
+		self.servers[server.ip] = server
+		server.router = self#сделано как у меня
+
+	def unlink(self, server):
+		s = self.servers.pop(server.ip, False)
+		if s:
+			s.router = None
+
+	def send
 
 
-class qwe:
-	def __init__(self, a):
-		self.asd = a
-qw = qwe(1)
-qw.z = 2
-print(qw.__doc__)
 
-#доделать......
+
+
+
+
 
 
 # Режимы доступа public, private, protected. Сеттеры и геттеры. Механизмы инкапсуляции
