@@ -2814,55 +2814,55 @@
 # Ваша задача реализовать классы Router, Server и Data в соответствии с приведенным техническим заданием (ТЗ). Что-либо выводить на экран не нужно.
 
 # мое решение
-class Server:
-	ip = []
-	def __init__(self):
-		self.link = None
-		self.ip.append(1)
-		self.ipS = len(self.ip)
-		self.buffer = []
+# class Server:
+# 	ip = []
+# 	def __init__(self):
+# 		self.link = None
+# 		self.ip.append(1)
+# 		self.ipS = len(self.ip)
+# 		self.buffer = []
 
-	# - для отправки информационного пакета data(объекта класса Data) с указанным IP - адресом получателя(пакет  отправляется роутеру и сохраняется в его буфере - локальном свойстве buffer);
-	# @staticmethod
-	def send_data(self, data):
-		self.link.buffer.append(data)
+# 	# - для отправки информационного пакета data(объекта класса Data) с указанным IP - адресом получателя(пакет  отправляется роутеру и сохраняется в его буфере - локальном свойстве buffer);
+# 	# @staticmethod
+# 	def send_data(self, data):
+# 		self.link.buffer.append(data)
 
-	def get_data(self):
-		res = self.buffer
-		self.buffer = []
-		return res
+# 	def get_data(self):
+# 		res = self.buffer
+# 		self.buffer = []
+# 		return res
 
-	def get_ip(self):
-		return self.ipS
+# 	def get_ip(self):
+# 		return self.ipS
 
 
-class Router:
-	def __init__(self):
-		self.buffer = []
-		self.lst = []
+# class Router:
+# 	def __init__(self):
+# 		self.buffer = []
+# 		self.lst = []
 
-	def link(self, server):
-		self.lst.append(server)#добавил в список присоединенных серверов
-		server.link = self#записал в переменную объекта сервера ссылку на объект роутер
+# 	def link(self, server):
+# 		self.lst.append(server)#добавил в список присоединенных серверов
+# 		server.link = self#записал в переменную объекта сервера ссылку на объект роутер
 
-	# @classmethod
-	def unlink(self, server):
-		self.lst.remove(server)#удалил сервер и списка роутера
-		server.link = None#удалил ссылку
+# 	# @classmethod
+# 	def unlink(self, server):
+# 		self.lst.remove(server)#удалил сервер и списка роутера
+# 		server.link = None#удалил ссылку
 
-	def send_data(self):#serv это параметр для сервера, data это параметр для объекта  Data. Тут автоматом должен определяться сервер куда отправлять данные и при использовании метода сразу все накполненые данные отправляются
-		for i in self.buffer:
-			for j in self.lst:
-				if i.ipD == j.ipS:
-					j.buffer.append(i)
-		self.buffer = []
+# 	def send_data(self):#serv это параметр для сервера, data это параметр для объекта  Data. Тут автоматом должен определяться сервер куда отправлять данные и при использовании метода сразу все накполненые данные отправляются
+# 		for i in self.buffer:
+# 			for j in self.lst:
+# 				if i.ipD == j.ipS:
+# 					j.buffer.append(i)
+# 		self.buffer = []
 
-# для отправки всех пакетов (объектов класса Data) из буфера роутера соответствующим серверам (после отправки буфер должен очищаться). тут переделать
+# # для отправки всех пакетов (объектов класса Data) из буфера роутера соответствующим серверам (после отправки буфер должен очищаться). тут переделать
 
-class Data:
-	def __init__(self, data, IP):
-		self.data = data
-		self.ipD = IP
+# class Data:
+# 	def __init__(self, data, IP):
+# 		self.data = data
+# 		self.ipD = IP
 
 # sv_from1 = Server()
 # sv_from2 = Server()
@@ -2893,28 +2893,52 @@ class Data:
 # print(msg_lst_to[0].__dict__, msg_lst_to[1].__dict__)
 
 # решение препода
-class Router:
-	def __init__(self):
-		self.buffer = []
-		self.servers = {}
+# class Router:
+# 	def __init__(self):
+# 		self.buffer = []
+# 		self.servers = {}
 
-	def link(self, server):
-		self.servers[server.ip] = server
-		server.router = self#сделано как у меня
+# 	def link(self, server):
+# 		self.servers[server.ip] = server
+# 		server.router = self#сделано как у меня
 
-	def unlink(self, server):
-		s = self.servers.pop(server.ip, False)
-		if s:
-			s.router = None
+# 	def unlink(self, server):
+# 		s = self.servers.pop(server.ip, False)
+# 		if s:
+# 			s.router = None
 
-	def send
+# 	def send_data(self):
+# 		for d in self.buffer:
+# 			if d.ip in self.servers:
+# 				self.servers[d.ip].buffer.appebd(d)
+# 		self.bufer.clear()
 
 
+# class Server:
+# 	def __init__(self):
+# 		self.buffer = []
+# 		self.ip = Server.server_ip
+# 		Server.server_ip += 1
+# 		self.router = None
+
+# 	def send_data(self, data):
+# 		if self.router:
+# 			self.router.buffer.append(data)
+
+# 	def get_data(self):
+# 		b = self.buffer[:]
+# 		self.buffer.clear()
+# 		return b
 
 
+# 	def get_ip(self):
+# 		return self.ip
 
 
-
+# class Data:
+# 	def __init__(self, msg, ip):
+# 		self.data = msg
+# 		self.ip = ip
 
 
 # Режимы доступа public, private, protected. Сеттеры и геттеры. Механизмы инкапсуляции
@@ -3051,4 +3075,172 @@ class Router:
 # pt.check_value(5)#тут будет ошибка, так как есть декоратор private
 # текст ошибки: raise InaccessibleDueToItsProtectionLevelException(  accessify.errors.InaccessibleDueToItsProtectionLevelException: Point.check_value() is inaccessible due to its protection level
 # Защита с помощью декоратора будет более сильной, так не будет возможности обойти защиту через кодовое имя объекта, как это мы сделали с переменной, написали _Point__ и название переменной. 
+
+
+#Задачки!!!!!!!!!!!
+
+# Подвиг 3. Объявите класс с именем Clock и определите в нем следующие переменные и методы:
+
+# - приватная локальная переменная time для хранения текущего времени, целое число (своя для каждого объекта класса Clock с начальным значением 0);
+# - публичный метод set_time(tm) для установки текущего времени (присваивает значение tm приватному локальному свойству time, если метод check_time(tm) возвратил True);
+# - публичный метод get_time() для получения текущего времени из приватной локальной переменной time;
+# - приватный метод класса check_time(tm) для проверки корректности времени в переменной tm (возвращает True, если значение корректно и False - в противном случае).
+
+# Проверка корректности выполняется по критерию: tm должна быть целым числом, больше или равна нулю и меньше 100 000.
+
+# Объекты класса Clock предполагается использовать командой:
+
+# clock = Clock(время)
+# Создайте объект clock класса Clock и установите время, равным 4530.
+
+# P.S. На экран ничего выводить не нужно.
+# мое решение
+# class Clock:
+# 	def __init__(self, tm = 0):
+# 		self.__time = tm
+
+# 	def set_time(self, tm):
+# 		if self.__check_time(tm):
+# 			self.__time = tm
+
+# 	def get_time(self):
+# 		return self.__time
+
+# 	@classmethod
+# 	def __check_time(cls, tm):
+# 		return True if type(tm) == int and 0 <= tm < 100000 else False
+
+# clock = Clock()
+# clock.set_time(4530)
+# print(clock.get_time())
+
+
+# Подвиг 4. Объявите класс с именем Money и определите в нем следующие переменные и методы:
+
+# - приватная локальная переменная money (целочисленная) для хранения количества денег (своя для каждого объекта класса Money);
+# - публичный метод set_money(money) для передачи нового значения приватной локальной переменной money (изменение выполняется только если метод check_money(money) возвращает значение True);
+# - публичный метод get_money() для получения текущего объема средств (денег);
+# - публичный метод add_money(mn) для прибавления средств из объекта mn класса Money к средствам текущего объекта;
+# - приватный метод класса check_money(money) для проверки корректности объема средств в параметре money (возвращает True, если значение корректно и False - в противном случае).
+
+# Проверка корректности выполняется по критерию: параметр money должен быть целым числом, больше или равным нулю.
+
+# Пример использования класса Money (эти строчки в программе не писать):
+
+# mn_1 = Money(10)
+# mn_2 = Money(20)
+# mn_1.set_money(100)
+# mn_2.add_money(mn_1)
+# m1 = mn_1.get_money()    # 100
+# m2 = mn_2.get_money()    # 120
+
+# class Money:
+# 	def __init__(self, m):
+# 		self.__money = m
+
+# 	def set_money(self, money):
+# 		if self.__check_money(money):
+# 			self.__money = money
+
+# 	def get_money(self):
+# 		return self.__money
+
+# 	def add_money(self, mn):
+# 		self.__money += mn.get_money()
+
+# 	@classmethod
+# 	def __check_money(cls, money):
+# 		return True if type(money) == int and money >= 0 else False
+
+
+# mn_1 = Money(10)
+# mn_2 = Money(20)
+# mn_1.set_money(100)
+# mn_2.add_money(mn_1)
+# m1 = mn_1.get_money()    # 100
+# m2 = mn_2.get_money()    # 120
+# print(m1, m2)
+
+
+# Подвиг 6. Объявите класс Book со следующим набором сеттеров и геттеров:
+
+# set_title(self, title) - запись в локальное приватное свойство __title объектов класса Book значения title;
+# set_author(self, author) - запись в локальное приватное свойство __author объектов класса Book значения author;
+# set_price(self, price) - запись в локальное приватное свойство __price объектов класса Book значения price;
+# get_title(self) - получение значения локального приватного свойства __title объектов класса Book;
+# get_author(self) - получение значения локального приватного свойства __author объектов класса Book;
+# get_price(self) - получение значения локального приватного свойства __price объектов класса Book;
+
+# Объекты класса Book предполагается создавать командой:
+
+# book = Book(автор, название, цена)
+# При этом, в каждом объекте должны создаваться приватные локальные свойства:
+
+# __author - строка с именем автора;
+# __title - строка с названием книги;
+# __price - целое число с ценой книги.
+
+# P.S. В программе требуется объявить только класс. Ничего на экран выводить не нужно.
+
+# мое решение 
+# class Book:
+# 	def __init__(self, author, title, price):
+# 		self.__author = author
+# 		self.__title = title
+# 		self.__price = price
+
+# 	def set_title(self, title):
+# 		self.__title = title
+
+# 	def set_author(self, author):
+# 		self.__author = author
+
+# 	def set_price(self, price):
+# 		self.__price = price
+
+# 	def get_title(self):
+# 		return self.__title
+
+# 	def get_author(self):
+# 		return self.__author
+
+# 	def get_price(self):
+# 		return self.__price
+
+# Подвиг 7. Объявите класс Line для описания линии на плоскости, объекты которого предполагается создавать командой:
+
+# line = Line(x1, y1, x2, y2)
+# При этом в объекте line должны создаваться следующие приватные локальные свойства:
+
+# __x1, __y1 - начальная координата;
+# __x2, __y2 - конечная координата.
+
+# В самом классе Line должны быть реализованы следующие сеттеры и геттеры:
+
+# set_coords(self, x1, y1, x2, y2) - для изменения координат линии;
+# get_coords(self) - для получения кортежа из текущих координат линии.
+
+# А также метод:
+
+# draw(self) - для отображения в консоли списка текущих координат линии (в одну строчку через пробел).
+
+# P.S. В программе требуется объявить только класс. Ничего на экран выводить не нужно.
+
+
+class Line:
+	def __init__(self, x1, y1, x2, y2):
+		self.__x1 = x1
+		self.__x2 = x2
+		self.__y1 = y1
+		self.__y2 = y2
+
+
+
+
+
+
+
+
+
+
 
