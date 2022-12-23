@@ -3226,19 +3226,210 @@
 
 # P.S. В программе требуется объявить только класс. Ничего на экран выводить не нужно.
 
+# мое решение
+# class Line:
+# 	def __init__(self, x1, y1, x2, y2):
+# 		self.__x1 = x1
+# 		self.__x2 = x2
+# 		self.__y1 = y1
+# 		self.__y2 = y2
+#
+# 	def set_coords(self, x1, y1, x2, y2):
+# 		self.__x1 = x1
+# 		self.__x2 = x2
+# 		self.__y1 = y1
+# 		self.__y2 = y2
+#
+# 	def get_coords(self):
+# 		return self.__x1, self.__x2, self.__y1, self.__y2
+#
+# 	def draw(self):
+# 		print(*list(self.get_coords()))
+#
+# line = Line(1, 2, 3, 4)
+# line.draw()
 
-class Line:
-	def __init__(self, x1, y1, x2, y2):
-		self.__x1 = x1
-		self.__x2 = x2
-		self.__y1 = y1
-		self.__y2 = y2
+#вариант с args. Можно передавать в качестве параметра распакованный кортеж если в написать *args
+# class Line:
+#     def __init__(self, *args):
+#         self.set_coords(*args)
+#
+#
+#     def set_coords(self, *args):#сюда можно передать распакованный кортеж
+#         self.__x1, self.__y1, self.__x2, self.__y2 = args
+#
+#
+#     def get_coords(self):
+#         return self.__x1, self.__y1, self.__x2, self.__y2
+#
+#
+#     def draw(self):
+#         print(*self.get_coords())
+#
+# line = Line(1, 2, 3, 4)
+# tp = 11, 22, 33, 44
+# line.set_coords(*tp)
+# line.draw()
+
+#через словари
+# class Line:
+#     def __init__(self,x1=0,y1=0,x2=0,y2=0):
+#         self.__x1=x1
+#         self.__y1=y1
+#         self.__x2=x2
+#         self.__y2=y2
+#     def set_coords(self,*args):
+#         self.__dict__=dict(zip(self.__dict__.keys(),args))#тут 2 кортежа, первый ключи, второй кортеж из параметров которые мы передаим при вызове функции, и получается элементам словаря присвоили новые значения. Сложно, но алгоритм хороший, можно применять когда других не будет
+#     def get_coords(self):
+#         return tuple(self.__dict__.values())
+#     def draw(self):
+#         print(*self.__dict__.values())
+
+# Подвиг 8. Объявите в программе два класса Point и Rectangle. Объекты первого класса должны создаваться командой:
+#
+# pt = Point(x, y)
+# где x, y - координаты точки на плоскости (целые или вещественные числа). При этом в объектах класса Point должны формироваться следующие локальные свойства:
+#
+# __x, __y - координаты точки на плоскости.
+#
+# и один геттер:
+#
+# get_coords() - возвращение кортежа текущих координат __x, __y
+#
+# Объекты второго класса Rectangle (прямоугольник) должны создаваться командами:
+#
+# r1 = Rectangle(Point(x1, y1), Point(x2, y2))
+# или
+#
+# r2 = Rectangle(x1, y1, x2, y2)
+# Здесь первая координата (x1, y1) - верхний левый угол, а вторая координата (x2, y2) - правый нижний. При этом, в объектах класса Rectangle (вне зависимости от способа их создания) должны формироваться следующие локальные свойства:
+#
+# __sp - объект класса Point с координатами x1, y1 (верхний левый угол);
+# __ep - объект класса Point с координатами x2, y2 (нижний правый угол).
+#
+# Также к классе Rectangle должны быть реализованы следующие методы:
+#
+# set_coords(self, sp, ep) - изменение текущих координат, где sp, ep - объекты класса Point;
+# get_coords(self) - возвращение кортежа из объектов класса Point с текущими координатами прямоугольника (ссылки на локальные свойства __sp и __ep);
+# draw(self) - отображение в консоли сообщения: "Прямоугольник с координатами: (x1, y1) (x2, y2)". Здесь x1, y1, x2, y2 - соответствующие числовые значения координат.
+#
+# Создайте объект rect класса Rectangle с координатами (0, 0), (20, 34).
+#
+# P.S. На экран ничего выводить не нужно.
+
+# мое решение
+# class Point:
+#     def __init__(self, x, y):
+#         if type(x) in (int, float) and type(y) in (int, float):
+#             self.__x = x
+#             self.__y = y
+#
+#     def get_coords(self):
+#         return (self.__x, self.__y)
+#
+# class Rectangle:
+#     def __init__(self, *a):
+#         # if x1 < x2 and y1 > y2:
+#         # if type(a) == tuple and type(b) == tuple:
+#         if len(a) == 4:
+#             self.__sp = Point(a[0], a[1])
+#             self.__ep = Point(a[2], a[3])
+#         # elif type(a) == Point and type(b) == Point:
+#         elif len(a) == 2:
+#             self.__sp = a[0]
+#             self.__ep = a[1]
+#
+#
+#     def set_coords(self, sp, ep):
+#         # if sp.get_coords[0] < ep.get_coords[0] and sp.get_coords[1] > ep.get_coords[1]:
+#             self.__sp = sp
+#             self.__ep = ep
+#
+#     def get_coords(self):
+#         return (self.__sp, self.__ep)
+#
+#     def draw(self):
+#         print(f"Прямоугольник с координатами: ({self.__sp.get_coords()[0]}, {self.__sp.get_coords()[1]}) ({self.__ep.get_coords()[0]}, {self.__ep.get_coords()[1]})")
+#
+# p1 = Point(1, 1)
+# p2 = Point(22, 22)
+# rect = Rectangle(*(0, 0), *(20, 34))
+# rect1 = Rectangle(p1, p2)
+# rect.draw()
+# rect1.draw()
+#
+# # решение препода
+# class Point:
+#     def __init__(self, x, y):
+#             self.__x = x
+#             self.__y = y
+#
+#     def get_coords(self):
+#         return (self.__x, self.__y)
+#
+#
+# class Rectangle:
+#     def __init__(self, a, b, c=None, d=None):
+#         self.__sp = self.__ep = None
+#         if type(a) == Point and type(b) == Point:
+#             self.__sp = a
+#             self.__ep = b
+#         elif all(map(lambda x: type(x) in (int, float), (a, b, c, d))):
+#             self.__sp = Point(a, b)
+#             self.__ep = Point(c, d)
+#
+#     def set_coords(self, sp, ep):
+#             self.__sp = sp
+#             self.__ep = ep
+#
+#     def get_coords(self):
+#         return (self.__sp, self.__ep)
+#
+#     def draw(self):
+#         print(f"Прямоугольник с координатами: {self.__sp.get_coords()} {self.__ep.get_coords()}")
 
 
-
-
-
-
+# Большой подвиг 9. Необходимо реализовать связный список (не список языка Python и не хранить объекты в списке Python), когда объекты класса ObjList связаны с соседними через приватные свойства __next и __prev:
+#
+# Для этого объявите класс LinkedList, который будет представлять связный список в целом и иметь набор следующих методов:
+#
+# add_obj(self, obj) - добавление нового объекта obj класса ObjList в конец связного списка;
+# remove_obj(self) - удаление последнего объекта из связного списка;
+# get_data(self) - получение списка из строк локального свойства __data всех объектов связного списка.
+#
+# И в каждом объекте этого класса должны создаваться локальные публичные атрибуты:
+#
+# head - ссылка на первый объект связного списка (если список пустой, то head = None);
+# tail - ссылка на последний объект связного списка (если список пустой, то tail = None).
+#
+# Объекты класса ObjList должны иметь следующий набор приватных локальных свойств:
+#
+# __next - ссылка на следующий объект связного списка (если следующего объекта нет, то __next = None);
+# __prev - ссылка на предыдущий объект связного списка (если предыдущего объекта нет, то __prev = None);
+# __data - строка с данными.
+#
+# Также в классе ObjList должны быть реализованы следующие сеттеры и геттеры:
+#
+# set_next(self, obj) - изменение приватного свойства __next на значение obj;
+# set_prev(self, obj) - изменение приватного свойства __prev на значение obj;
+# get_next(self) - получение значения приватного свойства __next;
+# get_prev(self) - получение значения приватного свойства __prev;
+# set_data(self, data) - изменение приватного свойства __data на значение data;
+# get_data(self) - получение значения приватного свойства __data.
+#
+# Создавать объекты класса ObjList предполагается командой:
+#
+# ob = ObjList("данные 1")
+# А использовать класс LinkedList следующим образом (пример, эти строчки писать в программе не нужно):
+#
+# lst = LinkedList()
+# lst.add_obj(ObjList("данные 1"))
+# lst.add_obj(ObjList("данные 2"))
+# lst.add_obj(ObjList("данные 3"))
+# res = lst.get_data()    # ['данные 1', 'данные 2', 'данные 3']
+# Объявите в программе классы LinkedList и ObjList в соответствии с заданием.
+#
+# P.S. На экран ничего выводить не нужно.
 
 
 
