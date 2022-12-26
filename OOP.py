@@ -1443,7 +1443,8 @@
 # 		self.next_obj = None
 #
 # 	def link(self, obj):
-# 		self.next_obj = obj#функция которая делает ссылка на следующий объект
+# 		self.next_obj = obj
+# 		#функция которая делает ссылка на следующий объект
 #
 #
 # head_obj = ListObject(lst_in[0])#создали первый объект
@@ -3435,18 +3436,30 @@
 class LinkedList:
 	def __init__(self):
 		self.head = None
-		self.tail = None
-		
+		# self.tail = None
+		self.tail = ObjList(None)
+		# head = None, tail = None
+
 
 	def add_obj(self, obj):
+		q = obj
+		if self.tail != None:#тут если последний элемент не пустой, то есть tail хранит предыдущий объект, то мы в его свойство записываем ссылку на новый следующий объект
+			self.tail.set_next(q)
+
+		self.tail = q#потом в tail записываем следующий объект
+		if self.head == None:
+			self.head = obj
+		elif self.head != None:
+			# self.head.set_next(ptr)
+			ptr =
+
+
 
 
 	def remove_obj(self):
 
 
 	def get_data(self):
-
-
 
 class ObjList:
 	def __init__(self, data):
@@ -3456,22 +3469,22 @@ class ObjList:
 
 
 	def set_next(self, obj):
-
-
+		self.__next = obj
 
 	def set_prev(self, obj):
-
-
+		self.__prev = obj
 
 	def get_next(self):
-
+		return self.__next
 
 	def get_prev(self):
+		return self.__prev
 
 	def set_data(self, data):
-
+		self.__data = data
 
 	def get_data(self):
+		return self.__data
 
 
 
@@ -3482,8 +3495,21 @@ class ObjList:
 # res = lst.get_data()    # ['данные 1', 'данные 2', 'данные 3']
 
 
-
-
-
+# class ListObject:
+# 	def __init__(self, data):
+# 		self.data = data
+# 		self.next_obj = None
+#
+# 	def link(self, obj):
+# 		self.next_obj = obj
+# 		#функция которая делает ссылка на следующий объект
+#
+#
+# head_obj = ListObject(lst_in[0])#создали первый объект
+# obj = head_obj#записали его в переменную, скорее всего это для того чтобы сработал тест на степике
+# for i in range(1, len(lst_in)):
+# 	obj_new = ListObject(lst_in[i])#создали новый объект
+# 	obj.link(obj_new)#вызвали функцию которая в переменную next_obj которая принадлежит первому объекту присвоили значение следующего объекта
+# 	obj = obj_new# теперь в переменной obj хранится новый объект, и потом в переменную нового объекта мы также присвоим новое значение и в цикле будет идти переприсвоение
 
 
