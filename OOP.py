@@ -3432,78 +3432,83 @@
 #
 # P.S. На экран ничего выводить не нужно.
 
-
-class LinkedList:
-	def __init__(self):
-		self.head = None
-		self.tail = None
-		# self.tail = ObjList(None)
-		# head = None, tail = None
-
-
-	def add_obj(self, obj):
-		q = obj#создаем новый объект
-		q_prev = self.tail#ссылка на предыдущий объект	
-		if self.tail != None:#тут если последний элемент не пустой, то есть tail хранит предыдущий объект, то мы в его свойство записываем ссылку на новый следующий объект
-			self.tail.set_next(q)
-		
-		self.tail = q#потом в tail записываем следующий объект
-		self.tail.set_prev(q_prev)
-		if self.head == None:
-			self.head = q
-		
-
-	def remove_obj(self):
-		self.tail = None#тут не работает
-
-
-	def get_data(self):		
-		node = self.head.get_next()
-		res = [self.head.get_data(), node.get_data()]
-		while node.get_next() != None:
-			asd = node.get_next()
-			res.append(asd.get_data())
-			node = asd
-		return res
-
-
-
-
-class ObjList:
-	def __init__(self, data):
-		self.__next = None
-		self.__prev = None
-		self.__data = data
-
-
-	def set_next(self, obj):
-		self.__next = obj
-
-	def set_prev(self, obj):
-		self.__prev = obj
-
-	def get_next(self):
-		return self.__next
-
-	def get_prev(self):
-		return self.__prev
-
-	def set_data(self, data):
-		self.__data = data
-
-	def get_data(self):
-		return self.__data
-
-
-
-lst = LinkedList()
-lst.add_obj(ObjList("данные 1"))
-lst.add_obj(ObjList("данные 2"))
-lst.add_obj(ObjList("данные 3"))
-lst.add_obj(ObjList("данные 4"))
-lst.add_obj(ObjList("данные 5"))
-lst.add_obj(ObjList("данные 6"))
-lst.add_obj(ObjList("данные 7"))
+# мое решение
+# class LinkedList:
+# 	def __init__(self):
+# 		self.head = None
+# 		self.tail = None
+#
+# 	def add_obj(self, obj):
+# 		q = obj#создаем новый объект
+# 		q_prev = self.tail#ссылка на предыдущий объект
+# 		if self.tail != None:#тут если последний элемент не пустой, то есть tail хранит предыдущий объект, то мы в его свойство записываем ссылку на новый следующий объект
+# 			self.tail.set_next(q)
+# 		self.tail = q#потом в tail записываем следующий объект
+# 		self.tail.set_prev(q_prev)
+# 		if self.head == None:
+# 			self.head = q
+#
+# 	def remove_obj(self):
+# 		if self.tail == self.head == None:
+# 			return
+# 		if self.tail == self.head:
+# 			self.tail = None
+# 			self.head = None
+# 			return
+# 		self.tail.get_prev().set_next(None)
+# 		self.tail = self.tail.get_prev()
+#
+#
+# 	def get_data(self):
+# 		if self.tail == self.head == None:
+# 			return []
+# 		res = [self.head.get_data()]
+# 		node = self.head.get_next()
+# 		if self.head.get_next() == None:
+# 			return res
+# 		else:
+# 			res += [node.get_data()]
+#
+# 		while node.get_next() != None:
+# 			asd = node.get_next()
+# 			res.append(asd.get_data())
+# 			node = asd
+# 		return res
+#
+#
+# class ObjList:
+# 	def __init__(self, data):
+# 		self.__next = None
+# 		self.__prev = None
+# 		self.__data = data
+#
+# 	def set_next(self, obj):
+# 		self.__next = obj
+#
+# 	def set_prev(self, obj):
+# 		self.__prev = obj
+#
+# 	def get_next(self):
+# 		return self.__next
+#
+# 	def get_prev(self):
+# 		return self.__prev
+#
+# 	def set_data(self, data):
+# 		self.__data = data
+#
+# 	def get_data(self):
+# 		return self.__data
+#
+#
+# lst = LinkedList()
+# lst.add_obj(ObjList("данные 1"))
+# lst.add_obj(ObjList("данные 2"))
+# lst.add_obj(ObjList("данные 3"))
+# lst.add_obj(ObjList("данные 4"))
+# lst.add_obj(ObjList("данные 5"))
+# lst.add_obj(ObjList("данные 6"))
+# lst.add_obj(ObjList("данные 7"))
 # node = lst.head.get_data()
 # print(node)#это работает, связный список создается
 # new = node
@@ -3511,32 +3516,15 @@ lst.add_obj(ObjList("данные 7"))
 # 	asd = node.get_next()
 # 	print(asd.get_data())#тут выводится список по циклу
 # 	node = asd
-lst.remove_obj()
-print(lst.get_data())
-print(lst.tail)
-
+# lst.remove_obj()
+# print(lst.get_data())
+# print(lst.tail.get_data())
 # print(lst.tail.get_next())
 
+дописать решение препода и посмотреть решения других
 
 
-# res = lst.get_data()    # ['данные 1', 'данные 2', 'данные 3']
 
 
-# class ListObject:
-# 	def __init__(self, data):
-# 		self.data = data
-# 		self.next_obj = None
-#
-# 	def link(self, obj):
-# 		self.next_obj = obj
-# 		#функция которая делает ссылка на следующий объект
-#
-#
-# head_obj = ListObject(lst_in[0])#создали первый объект
-# obj = head_obj#записали его в переменную, скорее всего это для того чтобы сработал тест на степике
-# for i in range(1, len(lst_in)):
-# 	obj_new = ListObject(lst_in[i])#создали новый объект
-# 	obj.link(obj_new)#вызвали функцию которая в переменную next_obj которая принадлежит первому объекту присвоили значение следующего объекта
-# 	obj = obj_new# теперь в переменной obj хранится новый объект, и потом в переменную нового объекта мы также присвоим новое значение и в цикле будет идти переприсвоение
 
 
