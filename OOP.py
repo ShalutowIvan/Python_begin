@@ -3442,25 +3442,32 @@ class LinkedList:
 
 
 	def add_obj(self, obj):
-		# q = obj
+		q = obj#создаем новый объект
+		q_prev = self.tail#ссылка на предыдущий объект	
 		if self.tail != None:#тут если последний элемент не пустой, то есть tail хранит предыдущий объект, то мы в его свойство записываем ссылку на новый следующий объект
-			self.tail.set_next(obj)
-			сделать отдельную переменную чтобы потом ее записать в next_prev
-
-		self.tail = obj#потом в tail записываем следующий объект
+			self.tail.set_next(q)
+		
+		self.tail = q#потом в tail записываем следующий объект
+		self.tail.set_prev(q_prev)
 		if self.head == None:
-			self.head = obj
-		# elif self.head != None:
-			# self.head.set_next(ptr)
-			
+			self.head = q
+		
+
+	def remove_obj(self):
+		self.tail = None#тут не работает
+
+
+	def get_data(self):		
+		node = self.head.get_next()
+		res = [self.head.get_data(), node.get_data()]
+		while node.get_next() != None:
+			asd = node.get_next()
+			res.append(asd.get_data())
+			node = asd
+		return res
 
 
 
-
-	# def remove_obj(self):
-
-
-	# def get_data(self):
 
 class ObjList:
 	def __init__(self, data):
@@ -3497,15 +3504,16 @@ lst.add_obj(ObjList("данные 4"))
 lst.add_obj(ObjList("данные 5"))
 lst.add_obj(ObjList("данные 6"))
 lst.add_obj(ObjList("данные 7"))
-node = lst.head.get_next()
-print(node.get_data())#это работает, связный список создается
+# node = lst.head.get_data()
+# print(node)#это работает, связный список создается
 # new = node
-for i in range(5):	
-	asd = node.get_next()
-	print(asd.get_data())#тут выводится список по циклу
-	node = asd
-
-
+# for i in range(5):	
+# 	asd = node.get_next()
+# 	print(asd.get_data())#тут выводится список по циклу
+# 	node = asd
+lst.remove_obj()
+print(lst.get_data())
+print(lst.tail)
 
 # print(lst.tail.get_next())
 
