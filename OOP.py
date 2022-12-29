@@ -3390,7 +3390,7 @@
 #         print(f"Прямоугольник с координатами: {self.__sp.get_coords()} {self.__ep.get_coords()}")
 
 
-# Большой подвиг 9. Необходимо реализовать связный список (не список языка Python и не хранить объекты в списке Python), когда объекты класса ObjList связаны с соседними через приватные свойства __next и __prev:
+# Большой подвиг 9, раздел 2.1 режимы доступа public, protected, private. Необходимо реализовать связный список (не список языка Python и не хранить объекты в списке Python), когда объекты класса ObjList связаны с соседними через приватные свойства __next и __prev:
 #
 # Для этого объявите класс LinkedList, который будет представлять связный список в целом и иметь набор следующих методов:
 #
@@ -3444,7 +3444,7 @@
 # 		if self.tail != None:#тут если последний элемент не пустой, то есть tail хранит предыдущий объект, то мы в его свойство записываем ссылку на новый следующий объект
 # 			self.tail.set_next(q)
 # 		self.tail = q#потом в tail записываем следующий объект
-# 		self.tail.set_prev(q_prev)
+# 		self.tail.set_prev(q_prev)#препод лишнюю переменную не создает
 # 		if self.head == None:
 # 			self.head = q
 #
@@ -3521,10 +3521,180 @@
 # print(lst.tail.get_data())
 # print(lst.tail.get_next())
 
-дописать решение препода и посмотреть решения других
+# решение препода
+
+# class ObjList:
+# 	def __init__(self, data):
+# 		self.__next = None
+# 		self.__prev = None
+# 		self.__data = data
+
+# 	def set_next(self, obj):
+# 		self.__next = obj
+
+# 	def set_prev(self, obj):
+# 		self.__prev = obj
+
+# 	def get_next(self):
+# 		return self.__next
+
+# 	def get_prev(self):
+# 		return self.__prev
+
+# 	def set_data(self, data):
+# 		self.__data = data
+
+# 	def get_data(self):
+# 		return self.__data
+
+
+# class LinkedList:
+# 	def __init__(self):
+# 		self.head = None
+# 		self.tail = None
+
+# 	def add_obj(self, obj):
+# 		if self.tail:
+# 			self.tail.set_next(obj)
+# 		obj.set_prev(self.tail)
+# 		self.tail = obj
+# 		if not self.head:
+# 			self.head = obj
+# #для удаления объекта нужно сделать так, чтобы предыдущий ссылался на None, и перменная tail указывающая на последний объект переместилась на предыдущий объект. Также в случае если объектов не осталось, то в head(первый объект) и tail нужно записать None
+# 	def remove_obj(self):
+# 		if self.tail is None:#если объектов нет, то удаление не делаем, так как удалять нечего
+# 			return
+# 		prev = self.tail.get_prev()#сделали переменную для предыдущего объекта
+# 		if prev:#если предыдущий не None, то есть объектов больше 1, то ссылку на след объект у предыдущего объекта обнуляем делаем None
+# 			prev.set_next(None)
+# 		self.tail = prev#поменяли tail, теперь он указывает на предыдущий объект
+# 		if self.tail is None:#если ничего не осталось, то head тоже обнуляем
+# 			sefl.head = None
+# #get_data оказалась на много проще, чем делал я
+# 	def get_data(self):
+# 		s = []
+# 		h = self.head
+# 		while h:
+# 			s.append(h.get_data())
+# 			h = h.get_next()
+# 		return s
+
+
+# очень удобное и понятное решение
+# class ObjList:
+#     def __init__(self, data):
+#         self.__next = None
+#         self.__prev = None
+#         self.__data = data
+
+#     def set_next(self, obj):
+#         self.__next = obj
+
+#     def set_prev(self, obj):
+#         self.__prev = obj
+
+#     def set_data(self, data):
+#         self.__data = data
+
+#     def get_prev(self):
+#         return self.__prev
+
+#     def get_data(self):
+#         return self.__data
+
+#     def get_next(self):
+#         return self.__next
+
+# class LinkedList:
+
+#     def __init__(self):
+#         self.head = None
+#         self.tail = None
+
+
+#     def add_obj(self, obj):
+#         if self.head:
+#             temp = obj
+#             temp.set_prev(self.tail)
+#             self.tail.set_next(temp)
+#             self.tail = temp
+#         else:
+#             self.head = obj
+#             self.tail = obj
+
+#     def remove_obj(self):
+#         if self.tail.get_prev():
+#             self.tail = self.tail.get_prev()
+#             self.tail.set_next(None)
+#         else:
+#             self.tail = None
+#             self.head = None
+
+#     def get_data(self):
+#         result = []
+#         obj = self.head
+#         while obj:
+#             result.append(obj.get_data())
+#             obj = obj.get_next()
+#         return result
+
+
+# Подвиг 10 (на повторение). Объявите класс EmailValidator для проверки корректности email-адреса. Необходимо запретить создание объектов этого класса: при создании экземпляров должно возвращаться значение None, например:
+
+# em = EmailValidator() # None
+# В самом классе реализовать следующие методы класса (@classmethod):
+
+# get_random_email(cls) - для генерации случайного email-адреса по формату: xxxxxxx...xxx@gmail.com, где x - любой допустимый символ в email (латинский буквы, цифры, символ подчеркивания и точка);
+# check_email(cls, email) - возвращает True, если email записан верно и False - в противном случае.
+
+# Корректность строки email определяется по следующим критериям:
+
+# - допустимые символы: латинский алфавит, цифры, символы подчеркивания, точки и собачка @ (одна);
+# - длина email до символа @ не должна превышать 100 (сто включительно);
+# - длина email после символа @ не должна быть больше 50 (включительно);
+# - после символа @ обязательно должна идти хотя бы одна точка;
+# - не должно быть двух точек подряд.
+
+# Также в классе нужно реализовать приватный статический метод класса:
+
+# is_email_str(email) - для проверки типа переменной email, если строка, то возвращается значение True, иначе - False.
+
+# Метод is_email_str() следует использовать в методе check_email() перед проверкой корректности email. Если параметр email не является строкой, то check_email() возвращает False.
+
+# Пример использования класса EmailValidator (эти строчки в программе писать не нужно):
+
+# res = EmailValidator.check_email("sc_lib@list.ru") # True
+# res = EmailValidator.check_email("sc_lib@list_ru") # False
+# P.S. В программе требуется объявить только класс. На экран ничего выводить не нужно. 
+
+
+class EmailValidator:
+	def __init__(self):
+		self.a = None
+		return self.a
+		тут метод new скорее всего
+	@classmethod
+	def get_random_email(cls):
+
+
+	@classmethod
+	def check_email(cls, email):
 
 
 
+	@staticmethod
+	def __is_email_str(email):
 
 
+res = EmailValidator.check_email("sc_lib@list.ru") # True
+res = EmailValidator.check_email("sc_lib@list_ru") # False
+em = EmailValidator()
+print(em)
 
+
+На данный момент я консультант техподдержки по продукту Контур.Маркет, Контур.Алкодекларация, Контур.Экстерн(установка до входа в систему), Квалифицированные сертификаты электронной подписи, Меркурий в Маркете, Маркировка в Маркете. Я консультирую клиентов по продуктам, которые перечислил. 
+
+Долго думал какой язык программирования выбрать. Начал сначала изучать C#, потому что в нем чувствуется что-то родное и близкое по духу. Прошел не большой курс по C#, это были уроки на ютубе от школы itProger. И потом задумался, а чего же я все такие хочу, какую профессию хочу получить в итоге. Больше всего привлекла область машинного обучения, то есть область Data Science. Выяснил что в этой области чаще всего используют Python. Попробовал учить Python. С первого урока уже был в шоке на сколько все проще по сравнению с C#. И сколько много там функционала, и на сколько он сейчас популярен. Для Data Science нужна сильная математика помимо знания Python, поэтому я пока решил начать с бэкенда. Сейчас прохожу курс по Python на платформе https://stepik.org/. Курс от Сергея Балакирева. Базовый уже прошел, сейчас прохожу ООП. Я понимаю что в Python очень много фреймворков и библиотек полезных и их тоже нужно знать, но пока я изучаю базовую инфу. 
+
+
+Хочу научиться разрабатывать бэкенд на питоне. Какой продукт пока не знаю. Возможно в неизвестном будущем перейду в Data Science. Хотя на первое время подойдет любая задача которая будет приносить пользу) 
