@@ -3667,34 +3667,37 @@
 # res = EmailValidator.check_email("sc_lib@list_ru") # False
 # P.S. В программе требуется объявить только класс. На экран ничего выводить не нужно. 
 
+# мое решение
+
+import random
 
 class EmailValidator:
-	def __init__(self):
-		self.a = None
-		return self.a
-		тут метод new скорее всего
+	def __new__(cls, *args, **kwargs):
+		return
+
+
 	@classmethod
 	def get_random_email(cls):
+		r = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._"
+		mail = r[random.randint(1, 65)]*random.randint(1, 100) + "@" + r[random.randint(1, 65)]*random.randint(1, 50) + "." + "ru"
+		# xxxxxxx...xxx @ gmail.com
+		return mail
 
 
-	@classmethod
-	def check_email(cls, email):
+	# @classmethod
+	# def check_email(cls, email):
 
 
 
-	@staticmethod
-	def __is_email_str(email):
+	# @staticmethod
+	# def __is_email_str(email):
 
 
-res = EmailValidator.check_email("sc_lib@list.ru") # True
-res = EmailValidator.check_email("sc_lib@list_ru") # False
-em = EmailValidator()
-print(em)
+# res = EmailValidator.check_email("sc_lib@list.ru") # True
+# res = EmailValidator.check_email("sc_lib@list_ru") # False
+a = EmailValidator.get_random_email()
+print(a)
 
+# em = EmailValidator()
+# print(em)
 
-На данный момент я консультант техподдержки по продукту Контур.Маркет, Контур.Алкодекларация, Контур.Экстерн(установка до входа в систему), Квалифицированные сертификаты электронной подписи, Меркурий в Маркете, Маркировка в Маркете. Я консультирую клиентов по продуктам, которые перечислил. 
-
-Долго думал какой язык программирования выбрать. Начал сначала изучать C#, потому что в нем чувствуется что-то родное и близкое по духу. Прошел не большой курс по C#, это были уроки на ютубе от школы itProger. И потом задумался, а чего же я все такие хочу, какую профессию хочу получить в итоге. Больше всего привлекла область машинного обучения, то есть область Data Science. Выяснил что в этой области чаще всего используют Python. Попробовал учить Python. С первого урока уже был в шоке на сколько все проще по сравнению с C#. И сколько много там функционала, и на сколько он сейчас популярен. Для Data Science нужна сильная математика помимо знания Python, поэтому я пока решил начать с бэкенда. Сейчас прохожу курс по Python на платформе https://stepik.org/. Курс от Сергея Балакирева. Базовый уже прошел, сейчас прохожу ООП. Я понимаю что в Python очень много фреймворков и библиотек полезных и их тоже нужно знать, но пока я изучаю базовую инфу. 
-
-
-Хочу научиться разрабатывать бэкенд на питоне. Какой продукт пока не знаю. Возможно в неизвестном будущем перейду в Data Science. Хотя на первое время подойдет любая задача которая будет приносить пользу) 
