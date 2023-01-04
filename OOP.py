@@ -3669,35 +3669,84 @@
 
 # мое решение
 
-import random
+# import random
 
-class EmailValidator:
-	def __new__(cls, *args, **kwargs):
-		return
+# class EmailValidator:
+# 	def __new__(cls, *args, **kwargs):
+# 		return
+
+# 	@classmethod
+# 	def get_random_email(cls):
+# 		r = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._"
+# 		mail = "".join([r[random.randint(0, 64)] for i in range(random.randint(1, 100))]) + "@" + "".join([r[random.randint(0, 64)] for i in range(random.randint(1, 50))]) + "." + "ru"
+# 		return mail
+
+# 	@classmethod
+# 	def check_email(cls, email):
+# 		if EmailValidator.__is_email_str:
+# 			if len(email.split("@")[0]) <= 100 and len(email.split("@")[1]) <= 50 and "." in email.split("@")[1][1:-1] and ".." not in email:
+# 				return True
+# 			else:
+# 				return False
+# 		else:
+# 			return False
+
+# 	@staticmethod
+# 	def __is_email_str(email):
+# 		return True if type(email) == str else False
+
+# # res = EmailValidator.check_email("sc_lib@list.ru") # True
+# # res = EmailValidator.check_email("sc_lib@list_ru") # False
+# a = EmailValidator.get_random_email()
+# print(EmailValidator.check_email(a))
+# # em = EmailValidator()
+# # print(em)
+
+# решение препода
 
 
-	@classmethod
-	def get_random_email(cls):
-		r = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._"
-		mail = r[random.randint(1, 65)]*random.randint(1, 100) + "@" + r[random.randint(1, 65)]*random.randint(1, 50) + "." + "ru"
-		# xxxxxxx...xxx @ gmail.com
-		return mail
+# from random import randint
+# from string import ascii_lowercase, digits, ascii_uppercase
+
+# class EmailValidator:
+# 	EMAIL_CHARS = ascii_lowercase + ascii_uppercase + digits + "_.@"
+# 	EMAIL_RANDOM_CHARS = ascii_lowercase + ascii_uppercase + digits + "_"
+
+# 	def __new__(cls, *args, **kwargs):
+# 		return None
+
+# 	@classmethod
+# 	def check_email(cls, email):
+# 		if not cls.__isemail_str(email):#такая проверка лучше чем моя, выглядит лучше, но в итоге тоже самое
+# 			return False
+# 		if not set(email) < set(cls.EMAIL_CHARS):
+# 			return False
+# 		s = email.split("@")
+# 		if len(s) != 2:
+# 			return False
+# 		if len(s[0]) > 100 or len(s[1]) > 50:
+# 			return False
+# 		if "." not in s[1]:
+# 			return False
+# 		if email.count("..") > 0:
+# 			return False
+# 		return True
+
+# 	@classmethod
+# 	def get_random_email(cls):
+# 		n = randint(4, 20)
+# 		length = len(cls.EMAIL_RANDOM_CHARS) - 1
+# 		return "".join(cls.EMAIL_RANDOM_CHARS[randint(0, length)] for in in range(n)) + "@gmail.com"
 
 
-	# @classmethod
-	# def check_email(cls, email):
+# 	@staticmethod
+# 	def __is_email_str(email):
+# 		return type(email) == str#если условие выполняется будет тру, если не выполнится будет значение фолз и не нужен терарный оператор
+
+посмотреть решения других
 
 
 
-	# @staticmethod
-	# def __is_email_str(email):
 
 
-# res = EmailValidator.check_email("sc_lib@list.ru") # True
-# res = EmailValidator.check_email("sc_lib@list_ru") # False
-a = EmailValidator.get_random_email()
-print(a)
-
-# em = EmailValidator()
-# print(em)
 
