@@ -3743,10 +3743,406 @@
 # 	def __is_email_str(email):
 # 		return type(email) == str#если условие выполняется будет тру, если не выполнится будет значение фолз и не нужен терарный оператор
 
-посмотреть решения других
+# решение с all
+# import random as rd
+# from string import ascii_letters, digits
+#
+#
+# class EmailValidator:
+#     def __new__(cls, *args, **kwargs):
+#         return None
+#
+#     @classmethod
+#     def check_email(cls, email: str):
+#         if not cls.__is_email_str(email):
+#             return False
+#
+#         if email.count('@') != 1:
+#             return False
+#
+#         first_part, second_part = email.split('@')
+#         fl_first = all(
+#             [first_part[0] in ascii_letters,
+#              len(first_part) <= 100,
+#              all(el in ascii_letters + digits + '_.' for el in first_part),
+#              first_part.find('..') == -1]
+#         )
+#
+#         fl_second = all(
+#             [second_part[0] in ascii_letters,
+#              len(second_part) <= 50,
+#              second_part.find('.') != -1,
+#              second_part.find('..') == -1,
+#              all(el in ascii_letters + digits + '_.' for el in second_part)]
+#             )
+#
+#         return fl_first and fl_second
+#
+#     @classmethod
+#     def get_random_email(cls):
+#         end = '@gmail.com'
+#         return ''.join(rd.sample(ascii_letters + '_.', rd.randint(1, 100))) + end
+#
+#     @staticmethod
+#     def __is_email_str(email):
+#         return isinstance(email, str)
+
+# Свойства property. Декоратор @property!!!!!!!!!!!!!!!!!!!!!!!!
+# он нужен для работы с приватными атрибутами
+
+# class Person:
+# 	def __init__(self, name, old):
+# 		self.__name = name
+# 		self.__old = old
+#
+# 	def get_old(self):
+# 		return self.__old
+#
+# 	def set_old(self, old):
+# 		self.__old = old
+#
+# #для приватных свойств создали сеттер и геттер, для доступа через метод извне
+# p = Person("Иван", 20)
+# p.set_old(35)
+# print(p.get_old())
+# в нашем случае нужно прописывать геттеры и сеттеры для разных приватных атрибутов, для каждого свой
+# можно воспользоваться объектом @property. его нужно прописать в классе
+
+# class Person:
+# 	def __init__(self, name, old):
+# 		self.__name = name
+# 		self.__old = old
+#
+# 	def get_old(self):
+# 		return self.__old
+#
+# 	def set_old(self, old):
+# 		self.__old = old
+#
+# 	old = property(get_old, set_old)#в качестве параметров передаем ссылки на функции геттера и сеттера
+#
+# p = Person("Иван", 20)
+# a = p.old#тут вызывается геттер и присваивается значение из атрибута
+# p.old = 35#тут меняется приватное свойство
+# print(p.old)
+# # теперь из каждого экземпляра класса мы можем обращаться к атрибуту old класса person. Этот атрибут является объектом property. И можно обращаться к нему не прописывая сеттер и геттер, то есть упрощается работа с приватными свойствами объекта
+# print(p.__dict__)#вывели на экран значения все атрибутов, и там приватное свойство также изменено
+# #интересный момент, мы обращаемся к свойству old и присваиваем ему значение, такого свойства нет в нашем классе и должно было появиться новое свойство, но работает все так что локальное свойство класса с объектом property работает первым в приоритете - это означает даже если мы создадим свойство с таким же имененем что и у переменной для property, а потом все остальное, то есть название можно написать любое, и присвоить ему нужные сеттер и геттер и это название переменной будет работать и присваивать значения в тот атрибут, сеттеры которого мы в нем прописали. То есть property создает переменную для доступа к приватным свойствам
+# # например даже если мы через __dict__ пропишем новое свойство объект property все равно сработает первым
+# p.__dict__["old"] = "old in object p"#тут просто будет создано новое свойство, а объект proprety с значением переменнной не затронется и он также будет менять приватное свойство
+# print(p.__dict__)
+#если property убрать, то при создании свойства таким образом p.__dict__["old"] = "old in object p", сначала ищется свойство из локальной области объекта, если его нет, то берется из самого класса
+
+# class Person:
+# 	def __init__(self, name, old):
+# 		self.__name = name
+# 		self.__old = old
+#
+# 	def get_old(self):
+# 		return self.__old
+#
+# 	def set_old(self, old):
+# 		self.__old = old
+#
+# 	old = 4
+#
+# p = Person("Иван", 20)
+# p.__dict__["old"] = "old in object p"#тут переменную old из класса мы переприсвоили, и потом вывели в консоль, так как property нет, поэтому приоретность обычная. Вобщем property все равно работает, даже если есть в объекте назвнание переменной с таким же названием из более высокого приоритета
+# print(p.old, p.__dict__)
+
+# в нашем случае есть функциональное дублирование, то есть можно обращаться и через сеттер и геттер и через property. Можно сделать единый интерфейс для работы с приватными свойствами
+# class Person:
+# 	def __init__(self, name, old):
+# 		self.__name = name
+# 		self.__old = old
+# 	@property#этот декоратор нужно прописывать именно перед геттером
+# 	def old(self):
+# 		return self.__old
+#
+# 	@old.setter#чтобы работал сеттер нужно возде сеттера также прописать декоратор сеттер. Названия функций геттера и сеттера должны быть одинаковыми, можно написать обще название. То что мы писали ниже для создания декоратора можно не писать, так как декоратор этот встроенный в питоне
+# 	def old(self, old):
+# 		self.__old = old
+#
+# 	@old.deleter#декоратор для удаления свойства
+# 	def old(self):
+# 		del self.__old#удаление свойства
+#
+# 	# old = property()
+# 	# old = old.setter(old)#можно прописать так, и это будут декораторы. Работать будет все точно также как если бы мы прописали сеттер и геттер в свойствах property
+# 	# old = old.getter(old)
+#
+# p = Person("Иван", 20)
+# a = p.old#тут вызывается геттер и присваивается значение из атрибута
+# p.old = 35#тут меняется приватное свойство
+# print(p.old)
+# del p.old#удалим приватное свойство __old, так как у нас прописан декоратор deleter
+# # print(p.old)#теперь нельзя обратиться к этому свойству, так как оно удалено
+# print(p.__dict__)
+#объект property можно использовать как инициализатор, но после создания объекта класса
+
+
+#Задачки!!!!!!!!!!!!!!!!!
+# Подвиг 4. Объявите в программе класс Car, в котором реализуйте объект-свойство с именем model для записи и считывания информации о модели автомобиля из локальной приватной переменной __model.
+#
+# Объект-свойство объявите с помощью декоратора @property. Также в объекте-свойстве model должны быть реализованы проверки:
+#
+# - модель автомобиля - это строка;
+# - длина строки модели должна быть в диапазоне [2; 100].
+#
+# Если проверка не проходит, то локальное свойство __model остается без изменений.
+#
+# Объекты класса Car предполагается создавать командой:
+#
+# car = Car()
+# и далее работа с объектом-свойством, например:
+#
+# car.model = "Toyota"
+# P.S. В программе объявить только класс. На экран ничего выводить не нужно.
+
+# мое решение, не через декораторы, потому что у меня название функции было другое и оно не проходило
+
+# class Car:
+#
+# 	def get_mod(self):
+# 		return self.__model
+#
+#
+# 	def set_mod(self, model):
+# 		if type(model) == str and 2 <= len(model) <= 100:
+# 			self.__model = model
+#
+# 	model = property()
+# 	model = model.setter(set_mod)
+# 	model = model.getter(get_mod)
+#
+#
+# car = Car()
+# car.model = "Toyota"
+# print(car.__dict__)
+#
+# # решение препода
+# class Car:
+# 	def __init__(self):
+# 		self.__model = None
+#
+# 	@property
+# 	def model(self):
+# 		return self.__model
+#
+# 	@model.setter
+# 	def model(self, model):
+# 		if isinstance(model, str) and 2 <= len(model) <= 100:
+# 			self.__model = model
+
+
+# Подвиг 5. Объявите в программе класс WindowDlg, объекты которого предполагается создавать командой:
+#
+# wnd = WindowDlg(заголовок окна, ширина, высота)
+# В каждом объекте класса WindowDlg должны создаваться приватные локальные атрибуты:
+#
+# __title - заголовок окна (строка);
+# __width, __height - ширина и высота окна (числа).
+#
+# В классе WindowDlg необходимо реализовать метод:
+#
+# show() - для отображения окна на экране (выводит в консоль строку в формате: "<Заголовок>: <ширина>, <высота>", например "Диалог 1: 100, 50").
+#
+# Также в классе WindowDlg необходимо реализовать два объекта-свойства:
+#
+# width - для изменения и считывания ширины окна;
+# height - для изменения и считывания высоты окна.
+#
+# При изменении размеров окна необходимо выполнять проверку:
+#
+# - переданное значение является целым числом в диапазоне [0; 10000].
+#
+# Если хотя бы один размер изменился (высота или ширина), то следует выполнить автоматическую перерисовку окна (вызвать метод show()). При начальной инициализации размеров width, height вызывать метод show() не нужно.
+#
+# P.S. В программе нужно объявить только класс с требуемой функциональностью.
+
+# class WindowDlg:
+#     def __init__(self, title, width, height):
+#         self.__title = title
+#         self.__width = width
+#         self.__height = height
+#
+#     def show(self):
+#         print(f"{self.__title}: {self.__width}, {self.__height}")
+#
+#     @property
+#     def width(self):
+#         return self.__width
+#
+#     @width.setter
+#     def width(self, w):
+#         if type(w) == int and 0 <= w <= 10000:
+#             self.__width = w
+#             self.show()
+#
+#     @property
+#     def height(self):
+#         return self.__height
+#
+#     @height.setter
+#     def height(self, h):
+#         if type(h) == int and 0 <= h <= 10000:
+#             self.__height = h
+#             self.show()
+#
+# wnd = WindowDlg("заголовок 1", 50, 100)
+# wnd.height = 555
+# wnd.width = 777
+
+# Подвиг 6. Реализуйте односвязный список (не список Python, не использовать список Python для хранения объектов), когда один объект ссылается на следующий и так по цепочке до последнего:
+# Для этого объявите в программе два класса:
+#
+# StackObj - для описания объектов односвязного списка;
+# Stack - для управления односвязным списком.
+#
+# Объекты класса StackObj предполагается создавать командой:
+#
+# obj = StackObj(данные)
+# Здесь данные - это строка с некоторым содержимым. Каждый объект класса StackObj должен иметь следующие локальные приватные атрибуты:
+#
+# __data - ссылка на строку с данными, указанными при создании объекта;
+# __next - ссылка на следующий объект класса StackObj (при создании объекта принимает значение None).
+#
+# Также в классе StackObj должны быть объявлены объекты-свойства:
+#
+# next - для записи и считывания информации из локального приватного свойства __next;
+# data - для записи и считывания информации из локального приватного свойства __data.
+#
+# При записи необходимо реализовать проверку, что __next будет ссылаться на объект класса StackObj или значение None. Если проверка не проходит, то __next остается без изменений.
+#
+# Класс Stack предполагается использовать следующим образом:
+#
+# st = Stack() # создание объекта односвязного списка
+# В объектах класса Stack должен быть локальный публичный атрибут:
+#
+# top - ссылка на первый добавленный объект односвязного списка (если список пуст, то top = None).
+#
+# А в самом классе Stack следующие методы:
+#
+# push(self, obj) - добавление объекта класса StackObj в конец односвязного списка;
+# pop(self) - извлечение последнего объекта с его удалением из односвязного списка;
+# get_data(self) - получение списка из объектов односвязного списка (список из строк локального атрибута __data каждого объекта в порядке их добавления, или пустой список, если объектов нет).
+#
+# Пример использования классов Stack и StackObj (эти строчки в программе писать не нужно):
+#
+# st = Stack()
+# st.push(StackObj("obj1"))
+# st.push(StackObj("obj2"))
+# st.push(StackObj("obj3"))
+# st.pop()
+# res = st.get_data()    # ['obj1', 'obj2']
+# P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно.
+
+class StackObj:
+    def __init__(self, data):
+        self.__data = data
+        self.__next = None
+
+    @property
+    def next(self):
+        return self.__next
+
+    @next.setter
+    def next(self, n):
+        if self.__next == None or self.__next == self:
+            self.__next = n
+
+    @property
+    def data(self):
+        return self.__data
+
+    @data.setter
+    def data(self, d):
+        self.__data = d
+
+
+class Stack:
+    def __init__(self):
+        self.top = None
+        self.tail = None
+
+    def push(self, obj):
+        if self.top == None:
+            self.top = obj
+            self.tail = obj
+            return
+        temp = obj
+        if self.top.next == None:
+            self.top.next = temp
+            self.tail = temp
+            return
+
+        if self.tail.next == None:
+            self.tail.next = temp
+            self.tail = temp
+
+
+    def pop(self):
+        obj = self.top
+        while obj:
+            obj_next = obj.next
+
+            if obj_next.next == None:
+
+                t = obj.next
+                obj.next = None
+
+            obj = obj.next
+            # if obj == None:
+            #     self.tail = None
+        # return t
+
+доделать удаление, оно не работает, почему то не удаляется ссылка на следующий элемент
+
+
+    def get_data(self):
+        lst = []
+        obj = self.top
+        while obj:
+            lst.append(obj.data)
+            obj = obj.next
+        return lst
 
 
 
+st = Stack()
+st.push(StackObj("obj1"))
+st.push(StackObj("obj2"))
+st.push(StackObj("obj3"))
+st.pop()
+res = st.get_data()  # ['obj1', 'obj2']
 
+print(res)
+
+
+#     def add_obj(self, obj):
+#         if self.head:
+#             temp = obj
+#             temp.set_prev(self.tail)
+#             self.tail.set_next(temp)
+#             self.tail = temp
+#         else:
+#             self.head = obj
+#             self.tail = obj
+
+#     def remove_obj(self):
+#         if self.tail.get_prev():
+#             self.tail = self.tail.get_prev()
+#             self.tail.set_next(None)
+#         else:
+#             self.tail = None
+#             self.head = None
+
+#     def get_data(self):
+#         result = []
+#         obj = self.head
+#         while obj:
+#             result.append(obj.get_data())
+#             obj = obj.get_next()
+#         return result
 
 
