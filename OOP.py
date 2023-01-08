@@ -4037,112 +4037,383 @@
 # res = st.get_data()    # ['obj1', 'obj2']
 # P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно.
 
-class StackObj:
-    def __init__(self, data):
-        self.__data = data
-        self.__next = None
+# мое решение
 
-    @property
-    def next(self):
-        return self.__next
+# class StackObj:
+#     def __init__(self, data):
+#         self.__data = data
+#         self.__next = None
 
-    @next.setter
-    def next(self, n):
-        if self.__next == None or self.__next == self:
-            self.__next = n
+#     @property
+#     def next(self):
+#         return self.__next
 
-    @property
-    def data(self):
-        return self.__data
+#     @next.setter
+#     def next(self, n):    	
+#         if n == None or type(n) == StackObj:
+#         	self.__next = n
+		
 
-    @data.setter
-    def data(self, d):
-        self.__data = d
+#     @property
+#     def data(self):
+#         return self.__data
 
-
-class Stack:
-    def __init__(self):
-        self.top = None
-        self.tail = None
-
-    def push(self, obj):
-        if self.top == None:
-            self.top = obj
-            self.tail = obj
-            return
-        temp = obj
-        if self.top.next == None:
-            self.top.next = temp
-            self.tail = temp
-            return
-
-        if self.tail.next == None:
-            self.tail.next = temp
-            self.tail = temp
+#     @data.setter
+#     def data(self, d):
+#         self.__data = d
 
 
-    def pop(self):
-        obj = self.top
-        while obj:
-            obj_next = obj.next
+# class Stack:
+# 	def __init__(self):
+# 		self.top = None
+# 		self.tail = None
 
-            if obj_next.next == None:
+# 	def push(self, obj):
+# 		if self.top == None:
+# 			self.top = obj
+# 			self.tail = obj
+# 			return
+# 		temp = obj
+# 		if self.top.next == None:
+# 			self.top.next = temp
+# 			self.tail = temp
+# 			return
+# 		if self.tail.next == None:
+# 			self.tail.next = temp
+# 			self.tail = temp
+	
+# 	def pop(self):
+# 		obj = self.top
+# 		while obj:
+# 			obj_next = obj.next
+# 			if obj.next != None:
+# 				if obj_next.next == None:                
+# 					t = self.tail
+# 					self.tail = obj
+# 					self.tail.next = None
+# 					return t
+# 			else:
+# 				t = self.tail
+# 				self.tail = None
+# 				self.top = None
+# 				return t
+            
+# 			obj = obj.next
+         
 
-                t = obj.next
-                obj.next = None
-
-            obj = obj.next
-            # if obj == None:
-            #     self.tail = None
-        # return t
-
-доделать удаление, оно не работает, почему то не удаляется ссылка на следующий элемент
-
-
-    def get_data(self):
-        lst = []
-        obj = self.top
-        while obj:
-            lst.append(obj.data)
-            obj = obj.next
-        return lst
+# 	def get_data(self):
+# 		lst = []
+# 		obj = self.top
+# 		while obj:
+# 			lst.append(obj.data)
+# 			obj = obj.next
+# 		return lst
 
 
 
-st = Stack()
-st.push(StackObj("obj1"))
-st.push(StackObj("obj2"))
-st.push(StackObj("obj3"))
-st.pop()
-res = st.get_data()  # ['obj1', 'obj2']
+# st = Stack()
+# st.push(StackObj("obj1"))
+# st.push(StackObj("obj2"))
+# # st.push(StackObj("obj3"))
+# # st.push(StackObj("obj4"))
+# st.pop()
+# res = st.get_data()  # ['obj1', 'obj2']
 
-print(res)
+# print(res)
+
+# решение препода
+
+# class StackObj:
+#     def __init__(self, data):
+#         self.__data = data
+#         self.__next = None
+
+#     @property
+#     def next(self):
+#         return self.__next
+
+#     @next.setter
+#     def next(self, obj):    	
+#         if obj is None or isinstance(obj, StackObj):
+#         	self.__next = obj		
+
+#     @property
+#     def data(self):
+#         return self.__data
+
+#     @data.setter
+#     def data(self, d):
+#         self.__data = d
 
 
-#     def add_obj(self, obj):
-#         if self.head:
-#             temp = obj
-#             temp.set_prev(self.tail)
-#             self.tail.set_next(temp)
-#             self.tail = temp
-#         else:
-#             self.head = obj
-#             self.tail = obj
+# class Stack:
+# 	def __init__(self):
+# 		self.top = None
+# 		self.last = None
+		
+# 	def push(self, obj):
+# 		if self.last:
+# 			self.last.next = obj
 
-#     def remove_obj(self):
-#         if self.tail.get_prev():
-#             self.tail = self.tail.get_prev()
-#             self.tail.set_next(None)
-#         else:
-#             self.tail = None
-#             self.head = None
+# 		self.last = StackObj
+# 		if self.top is None:
+# 			self.top = obj
 
-#     def get_data(self):
-#         result = []
-#         obj = self.head
-#         while obj:
-#             result.append(obj.get_data())
-#             obj = obj.get_next()
-#         return result
+# 	def pop(self):
+# 		h = self.top
+# 		if h is None:
+# 			return
+# 		while h and h.next != self.last:#пока не дойдем до предпоследнего и h будет равна предпоследнему элементу
+# 			h = h.next
+# 		if h:
+# 			h.next = None
+# 		last = self.last
+# 		self.last = h
+# 		if self.last is None:
+# 			self.top = None
+# 		return last
+
+# 	def get_data(self):
+# 		s= []
+# 		h = self.top
+# 		while h:
+# 			s.append(h.data)
+# 			h = h.next
+# 		return s
+
+
+# Подвиг 7. Объявите класс RadiusVector2D, объекты которого должны создаваться командами:
+
+# v1 = RadiusVector2D()        # радиус-вектор с координатами (0; 0)
+# v2 = RadiusVector2D(1)       # радиус-вектор с координатами (1; 0)
+# v3 = RadiusVector2D(1, 2)    # радиус-вектор с координатами (1; 2)
+# В каждом объекте класса RadiusVector2D должны формироваться локальные приватные атрибуты:
+
+# __x, __y - координаты конца вектора (изначально значения равны 0, если не передано какое-либо другое).
+
+# В классе RadiusVector2D необходимо объявить два объекта-свойства:
+
+# x - для изменения и считывания локального атрибута __x;
+# y - для изменения и считывания локального атрибута __y.
+
+# При инициализации и изменении локальных атрибутов, необходимо проверять корректность передаваемых значений:
+
+# - значение должно быть числом (целым или вещественным) в диапазоне [MIN_COORD; MAX_COORD].
+
+# Если проверка не проходит, то координаты не меняются (напомню, что при инициализации они изначально равны 0). Величины MIN_COORD = -100, MAX_COORD = 1024 задаются как публичные атрибуты класса RadiusVector2D.
+
+# Также в классе RadiusVector2D необходимо объявить статический метод:
+
+# norm2(vector) - для вычисления квадратической нормы vector - переданного объекта класса RadiusVector2D (квадратическая норма вектора: x*x + y*y).
+
+# P.S. В программе требуется объявить только класс. На экран ничего выводить не нужно.
+
+# мое решение
+# class RadiusVector2D:
+# 	MIN_COORD = -100
+# 	MAX_COORD = 1024
+# 	@classmethod
+# 	def check(cls, n):
+# 		if type(n) in (int, float) and cls.MIN_COORD <= n <= cls.MAX_COORD:
+# 			return True
+# 		else:
+# 			return False
+
+# 	def __init__(self, x = 0, y = 0):
+# 		if self.check(x):
+# 			self.__x = x
+# 		else:
+# 			self.__x = 0
+# 		if self.check(y):
+# 			self.__y = y
+# 		else:
+# 			self.__y = 0
+
+# 	@property
+# 	def xx(self):
+# 		return self.__x
+
+# 	@xx.setter
+# 	def x(self, n):
+# 		if self.check(n):
+# 			self.__x = n
+
+# 	@property
+# 	def y(self):
+# 		return self.__y
+
+# 	@y.setter
+# 	def y(self, n):
+# 		if self.check(n):
+# 			self.__y = n
+
+# 	@staticmethod
+# 	def norm2(vector):
+# 		return vector.x**2 + vector.y**2
+
+# v1 = RadiusVector2D()        # радиус-вектор с координатами (0; 0)
+# v2 = RadiusVector2D(1)       # радиус-вектор с координатами (1; 0)
+# v3 = RadiusVector2D(1111111, 21111111111)    # радиус-вектор с координатами (1; 2)
+# print(v3.x, v3.y)
+# # print(RadiusVector2D.norm2(v3))
+
+# решение препода
+
+# class RadiusVector2D:
+# 	MIN_COORD = -100
+# 	MAX_COORD = 1024
+# 	def __init__(self, x=0, y=0):
+# 		self.__x = self.__y = 0
+# 		self.x = x#тут срабатывает сеттер в котором уже есть условие, и можно не вызывать метод условия
+# 		self.y = y#тут срабатывает сеттер в котором уже есть условие, и можно не вызывать метод условия
+
+# 	@classmethod
+# 	def __is_verify(cls, value):
+# 		return type(value) in (int, float) and cls.MIN_COORD <= value <= cls.MAX_COORD
+
+# 	@property
+# 	def x(self):
+# 		return self.__x
+
+# 	@x.setter
+# 	def x(self, value):
+# 		if self.__is_verify(value):
+# 			self.__x = value
+
+# 	@property
+# 	def y(self):
+# 		return self.__y
+
+# 	@x.setter
+# 	def y(self, value):
+# 		if self.__is_verify(value):
+# 			self.__y = value
+
+# 	@staticmethod
+# 	def norm2(vector):
+# 		return vector.x**2 + vector.y**2
+
+
+# Большой подвиг 8. Требуется реализовать программу по работе с решающими деревьями:
+# тут должна быть картинка деревьев
+# Здесь в каждом узле дерева делается проверка (задается вопрос). Если проверка проходит, то осуществляется переход к следующему объекту по левой стрелке (с единицей), а иначе - по правой стрелке (с нулем). И так до тех пор, пока не дойдем до одного из листа дерева (вершины без потомков).
+
+# В качестве входных данных используется вектор (список) с бинарными значениями: 1 - да, 0 - нет. Каждый элемент этого списка соответствует своему вопросу (своей вершине дерева), например:
+
+
+
+# Далее, этот вектор применяется к решающему дереву, следующим образом. Корневая вершина "Любит Python" с ней связан первый элемент вектора x и содержит значение 1, следовательно, мы переходим по левой ветви. Попадаем в вершину "Понимает ООП". С ней связан второй элемент вектора x со значением 0, следовательно, мы переходим по правой ветви и попадаем в вершину "будет кодером". Так как эта вершина конечная (листовая), то получаем результат в виде строки "будет кодером". По аналогии выполняется обработка вектора x с другими наборами значений 0 и 1.
+
+# Для реализации решающих деревьев в программе следует объявить два класса:
+
+# TreeObj - для описания вершин и листьев решающего дерева;
+# DecisionTree - для работы с решающим деревом в целом.
+
+# В классе DecisionTree должны быть реализованы (по крайне мере) два метода уровня класса (@classmethod):
+
+# def predict(cls, root, x) - для построения прогноза (прохода по решающему дереву) для вектора x из корневого узла дерева root.
+# def add_obj(cls, obj, node=None, left=True) - для добавления вершин в решающее дерево (метод должен возвращать добавленную вершину - объект класса TreeObj);
+
+# В методе add_obj параметры имеют, следующие значения:
+
+# obj - ссылка на новый (добавляемый) объект решающего дерева (объект класса TreeObj);
+# node - ссылка на объект дерева, к которому присоединяется вершина obj;
+# left - флаг, определяющий ветвь дерева (объекта node), к которой присоединяется объект obj (True - к левой ветви; False - к правой).
+
+# В классе TreeObj следует объявить инициализатор:
+
+# def __init__(self, indx, value=None): ...
+
+# где indx - проверяемый в вершине дерева индекс вектора x; value - значение, хранящееся в вершине (принимает значение None для вершин, у которых есть потомки - промежуточных вершин).
+
+# При этом, в каждом создаваемом объекте класса TreeObj должны автоматически появляться следующие локальные атрибуты:
+
+# indx - проверяемый индекс (целое число);
+# value - значение с данными (строка);
+# __left - ссылка на следующий объект дерева по левой ветви (изначально None);
+# __right - ссылка на следующий объект дерева по правой ветви (изначально None).
+
+# Для работы с локальными приватными атрибутами __left и __right необходимо объявить объекты-свойства с именами left и right.
+
+# Эти классы в дальнейшем предполагается использовать следующим образом (эти строчки в программе не писать):
+
+# root = DecisionTree.add_obj(TreeObj(0))
+# v_11 = DecisionTree.add_obj(TreeObj(1), root)
+# v_12 = DecisionTree.add_obj(TreeObj(2), root, False)
+# DecisionTree.add_obj(TreeObj(-1, "будет программистом"), v_11)
+# DecisionTree.add_obj(TreeObj(-1, "будет кодером"), v_11, False)
+# DecisionTree.add_obj(TreeObj(-1, "не все потеряно"), v_12)
+# DecisionTree.add_obj(TreeObj(-1, "безнадежен"), v_12, False)
+
+# x = [1, 1, 0]
+# res = DecisionTree.predict(root, x) # будет программистом
+# P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно. 
+
+# мое решение
+class TreeObj:
+	def __init__(self, indx, value=None):
+		self.indx = indx
+		self.value = value
+		self.__left = None
+		self.__right = None
+
+
+	@property
+	def left(self):
+		return self.__left
+
+	@left.setter
+	def left(self, v):
+		self.__left = v
+
+	@property
+	def right(self):
+		return self.__right
+
+	@right.setter
+	def right(self, v):
+		self.__right = v
+
+
+
+
+
+
+class DecisionTree:
+	@classmethod
+	def predict(cls, root, x):
+
+
+
+
+
+
+	@classmethod
+	def add_obj(cls, obj, node=None, left=True):
+
+
+
+		return obj
+
+# obj - ссылка на новый (добавляемый) объект решающего дерева (объект класса TreeObj);
+# node - ссылка на объект дерева, к которому присоединяется вершина obj;
+# left - флаг, определяющий ветвь дерева (объекта node), к которой присоединяется объект obj (True - к левой ветви; False - к правой).
+
+
+
+
+
+
+
+# root = DecisionTree.add_obj(TreeObj(0))
+# v_11 = DecisionTree.add_obj(TreeObj(1), root)
+# v_12 = DecisionTree.add_obj(TreeObj(2), root, False)
+# DecisionTree.add_obj(TreeObj(-1, "будет программистом"), v_11)
+# DecisionTree.add_obj(TreeObj(-1, "будет кодером"), v_11, False)
+# DecisionTree.add_obj(TreeObj(-1, "не все потеряно"), v_12)
+# DecisionTree.add_obj(TreeObj(-1, "безнадежен"), v_12, False)
+
+# x = [1, 1, 0]
+# res = DecisionTree.predict(root, x) # будет программистом
 
 
