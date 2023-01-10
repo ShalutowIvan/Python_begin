@@ -4348,97 +4348,76 @@
 # P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно. 
 
 # мое решение
-class TreeObj:
-	def __init__(self, indx, value=None):
-		self.indx = indx
-		self.value = value
-		self.__left = None
-		self.__right = None
-
-
-	@property
-	def left(self):
-		return self.__left
-
-	@left.setter
-	def left(self, v):
-		self.__left = v
-
-	@property
-	def right(self):
-		return self.__right
-
-	@right.setter
-	def right(self, v):
-		self.__right = v
-
-
-
-
-
-
-class DecisionTree:
-	@classmethod
-	def predict(cls, root, x):
-		i = 0
-		# while True:
-		# 	if i > len(x):
-		# 		break
-			k = root
-
-			if x[0] == 1:
-				# root.left = root.left
-				objL = k.left
-				k.right = None
-				if x[1] == 1:
-					objL = objL.left
-				else:
-					objL = objL.right
-			elif x[0] == 0:
-
-			objR = root.right
-				root.left = None
-
-			i += 1
-# после рут переприсвоение делать следующего элемента как с ЛЛ
-ветвления сделать по условиям
-переприсвоение. если не проканает то посмотреть ошибки, если никак о посмотреть решение
-# тут проходка от корневого узла до последнего объекта ветки (ветка это односвязный список) в зависимости от вектора то есть списка с флагами
-
-
-	@classmethod
-	def add_obj(cls, obj, node=None, left=True):
-		if obj.indx == 0:#тут корневой элемент дерева
-			node = obj
-			return node
-		if obj.indx == 1:#тут в случае если это второй элемент массива
-			node.left = obj
-			return node.left
-		if obj.indx == 2:
-			node.right = obj
-			return node.right
-		if left and node != None:
-			node.left = obj
-			return node.left
-		elif not left and node != None:
-			node.right = obj
-			return node.right
-
-
-
-
-
-
-
-
-# не определился с флагами нужно понять как определяется ветка при присоединении объекта,
-# для присоединения элемента то есть объекта в односвязному списку то есть ветке
-		
-
-# obj - ссылка на новый (добавляемый) объект решающего дерева (объект класса TreeObj);
-# node - ссылка на объект дерева, к которому присоединяется вершина obj;
-# left - флаг, определяющий ветвь дерева (объекта node), к которой присоединяется объект obj (True - к левой ветви; False - к правой).
-
+# class TreeObj:
+# 	def __init__(self, indx, value=None):
+# 		self.indx = indx
+# 		self.value = value
+# 		self.__left = None
+# 		self.__right = None
+#
+# 	@property
+# 	def left(self):
+# 		return self.__left
+#
+# 	@left.setter
+# 	def left(self, v):
+# 		self.__left = v
+#
+# 	@property
+# 	def right(self):
+# 		return self.__right
+#
+# 	@right.setter
+# 	def right(self, v):
+# 		self.__right = v
+#
+#
+# class DecisionTree:
+# 	@classmethod
+# 	def add_obj(cls, obj, node=None, left=True):
+# 		if obj.indx == 0:#тут корневой элемент дерева
+# 			node = obj
+# 			return node
+# 		if obj.indx == 1:#тут в случае если это второй элемент массива
+# 			if left:
+# 				node.left = obj
+# 				return node.left
+# 			else:
+# 				node.right = obj
+# 				return node.right
+# 		if obj.indx == 2:
+# 			if left:
+# 				node.left = obj
+# 				return node.left
+# 			else:
+# 				node.right = obj
+# 				return node.right
+# 		if obj.indx == -1:
+# 			if left:
+# 				node.left = obj
+# 				return node.left
+# 			else:
+# 				node.right = obj
+# 				return node.right
+#
+#
+# 	@classmethod
+# 	def predict(cls, root, x):
+#
+# 			if x[0] == 1:
+# 				obj = root.left
+# 				if x[1] == 1:
+# 					objE = obj.left
+# 				else:
+# 					objE = obj.right
+# 			elif x[0] == 0:
+# 				obj = root.right
+# 				if x[2] == 1:
+# 					objE = obj.left
+# 				else:
+# 					objE = obj.right
+# 			return objE
+#
 # root = DecisionTree.add_obj(TreeObj(0))
 # v_11 = DecisionTree.add_obj(TreeObj(1), root)
 # v_12 = DecisionTree.add_obj(TreeObj(2), root, False)
@@ -4446,8 +4425,9 @@ class DecisionTree:
 # DecisionTree.add_obj(TreeObj(-1, "будет кодером"), v_11, False)
 # DecisionTree.add_obj(TreeObj(-1, "не все потеряно"), v_12)
 # DecisionTree.add_obj(TreeObj(-1, "безнадежен"), v_12, False)
-
-# x = [1, 1, 0]
+#
+# x = [1, 0, 0]
 # res = DecisionTree.predict(root, x) # будет программистом
+# print(res.value)
 
 
