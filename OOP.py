@@ -4615,36 +4615,102 @@
 # p = PathLines(LineTo(10, 20), LineTo(10, 30))
 # p.add_line(LineTo(20, -10))
 # dist = p.get_length()
-# P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно. 
+# P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно.
+
+# мое решение
+# import math
+#
+# class PathLines:
+# 	def __init__(self, *args):
+# 		self.path = [LineTo()] + self.get_path(args)
+#
+# 	@classmethod
+# 	def get_path(cls, args):
+# 		if args == None:
+# 			return []
+# 		else:
+# 			return list(args)
+#
+# 	def add_line(self, line):
+# 		self.path += [line]
+#
+# 	def get_length(self):
+# 		L = 0
+# 		for i in range(len(self.path)-1):
+# 			L = L + math.sqrt((self.path[i+1].x - self.path[i].x)**2 + (self.path[i+1].y - self.path[i].y)**2)
+# 		return L
+#
+# class LineTo:
+# 	def __init__(self, x=0, y=0):
+# 		self.x = x
+# 		self.y = y
+#
+#
+# p = PathLines(LineTo(10, 20), LineTo(10, 30))
+# # p.add_line(LineTo(20, -10))
+# dist = p.get_length()
+# # print(dist)
+# for i in p.path:
+# 	print(i.x, i.y)
+
+#решение препода
+#
+# class LineTo:
+# 	def __init__(self, x, y):
+# 		self.x = x
+# 		self.y = y
+#
+# class PathLines:
+# 	def __init__(self, *args):
+# 		self.coords = list((LineTo(0,0),) + args)
+#
+# 	def get_path(self):
+# 		return self.coords[1:]
+#
+# 	def get_length(self):
+# 		g = ((self.coords[i-1], self.coords[i]) for i in range(1, len(self.coords)))
+# 		return sum(map(lambda t: ((t[0].x - t[1]).x**2 + (t[0].y - t[1]).y**2) ** 0.5, g))
+#
+# 	def add_line(self, line):
+# 		self.coords.append(line)
 
 
-class PathLines:
-	def __init__(self):
-		root = LineTo()
+# Подвиг 10 (на закрепление). Вы создаете телефонную записную книжку. Она определяется классом PhoneBook. Объекты этого класса создаются командой:
+#
+# p = PhoneBook()
+# А сам класс должен иметь следующий набор методов:
+#
+# add_phone(phone) - добавление нового номера телефона (в список);
+# remove_phone(indx) - удаление номера телефона по индексу списка;
+# get_phone_list() - получение списка из объектов всех телефонных номеров.
+#
+# Каждый номер телефона должен быть представлен классом PhoneNumber. Объекты этого класса должны создаваться командой:
+#
+# note = PhoneNumber(number, fio)
+# где number - номер телефона (число) в формате XXXXXXXXXXX (одиннадцати цифр, X - цифра); fio - Ф.И.О. владельца номера (строка).
+#
+# В каждом объекте класса PhoneNumber должны формироваться локальные атрибуты:
+#
+# number - номер телефона (число);
+# fio - ФИО владельца номера телефона.
+#
+# Необходимо объявить два класса PhoneBook и PhoneNumber в соответствии с заданием.
+#
+# Пример использования классов (эти строчки в программе писать не нужно):
+#
+# p = PhoneBook()
+# p.add_phone(PhoneNumber(12345678901, "Сергей Балакирев"))
+# p.add_phone(PhoneNumber(21345678901, "Панда"))
+# phones = p.get_phone_list()
+# P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно.
 
-	def get_path():
-
-	def get_length():
-
-	def add_line(self, line):
-		self.root
 
 
 
-class LineTo:
-
-	def __init__(self, x=0, y=0):
-		self.x = x
-		self.y = y
-		self.next = None
-
-	@property
-	def next()
 
 
 
-p = PathLines(LineTo(10, 20), LineTo(10, 30))
-p.add_line(LineTo(20, -10))
-dist = p.get_length()
+
+
 
 
