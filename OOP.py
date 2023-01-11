@@ -4347,14 +4347,15 @@
 # res = DecisionTree.predict(root, x) # будет программистом
 # P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно. 
 
-# мое решение
+# мое решение!!!!!! решающие деревья
 # class TreeObj:
-# 	def __init__(self, indx, value=None):
-# 		self.indx = indx
-# 		self.value = value
-# 		self.__left = None
+# 	def __init__(self, indx, value=None):#тут инициализатор каждого объекта дерева
+# 		self.indx = indx #этот индекс соответствует индексу списка который мы будем передавать для принятия решений 1 или 0, то есть в списке будут значения 1 или 0. Индекс я использовал для проверки в условии. То есть 0 то делаем одно, если 1 то другое, если 2 то третьте
+# 		self.value = value #это значение не пустое только в последнем объекте
+# 		self.__left = None # это ссылки на левую или направую сторону дерева
 # 		self.__right = None
-#
+
+##тут ниже сеттеры и геттеры для сторон
 # 	@property
 # 	def left(self):
 # 		return self.__left
@@ -4375,24 +4376,24 @@
 # class DecisionTree:
 # 	@classmethod
 # 	def add_obj(cls, obj, node=None, left=True):
-# 		if obj.indx == 0:#тут корневой элемент дерева
+# 		if obj.indx == 0:#тут корневой элемент дерева, node это параметр к которому все цепляем, но его нет, поэтому просто в него записываем значение и возвращаем, чтобы потом можно было пройти прогоном
 # 			node = obj
 # 			return node
-# 		if obj.indx == 1:#тут в случае если это второй элемент массива
+# 		if obj.indx == 1:#тут в случае если это второй элемент массива, цепляем к корню новый объект в левую ветку, так как если 1 то налево, и возвращаем это значение также для прогона. цепляем в зависимости от флага, флаг определяет направо цепляться будет или налево. Флаг мы сами просто ставим, чтобы все выглядело как нам нужно. И объекты тоже создаем так как нам нужно потом
 # 			if left:
 # 				node.left = obj
 # 				return node.left
 # 			else:
 # 				node.right = obj
 # 				return node.right
-# 		if obj.indx == 2:
+# 		if obj.indx == 2:#тут в случае если третий элемент массива, и все остальное по аналогии
 # 			if left:
 # 				node.left = obj
 # 				return node.left
 # 			else:
 # 				node.right = obj
 # 				return node.right
-# 		if obj.indx == -1:
+# 		if obj.indx == -1: #тут в случае если индекс -1 и остальное также по умолчанию
 # 			if left:
 # 				node.left = obj
 # 				return node.left
@@ -4402,7 +4403,7 @@
 #
 #
 # 	@classmethod
-# 	def predict(cls, root, x):
+# 	def predict(cls, root, x): #это прогон, то есть у нас созданы объекты для дерева со связями, и в зависимости от массива x получим ту или другую конечную ветку - объект. Прогон делаем по бинарому списку из задания, там индексы соответсвуют веткам, то есть если пошли налево после корневого элемента, то правая ветка после корневого уже не участвует, и если пошли направо, то левая ветка не участвует, так как связи далее идут только по одной из сторон
 #
 # 			if x[0] == 1:
 # 				obj = root.left
@@ -4429,5 +4430,221 @@
 # x = [1, 0, 0]
 # res = DecisionTree.predict(root, x) # будет программистом
 # print(res.value)
+
+# решение препода, решение более простое в плане условий
+
+# class TreeObj:
+# 	def __init__(self, indx, value=None):
+# 		self.indx = indx
+# 		self.value = value
+# 		self.__left = None
+# 		self.__right = None
+
+# 	@property
+# 	def left(self):
+# 		return self.__left
+
+# 	@left.setter
+# 	def left(self, v):
+# 		self.__left = v
+
+# 	@property
+# 	def right(self):
+# 		return self.__right
+
+# 	@right.setter
+# 	def right(self, v):
+# 		self.__right = v
+
+
+# class DecisionTree:
+# 	@classmethod
+# 	def add_obj(cls, obj, node=None, left=True):
+# 		if node:
+# 			if left:
+# 				node.left = obj
+# 			else:
+# 				node.right = obj
+# 		return obj
+
+
+
+
+# 	@classmethod
+# 	def predict(cls, root, x):
+# 		obj = root
+# 		while obj:
+# 			obj_next = cls.get_next(obj, x)
+# 			if obj_next is None:#если следующий объект None то цикл завершает работу
+# 				break
+# 			obj = obj_next
+# 		return obj.value
+
+# 	@classmethod
+# 	def get_next(cls, obj, x):
+# 		if x[obj.indx] == 1:
+# 			return obj.left
+# 		else:
+# 			return obj.right
+
+# root = DecisionTree.add_obj(TreeObj(0))
+# v_11 = DecisionTree.add_obj(TreeObj(1), root)
+# v_12 = DecisionTree.add_obj(TreeObj(2), root, False)
+# DecisionTree.add_obj(TreeObj(-1, "будет программистом"), v_11)
+# DecisionTree.add_obj(TreeObj(-1, "будет кодером"), v_11, False)
+# DecisionTree.add_obj(TreeObj(-1, "не все потеряно"), v_12)
+# DecisionTree.add_obj(TreeObj(-1, "безнадежен"), v_12, False)
+
+# x = [1, 1, 0]
+# res = DecisionTree.predict(root, x) # будет программистом
+# print(res)
+
+# более простое решение
+# class TreeObj:
+#     def __init__(self, indx, value=None):
+#         self.indx = indx
+#         self.value = value
+#         self.__left = None
+#         self.__right = None
+
+#     @property
+#     def left(self):
+#         return self.__left
+
+#     @left.setter
+#     def left(self, obj):
+#         self.__left = obj
+
+#     @property
+#     def right(self):
+#         return self.__right
+
+#     @right.setter
+#     def right(self, obj):
+#         self.__right = obj
+
+
+# class DecisionTree:
+#     @classmethod
+#     def predict(cls, root, x):
+#         runner = root
+#         while not runner.value:
+#             runner = runner.left if x[runner.indx] else runner.right
+#         return runner.value
+
+#     @classmethod
+#     def add_obj(cls, obj, node=None, left=True):
+#         if node:
+#             if left:
+#                 node.left = obj
+#             else:
+#                 node.right = obj
+#         return obj
+
+
+# вариант с setattr
+# class DecisionTree:
+#     @classmethod
+#     def predict(cls, root, x):
+#         while True:
+#             left, right = root.left, root.right
+#             if not (left and right):
+#                 break
+#             root = left if x[root.indx] else right
+#         return root.value
+    
+#     @classmethod
+#     def add_obj(cls, obj, node=None, left=True):
+#         if node:
+#             setattr(node, 'left' if left else 'right', obj)
+#         return obj
+
+# class TreeObj:
+#     def __init__(self, indx, value=None):
+#         self.indx = indx
+#         self.value = value
+#         self.__left = None
+#         self.__right = None
+    
+#     @property
+#     def left(self):
+#         return self.__left
+    
+#     @left.setter
+#     def left(self, left):
+#         self.__left = left
+        
+#     @property
+#     def right(self):
+#         return self.__right
+    
+#     @right.setter
+#     def right(self, right):
+#         self.__right = right
+
+
+# Подвиг 9 (на закрепление). Вам требуется сформировать класс PathLines для описания маршрутов, состоящих из линейных сегментов. При этом каждый линейный сегмент предполагается задавать отдельным классом LineTo. Объекты этого класса будут формироваться командой:
+
+# line = LineTo(x, y)
+# где x, y - следующая координата линейного участка (начало маршрута из точки 0, 0).
+
+# В каждом объекте класса LineTo должны формироваться локальные атрибуты:
+
+# x, y - для хранения координат конца линии (начало определяется по координатам предыдущего объекта).
+
+# Объекты класса PathLines должны создаваться командами:
+
+# p = PathLines()                   # начало маршрута из точки 0, 0
+# p = PathLines(line1, line2, ...)  # начало маршрута из точки 0, 0
+# где line1, line2, ... - объекты класса LineTo.
+
+# Сам же класс PathLines должен иметь следующие методы:
+
+# get_path() - возвращает список из объектов класса LineTo (если объектов нет, то пустой список);
+# get_length() - возвращает суммарную длину пути (сумма длин всех линейных сегментов);
+# add_line(self, line) - добавление нового линейного сегмента (объекта класса LineTo) в конец маршрута.
+
+# Пояснение: суммарный маршрут - это сумма длин всех линейных сегментов, а длина каждого линейного сегмента определяется как евклидовое расстояние по формуле:
+
+# L = sqrt((x1-x0)^2 + (y1-y0)^2)
+
+# где x0, y0 - предыдущая точка маршрута; x1, y1 - текущая точка маршрута.
+
+# Пример использования классов (эти строчки в программе писать не нужно):
+
+# p = PathLines(LineTo(10, 20), LineTo(10, 30))
+# p.add_line(LineTo(20, -10))
+# dist = p.get_length()
+# P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно. 
+
+
+class PathLines:
+	def __init__(self):
+		root = LineTo()
+
+	def get_path():
+
+	def get_length():
+
+	def add_line(self, line):
+		self.root
+
+
+
+class LineTo:
+
+	def __init__(self, x=0, y=0):
+		self.x = x
+		self.y = y
+		self.next = None
+
+	@property
+	def next()
+
+
+
+p = PathLines(LineTo(10, 20), LineTo(10, 30))
+p.add_line(LineTo(20, -10))
+dist = p.get_length()
 
 
