@@ -4704,11 +4704,79 @@
 # phones = p.get_phone_list()
 # P.S. В программе требуется объявить только классы. На экран ничего выводить не нужно.
 
+# мое решение
+# class PhoneBook:
+# 	def __init__(self):
+# 		self.book = []
+
+# 	def add_phone(self, phone):
+# 		self.book.append(phone)
+
+# 	def remove_phone(self, indx):
+# 		if self.book != []:
+# 			self.book.pop(indx)
+
+# 	def get_phone_list(self):
+# 		return self.book
 
 
+# class PhoneNumber:
+# 	def __init__(self, number, fio):
+# 		if type(number) == int and len(str(number)) == 11:
+# 			self.number = number
+# 		if type(fio) == str:
+# 			self.fio = fio
+
+# p = PhoneBook()
+# p.add_phone(PhoneNumber(12345678901, "Сергей Балакирев"))
+# p.add_phone(PhoneNumber(21345678901, "Панда"))
+# phones = p.get_phone_list()
 
 
+# Дескрипторы (data descriptor и non-data descriptor)!!!!!!!!!!!!!!!!!!!!!!!
 
+class Point3D:
+	def __init__(self, x, y, z):
+		self.x = x#так как мы прописали сеттеры, то теперь ими можно сразу воспользоваться. Тут используем сеттеры, и также будет формироваться нужное локальное свойство причем сразу с проверкой
+		self.y = y
+		self.z = z
+
+# предположим что нам нужно чтобы все точки должны быть целыми числами
+	@classmethod
+	def verify_coord(cls, coord):
+		if type(coord) != int:#сделали функцию которая будет вызывать ошибку в случае если тип данных не тот
+			raise TypeError("Координата должна быть целым числом")
+
+	@property
+	def x(self):
+		return self._x
+
+	@x.setter
+	def x(self, coord):
+		self.verify_coord(coord)#тут в сеттерах если тип не будет совпадать будет вызываться ошибка
+		self._x = coord
+	
+	@property
+	def y(self):
+		return self._y
+
+	@y.setter
+	def y(self, coord):
+		self.verify_coord(coord)
+		self._y = coord
+	
+	@property
+	def z(self):
+		return self._z
+
+	@z.setter
+	def z(self, coord):
+		self.verify_coord(coord)
+		self._z = coord
+	
+p = Point3D(1, 2, 3)#создали экземпляр класса
+print(p.__dict__)#будут выведены свойства и они будут защищены protected, так как нам нужно
+# но мы для каждого свойства объекта писали свой сеттер и геттер. Это не удобно.
 
 
 
