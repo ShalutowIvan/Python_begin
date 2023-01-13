@@ -4793,29 +4793,133 @@
 
 # схема работы дескрипторов
 # так как координаты это целые числа, то мы определим класс с именем integer (название можно писать любое), и в нем пропишем нужные методы
-class integer:
-	def __set_name__(self, owner, name):#тут параметры, self это ссылка на эксземпляр класса integer, параметр owner это ссылка на класс Point3D, name это имя например x которому присваивается экземпляр класса. Через параметр name мы создаем локальное свойство self.name = "_" + name, как понял получается это будет строка которая содержит "_" и символ x, так как в параметр name передается x. Потом также y и z.
+# class integer:
+# 	def __set_name__(self, owner, name):#тут параметры, self это ссылка на эксземпляр класса integer, параметр owner это ссылка на класс Point3D, name это имя например x которому присваивается экземпляр класса. Через параметр name мы создаем локальное свойство self.name = "_" + name, как понял получается это будет строка которая содержит "_" и символ x, так как в параметр name передается x. Потом также y и z.
+# 		self.name = "_" + name
+
+# 	def __get__(self, instance, owner):
+# 		return instance.__dict__[self.name]#По сути геттер берет нужно локальное свойство и возвращает его через экземпляр instance вызвали метод __dict__ и передали в него ключ self.name и вернется в этом случае значение словаря 
+
+# 	def __set__(self, instance, value):#При присвоении срабатывает сеттер def __set__, в нем self это ссылка на соответсвующий экземпляр класса integer. instance ссылается на экмезпляр класса Point3D из которого этот десктриптор был вызван, value это числовое значение которое мы присваиваем при создании экземпляра Point3D.
+# 		print(f"__set__:{self.name}={value}")
+# 		instance.__dict__[self.name] = value#получается тут мы через instance (это ссылка на экземпляр класса Point3D) можно через метод __dict__ и указания ключа self.name указать значение элемента словаря
+
+# class Point3D:
+# 	x = integer()#тут мы создали экземпляры класса integer, это по сути дескрипторы находящиеся в классе point3D. Дескриптор для каждой координаты
+# 	y = integer()
+# 	z = integer()
+
+# 	def __init__(self, x, y, z):
+# 		self.x = x
+# 		self.y = y
+# 		self.z = z
+
+# # далее создаем экземпляр класса Point3D
+# pt = Point3D(1, 2, 3)#тут сработал инициализатор. В нем идет обращение к дескрипторам x y z и присваивается соотвтсвующее значение, которое мы передаем в качестве аргументов. При присвоении срабатывает сеттер def __set__, в нем self это ссылка на соответсвующий экземпляр класса integer. instance ссылается на экмезпляр класса Point3D из которого этот десктриптор был вызван, value это числовое значение которое мы присваиваем при создании экземпляра Point3D. Зная все эти данные можно создать соответствующее локальное свойство, сделать это можно через instance
+# a = pt.x#обратились к дескриптору через экземпляр класса pt, тут срабатывает геттер __get__(self, instance, owner), тут self это ссылка на экземпляр класса integer, instance это ссылка на экземпляр класса Point3D, owner это ссылка на класс Point3D. По сути геттер берет нужно локальное свойство и возвращает его через экземпляр instance вызвали метод __dict__ и передали в него ключ self.name и вернется в этом случае значение словаря instance.__dict__[self.name], и присваивается переменной a
+
+# сделаем тоже самое на нашем примере
+# class Integer:
+# 	@classmethod
+# 	def verify_coord(cls, coord):#прописали в декстриптор условие проверки
+# 		if type(coord) != int:
+# 			raise TypeError("Координата должна быть целым числом")
+
+# 	def __set_name__(self, owner, name):
+# 		self.name = "_" + name
+
+# 	def __get__(self, instance, owner):
+# 		return instance.__dict__[self.name]
+
+# 	def __set__(self, instance, value):
+# 		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выолнится далее и сработает сеттер, если не пройдет, то не сработает
+# 		print(f"__set__:{self.name}={value}")#эта строка просто для проверки что сеттер сработал
+# 		instance.__dict__[self.name] = value
+
+# # чтобы работать с сеттерами нужно будет создавать объекты дескриптора, то есть класса Integer
+# class Point3D:
+# 	x = Integer()
+# 	y = Integer()
+# 	z = Integer()
+
+# 	def __init__(self, x, y, z):
+# 		self.x = x
+# 		self.y = y
+# 		self.z = z
+
+# p = Point3D("1", 2, 3)
+# print(p.__dict__)
+
+
+# class Integer:
+# 	@classmethod
+# 	def verify_coord(cls, coord):#прописали в декстриптор условие проверки
+# 		if type(coord) != int:
+# 			raise TypeError("Координата должна быть целым числом")
+
+# 	def __set_name__(self, owner, name):
+# 		self.name = "_" + name
+
+# 	def __get__(self, instance, owner):
+# 		return getattr(instance, self.name)#можно юзать getattr и setattr для сеттеров и геттеров
+
+# 	def __set__(self, instance, value):
+# 		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выолнится далее и сработает сеттер, если не пройдет, то не сработает
+# 		print(f"__set__:{self.name}={value}")#эта строка просто для проверки что сеттер сработал
+# 		setattr(instance, self.name, value)#тут тоже прописали setattr. В питоне это будет правильнее
+
+# class Point3D:
+# 	x = Integer()
+# 	y = Integer()
+# 	z = Integer()
+
+# 	def __init__(self, x, y, z):
+# 		self.x = x
+# 		self.y = y
+# 		self.z = z
+
+# p = Point3D(1, 2, 3)
+# print(p.__dict__)
+# print(p.z)
+#выше, это мы сделали data descriptor 
+# Теперь сделаем non-data descriptor. Он только считывает данные. Десктриптор не данных имеет тот же приоритет доступа что и обычные атрибуты
+
+
+class ReadIntX:
+	def __set_name__()
+
+
+class Integer:
+	@classmethod
+	def verify_coord(cls, coord):#прописали в декстриптор условие проверки
+		if type(coord) != int:
+			raise TypeError("Координата должна быть целым числом")
+
+	def __set_name__(self, owner, name):
 		self.name = "_" + name
 
 	def __get__(self, instance, owner):
-		return instance.__dict__[self.name]
+		return getattr(instance, self.name)#можно юзать getattr и setattr для сеттеров и геттеров
 
-	def __set__(self, instance, value):#При присвоении срабатывает сеттер def __set__, в нем self это ссылка на соответсвующий экземпляр класса integer. instance ссылается на экмезпляр класса Point3D из которого этот десктриптор был вызван, value это числовое значение которое мы присваиваем при создании экземпляра Point3D.
-		print(f"__set__:{self.name}={value}")
-		instance.__dict__[self.name] = value#получается тут мы через instance (это ссылка на экземпляр класса Point3D) можно через метод __dict__ и указания ключа self.name указать значение элемента словаря
+	def __set__(self, instance, value):
+		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выолнится далее и сработает сеттер, если не пройдет, то не сработает
+		print(f"__set__:{self.name}={value}")#эта строка просто для проверки что сеттер сработал
+		setattr(instance, self.name, value)#тут тоже прописали setattr. В питоне это будет правильнее
 
 class Point3D:
-	x = integer()#тут мы создали экземпляры класса integer, это по сути дескрипторы находящиеся в классе point3D. Дескриптор для каждой координаты
-	y = integer()
-	z = integer()
+	x = Integer()
+	y = Integer()
+	z = Integer()
 
 	def __init__(self, x, y, z):
 		self.x = x
 		self.y = y
 		self.z = z
 
-# далее создаем экземпляр класса Point3D
-pt = Point3D(1, 2, 3)#тут сработал инициализатор. В нем идет обращение к дескрипторам x y z и присваивается соотвтсвующее значение, которое мы передаем в качестве аргументов. При присвоении срабатывает сеттер def __set__, в нем self это ссылка на соответсвующий экземпляр класса integer. instance ссылается на экмезпляр класса Point3D из которого этот десктриптор был вызван, value это числовое значение которое мы присваиваем при создании экземпляра Point3D. Зная все эти данные можно создать соответствующее локальное свойство, сделать это можно через instance
+p = Point3D(1, 2, 3)
+print(p.__dict__)
+print(p.z)
+
 
 
 
