@@ -4884,41 +4884,115 @@
 #выше, это мы сделали data descriptor 
 # Теперь сделаем non-data descriptor. Он только считывает данные. Десктриптор не данных имеет тот же приоритет доступа что и обычные атрибуты
 
+#
+# class ReadIntX:
+# 	def __set_name__(self, owner, name):
+# 		self.name = "_x"
+#
+# 	def __get__(self, instance, owner):
+# 		return getattr(instance, self.name)
+#
+# 	# def __set__(self, instance, value):
+# 	# 	setattr(instance, self.name, value)
+#
+#
+# class Integer:
+# 	@classmethod
+# 	def verify_coord(cls, coord):#прописали в декстриптор условие проверки
+# 		if type(coord) != int:
+# 			raise TypeError("Координата должна быть целым числом")
+#
+# 	def __set_name__(self, owner, name):
+# 		self.name = "_" + name
+#
+# 	def __get__(self, instance, owner):
+# 		return getattr(instance, self.name)#можно юзать getattr и setattr для сеттеров и геттеров
+#
+# 	def __set__(self, instance, value):
+# 		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выолнится далее и сработает сеттер, если не пройдет, то не сработает
+# 		print(f"__set__:{self.name}={value}")#эта строка просто для проверки что сеттер сработал
+# 		setattr(instance, self.name, value)#тут тоже прописали setattr. В питоне это будет правильнее
+#
+# class Point3D:
+# 	x = Integer()
+# 	y = Integer()
+# 	z = Integer()
+# 	xr = ReadIntX()#это дексриптор не-данных
+#
+# 	def __init__(self, x, y, z):
+# 		self.x = x
+# 		self.y = y
+# 		self.z = z
+#
+# p = Point3D(1, 2, 3)
+# print(p.__dict__)
+# print(p.z)
+# # p.xr = 5#если через дескриптор не данных использовать как сеттер, то просто будет создана новое свойство объекта
+# print(p.xr)#тут будет создано новое локальное свойство, не смотря на то, что есть десктриптор не данных, который не прописывает значения. То есть приоритетность у него такая же как у обычных свойств объекта
+# p.__dict__["xr"] = 5
+# print(p.xr)#тут выведется единица, потому что дескриптор действует с более высоким приоритетом чем обычное объявление свойства объекта. Сейчас в нашем дескрипторе не данных прописан сеттер, поэтому он сработал первее, но если его убрать, будет все как обычно. То есть присвоится цифра 5, потому что она присваивалась последней
 
-class ReadIntX:
-	def __set_name__()
+
+# Подвиг 6. Объявите дескриптор данных FloatValue, который бы устанавливал и возвращал вещественные значения. При записи вещественного числа должна выполняться проверка на вещественный тип данных. Если проверка не проходит, то генерировать исключение командой:
+#
+# raise TypeError("Присваивать можно только вещественный тип данных.")
+# Объявите класс Cell, в котором создается объект value дескриптора FloatValue. А объекты класса Cell должны создаваться командой:
+#
+# cell = Cell(начальное значение ячейки)
+# Объявите класс TableSheet, с помощью которого создается таблица из N строк и M столбцов следующим образом:
+#
+# table = TableSheet(N, M)
+# Каждая ячейка этой таблицы должна быть представлена объектом класса Cell, работать с вещественными числами через объект value (начальное значение должно быть 0.0).
+#
+# В каждом объекте класса TableSheet должен формироваться локальный атрибут:
+#
+# cells - список (вложенный) размером N x M, содержащий ячейки таблицы (объекты класса Cell).
+#
+# Создайте объект table класса TableSheet с размером таблицы N = 5, M = 3. Запишите в эту таблицу числа от 1.0 до 15.0 (по порядку).
+#
+# P.S. На экран в программе выводить ничего не нужно.
+
+# мое решение
+# class FloatValue:
+# 	@classmethod
+# 	def chek(cls, vv):
+# 		if type(vv) != float:
+# 			raise TypeError("Присваивать можно только вещественный тип данных.")
+#
+# 	def __set_name__(self, owner, name):
+# 		self.name = "_" + name
+#
+# 	def __get__(self, instance, owner):
+# 		return getattr(instance, self.name)
+#
+# 	def __set__(self, instance, value):
+# 		self.chek(value)
+# 		setattr(instance, self.name, value)
+#
+# class Cell:
+# 	value = FloatValue()
+# 	def __init__(self, v):
+# 		self.value = v
+#
+# class TableSheet:
+# 	# a = 0.0
+# 	def __init__(self, N, M):
+# 		self.cells = [[Cell(0.0) for i in range(M)] for j in range(N)]
+# 		# self.cells = [[Cell(self.count()) for i in range(M)] for j in range(N)]
+#
+# 	# def count(self):
+# 	# 	self.a += 1.0
+# 	# 	return self.a
+# c = 0
+# table = TableSheet(5, 3)
+# for i in table.cells:
+# 	for j in i:
+# 		c += 1.0
+# 		# j = Cell(c)
+# 		j.value = c
+# 		# print(j.value)
 
 
-class Integer:
-	@classmethod
-	def verify_coord(cls, coord):#прописали в декстриптор условие проверки
-		if type(coord) != int:
-			raise TypeError("Координата должна быть целым числом")
-
-	def __set_name__(self, owner, name):
-		self.name = "_" + name
-
-	def __get__(self, instance, owner):
-		return getattr(instance, self.name)#можно юзать getattr и setattr для сеттеров и геттеров
-
-	def __set__(self, instance, value):
-		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выолнится далее и сработает сеттер, если не пройдет, то не сработает
-		print(f"__set__:{self.name}={value}")#эта строка просто для проверки что сеттер сработал
-		setattr(instance, self.name, value)#тут тоже прописали setattr. В питоне это будет правильнее
-
-class Point3D:
-	x = Integer()
-	y = Integer()
-	z = Integer()
-
-	def __init__(self, x, y, z):
-		self.x = x
-		self.y = y
-		self.z = z
-
-p = Point3D(1, 2, 3)
-print(p.__dict__)
-print(p.z)
 
 
 
