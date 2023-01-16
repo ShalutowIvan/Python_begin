@@ -5541,4 +5541,134 @@
 
 # Магические методы __setattr__, __getattribute__, __getattr__ и __delattr__!!!!!!!!!!!!!!!!
 
+# class Point:
+# 	MAX_COORD = 100
+# 	MIN_COORD = 0
+
+# 	def __init__(self, x, y):
+# 		self.x = x
+# 		self.y = y
+
+# 	def set_coord(self, x, y):
+# 		if self.MIN_COORD <= x <= self.MAX_COORD:#чтобы обратиться к атриубуту класса нужно написать self
+# 			self.x = x
+# 			self.y = y
+
+# # класс это пространство имен с атрибутами и методами. В нашем случае в классе 4 атрибута, это 2 переменные и 2 метода. Далее когда мы создаем экземпляры, то при создании экземпляра класса, атрибуты не копируются и явлюятся общими для всех экземпляров. Но из экземпляров можно обращаться к атрибутам класса, так как объекты содержат ссылку на пространство имен класса на основании которого были созданы. Если какой-то атрибут не содержит атрибут, то поиск переходит во внешнее пространство.
+# pt1 = Point(1, 2)
+# pt2 = Point(10, 20)
+# print(pt1.MAX_COORD)#обратились через объект к атрибуту
+
+# предположим что нам нужно изменить внутренний атрибут класса, например MAX_COORD или MIN_COORD. Напишем метод для этого
+
+# class Point:
+# 	MAX_COORD = 100
+# 	MIN_COORD = 0
+
+# 	def __init__(self, x, y):
+# 		self.x = x
+# 		self.y = y
+
+# 	def set_coord(self, x, y):
+# 		if self.MIN_COORD <= x <= self.MAX_COORD:#чтобы обратиться к атриубуту класса нужно написать self
+# 			self.x = x
+# 			self.y = y
+
+# 	# def set_bound(self, left):
+# 	# 	self.MIN_COORD = left#в этом случае создается новое локальное свойства в объекте, а само значение в классе не меняется, так происходит потому что мы пропиали self, это ссылка на объект
+
+# 	@classmethod
+# 	def set_bound(cls, left):
+# 		cls.MIN_COORD = left#этот метод будет ссылаться на класс и менять сам атрибут класса, даже если мы обратимся к нему через экземпляр объекта
+# pt1 = Point(1, 2)
+# pt2 = Point(10, 20)
+# pt1.set_bound(-100)
+# print(pt1.__dict__)
+# print(Point.__dict__)
+
+# список методов
+# __setattr__(self, key, value) - автоматически вызывается при изменении свойства key класса 
+# __getattribute__(self, item) - автоматически вызывается при получении свойства класса с именем item
+# __getattr__(elf, item) - автоматически вызывается при получении несуществующего свойства item класса
+# __delattr__(self, item) - автоматически вызывается при удалении свойства item (не важно существует оно или нет)
+
+# метод __getattribute__(self, item)
+
+# class Point:
+# 	MAX_COORD = 100
+# 	MIN_COORD = 0
+
+# 	def __init__(self, x, y):
+# 		self.x = x
+# 		self.y = y
+
+# 	def set_coord(self, x, y):
+# 		if self.MIN_COORD <= x <= self.MAX_COORD:#чтобы обратиться к атриубуту класса нужно написать self
+# 			self.x = x
+# 			self.y = y
+
+# 	def __getattribute__(self, item):#item это атрибут к которому идет обращение. Этот метод автоматически вызывается когда идет считывание атрибута через экземпляр класса
+# 		print("__getattribute__ вызван")
+# 		#есть класс object, от него неявно наследуются все классы в python начиная с версии Python 3.0. Мы к нему обратимся
+# 		return object.__getattribute__(self, item)#если убрать эту строку, то возвращать метод ничего не будет и при присвоении будет присвоен None вместо значения атрибута объекта
+
+# pt1 = Point(1, 2)
+# pt2 = Point(10, 20)
+# a = pt1.x#тут мы считали данные через экземпляр класса и тут сработает метод __getattribute__, в консоль выведется текст из принта выше
+# print(a)#тут будет цифра 1
+# пример использования __getattribute__
+# class Point:
+# 	MAX_COORD = 100
+# 	MIN_COORD = 0
+
+# 	def __init__(self, x, y):
+# 		self.x = x
+# 		self.y = y
+
+# 	def set_coord(self, x, y):
+# 		if self.MIN_COORD <= x <= self.MAX_COORD:#чтобы обратиться к атриубуту класса нужно написать self
+# 			self.x = x
+# 			self.y = y
+
+# 	def __getattribute__(self, item):
+# 		if item == "x":#теперь если обраться к переменной x то будет вызвано исключение, то есть мы запретили обращаться к этому свойству. Очень полезная вещь для запрета доступа к атрибуту объекта
+# 			raise ValueError("доступ запрещен")
+# 		else:
+# 			return object.__getattribute__(self, item)
+
+# pt1 = Point(1, 2)
+# # a = pt1.x#тут будет вызвано исключение
+# # a = pt1.y#тут ошибки уже не будет
+# print(a)
+
+# метод __setattr__(self, key, value)
+
+class Point:
+	MAX_COORD = 100
+	MIN_COORD = 0
+
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+
+	def set_coord(self, x, y):
+		if self.MIN_COORD <= x <= self.MAX_COORD:#чтобы обратиться к атриубуту класса нужно написать self
+			self.x = x
+			self.y = y
+
+	def __getattribute__(self, item):
+		if item == "x":#теперь если обраться к переменной x то будет вызвано исключение, то есть мы запретили обращаться к этому свойству. Очень полезная вещь для запрета доступа к атрибуту объекта
+			raise ValueError("доступ запрещен")
+		else:
+			return object.__getattribute__(self, item)
+
+	def __setattr__(self, key, value):#автоматически вызывается в момент когда идет присвоение атрибуту определеного значения. key и value написать описание.....
+		print("__setattr__ вызван")
+		object.__setattr__(self, key, value)
+
+
+pt1 = Point(1, 2)
+# a = pt1.x#тут будет вызвано исключение
+# a = pt1.y#тут ошибки уже не будет
+print(a)
 
