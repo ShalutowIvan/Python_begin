@@ -5778,4 +5778,147 @@
 # year: 2022
 #
 # P.S. На экран ничего выводить не нужно.
+# мое решение
+# class Book:
+# 	def __init__(self, title=None, author=None, pages=0, year=0):
+# 		self.title = title
+# 		self.author = author
+# 		self.pages = pages
+# 		self.year = year
+	
+# 	def __setattr__(self, key, value):
+# 		if (key == "title" or key == "author") and value == None:
+# 			object.__setattr__(self, key, value)
+# 			return
+# 		if (key == "pages" or key == "year") and value == 0:
+# 			object.__setattr__(self, key, value)
+# 			return
+# 		if (key == "title" or key == "author") and type(value) != str:
+# 			raise TypeError("Неверный тип присваиваемых данных.")
+# 		elif (key == "pages" or key == "year") and type(value) != int:
+# 			raise TypeError("Неверный тип присваиваемых данных.")
+# 		else:            
+# 			object.__setattr__(self, key, value)
+# book = Book()
+# # book = Book("Python ООП", "Сергей Балакирев", 123, 2022)
+# print(book.__dict__)
+
+# решение препода
+
+# class Book:
+# 	attrs = {"title": str, "author": str, "pages": int, "year": int}
+# 	def __init__(self, title="", author="", pages=0, year=0):
+# 		self.title = title
+# 		self.author = author
+# 		self.pages = pages
+# 		self.year = year
+	
+# 	def __setattr__(self, key, value):		
+# 		if key in self.attrs and self.attrs[key] == type(value):
+# 			super().__setattr__(key, value)
+# 		else:
+# 			raise TypeError("Неверный тип присваиваемых данных.")
+
+# # book = Book("Python ООП", "Сергей Балакирев", 123, 2022)
+# book = Book()
+# print(book.__dict__)
+
+
+# Подвиг 4. Вы создаете интернет-магазин. Для этого нужно объявить два класса:
+
+# Shop - класс для управления магазином в целом;
+# Product - класс для представления отдельного товара.
+
+# Объекты класса Shop следует создавать командой:
+
+# shop = Shop(название магазина)
+# В каждом объекте класса Shop должно создаваться локальное свойство:
+
+# goods - список товаров (изначально список пустой).
+
+# А также в классе объявить методы:
+
+# add_product(self, product) - добавление нового товара в магазин (в конец списка goods);
+# remove_product(self, product) - удаление товара product из магазина (из списка goods);
+
+# Объекты класса Product следует создавать командой:
+
+# p = Product(название, вес, цена)
+# В них автоматически должны формироваться локальные атрибуты:
+
+# id - уникальный идентификационный номер товара (генерируется автоматически как целое положительное число от 1 и далее);
+# name - название товара (строка);
+# weight - вес товара (целое или вещественное положительное число);
+# price - цена (целое или вещественное положительное число).
+
+# В классе Product через магические методы (подумайте какие) осуществить проверку на тип присваиваемых данных локальным атрибутам объектов класса (например, id - целое число, name - строка и т.п.). Если проверка не проходит, то генерировать исключение командой:
+
+# raise TypeError("Неверный тип присваиваемых данных.")
+# Также в классе Product с помощью магического(их) метода(ов) запретить удаление локального атрибута id. При попытке это сделать генерировать исключение:
+
+# raise AttributeError("Атрибут id удалять запрещено.")
+# Пример использования классов (в программе эти строчки не писать):
+
+# shop = Shop("Балакирев и К")
+# book = Product("Python ООП", 100, 1024)
+# shop.add_product(book)
+# shop.add_product(Product("Python", 150, 512))
+# for p in shop.goods:
+#     print(f"{p.name}, {p.weight}, {p.price}")
+# P.S. На экран ничего выводить не нужно. 
+
+class Shop:
+	def __init__(self, name):
+		self.name = name
+		self.goods = []
+
+	def add_product(self, product):
+		self.goods.append(product)
+
+	def remove_product(self, product):
+		self.goods.remove(product)
+
+
+# global a
+# a = 0
+
+class Product:
+	a = 0
+	@classmethod
+	def kaunt(cls):
+		cls.a += 1
+		return cls.a
+
+	def __init__(self, name="", weight=0.0, price=0.0):
+		
+		self.id = self.kaunt()
+		self.name = name
+		self.weight = weight
+		self.price = price
+	
+	# def __setattr__(self, key, value):		
+    #     if key == "z":#тут мы запретили называть имена атрибут с названием z
+    #         raise AttributeError("недопустимое имя атрибута")
+    #     else:
+    #         object.__setattr__(self, key, value)
+
+
+	# def __delattr__(self, item):		        
+    #     object.__delattr__(self, item)
+
+a = 0
+# shop = Shop("Балакирев и К")
+book = Product("Python ООП", 100, 1024)
+# shop.add_product(book)
+# shop.add_product(Product("Python", 150, 512))
+# for p in shop.goods:
+#     print(f"{p.name}, {p.weight}, {p.price}")
+
+book1 = Product("Python ООП", 100, 1024)
+book2 = Product("Python ООП", 100, 1024)
+book3 = Product("Python ООП", 100, 1024)
+print(book3.id)
+
+
+
 
