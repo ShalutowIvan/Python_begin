@@ -5823,6 +5823,28 @@
 # book = Book()
 # print(book.__dict__)
 
+#интересный вариант со словарями
+# class Book:
+#     kv = {str: ['author', 'title'], int: ['pages', 'year']}
+#
+#     def __init__(self, title='', author='', pages=0, year=0):
+#         self.title = title
+#         self.author = author
+#         self.pages = pages
+#         self.year = year
+#
+#     def __setattr__(self, key, value):
+#         if key in self.kv.get(type(value), []):#тут если наш ключ есть в списке имен нужного типа данных, то все ок
+#             object.__setattr__(self, key, value)
+#         else:
+#             raise TypeError("Неверный тип присваиваемых данных.")
+#
+# book = Book()
+# book.author = 'Сергей Балакирев'
+# book.title = 'Python ООП'
+# book.pages = 123
+# book.year = 2022
+
 
 # Подвиг 4. Вы создаете интернет-магазин. Для этого нужно объявить два класса:
 
@@ -5866,58 +5888,60 @@
 # for p in shop.goods:
 #     print(f"{p.name}, {p.weight}, {p.price}")
 # P.S. На экран ничего выводить не нужно. 
-
-class Shop:
-	def __init__(self, name):
-		self.name = name
-		self.goods = []
-
-	def add_product(self, product):
-		self.goods.append(product)
-
-	def remove_product(self, product):
-		self.goods.remove(product)
-
-
-# global a
-# a = 0
-
-class Product:
-	a = 0
-	@classmethod
-	def kaunt(cls):
-		cls.a += 1
-		return cls.a
-
-	def __init__(self, name="", weight=0.0, price=0.0):
-		
-		self.id = self.kaunt()
-		self.name = name
-		self.weight = weight
-		self.price = price
-	
-	# def __setattr__(self, key, value):		
-    #     if key == "z":#тут мы запретили называть имена атрибут с названием z
-    #         raise AttributeError("недопустимое имя атрибута")
-    #     else:
-    #         object.__setattr__(self, key, value)
-
-
-	# def __delattr__(self, item):		        
-    #     object.__delattr__(self, item)
-
-a = 0
+# мое решение
+# class Shop:
+# 	def __init__(self, name):
+# 		self.name = name
+# 		self.goods = []
+#
+# 	def add_product(self, product):
+# 		self.goods.append(product)
+#
+# 	def remove_product(self, product):
+# 		self.goods.remove(product)
+#
+#
+# class Product:
+# 	a = 0
+# 	atrs = {int: ["id", "weight", "price"], float: ["weight", "price"], str: ["name"]}
+# 	@classmethod
+# 	def kaunt(cls):
+# 		cls.a += 1
+# 		return cls.a
+#
+# 	def __init__(self, name="", weight=0.0, price=0.0):
+# 		self.id = self.kaunt()
+# 		self.name = name
+# 		self.weight = weight
+# 		self.price = price
+#
+# 	def __setattr__(self, key, value):
+# 		if key == "weight" and value < 0:
+# 			raise TypeError("Неверный тип присваиваемых данных.")
+# 		if key == "price" and value < 0:
+# 			raise TypeError("Неверный тип присваиваемых данных.")
+# 		if key in self.atrs.get(type(value), []):
+# 			object.__setattr__(self, key, value)
+# 		else:
+# 			raise TypeError("Неверный тип присваиваемых данных.")
+#
+# 	def __delattr__(self, item):
+# 		if item == "id":
+# 			raise AttributeError("Атрибут id удалять запрещено.")
+# 		else:
+# 			object.__delattr__(self, item)
+#
+#
 # shop = Shop("Балакирев и К")
-book = Product("Python ООП", 100, 1024)
+# book = Product("Python ООП", 100, 1024)
 # shop.add_product(book)
 # shop.add_product(Product("Python", 150, 512))
 # for p in shop.goods:
-#     print(f"{p.name}, {p.weight}, {p.price}")
-
-book1 = Product("Python ООП", 100, 1024)
-book2 = Product("Python ООП", 100, 1024)
-book3 = Product("Python ООП", 100, 1024)
-print(book3.id)
+# 	print(f"{p.id}, {p.name}, {p.weight}, {p.price}")
+# book1 = Product("Python ООП", 100, 1024)
+# book2 = Product("Python ООП", 100, 1024)
+# book3 = Product("Python ООП", 100, 1024)
+# print(book3.id)
 
 
 
