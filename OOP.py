@@ -6111,53 +6111,313 @@
 # course.add_module(module_2)
 
 # решение препода
-class Course:
-	def __init__(self, name):
-		self.name = name
-		self.modules = []
+# class Course:
+# 	def __init__(self, name):
+# 		self.name = name
+# 		self.modules = []
 
-	def add_module(self, module):
-		self.modules.append(module)
+# 	def add_module(self, module):
+# 		self.modules.append(module)
 
-	def remove_module(self, indx):
-		self.modules.pop(indx)
-
-
-class Module:	
-	def __init__(self, name):
-		self.name = name
-		self.lessons = []
-
-	def add_lesson(self, lesson):
-		self.lessons.append(lesson)
-
-	def remove_lesson(self, indx):
-		self.lessons.pop(indx)
+# 	def remove_module(self, indx):
+# 		self.modules.pop(indx)
 
 
-class LessonItem:
-	atrs = {"title": str, "practices": int, "duration": int}
-	def __init__(self, title, practices, duration):
-		self.title = title
-		self.practices = practices
-		self.duration = duration
+# class Module:	
+# 	def __init__(self, name):
+# 		self.name = name
+# 		self.lessons = []
 
-	def __setattr__(self, key, value):
-		if (key == "practices" or key == "duration") and value <= 0:
-			raise TypeError("Неверный тип присваиваемых данных.")
-		if key in self.atrs and type(value) == self.atrs[key]:
-			object.__setattr__(self, key, value)
-		else:
-			raise TypeError("Неверный тип присваиваемых данных.")
+# 	def add_lesson(self, lesson):
+# 		self.lessons.append(lesson)
 
-	def __getattr__(self, item):
-		return False
+# 	def remove_lesson(self, indx):
+# 		#при удалении лучше проверить что индекс входит в диапазон, так как могут быть ошибки. Но по заданию это не нужно, поэтому мы не проверяем
+# 		self.lessons.pop(indx)
 
-	def __delattr__(self, item):
-		if item == "title" or item == "practices" or item == "duration":
-			return
-		else:
-			object.__delattr__(self, item)
+
+# class LessonItem:
+# 	atrs = {"title": str, "practices": int, "duration": int}
+# 	def __init__(self, title, practices, duration):
+# 		self.title = title
+# 		self.practices = practices
+# 		self.duration = duration
+
+# 	def __setattr__(self, key, value):		
+# 		if key in self.atrs:
+# 			if type(value) != self.atrs[key]:
+# 				raise TypeError("Неверный тип присваиваемых данных.")
+# 			if (key == "practices" or key == "duration") and value <= 0:
+# 				raise TypeError("Неверный тип присваиваемых данных.")
+# 		super().__setattr__(self, key, value)
+
+# 	def __getattr__(self, item):
+# 		return False
+
+# 	def __delattr__(self, item):
+# 		if item in self.atrs:
+# 			raise AttributeError()
+# 		super.__delattr__(item)
+
+#вариант с десктрипторами
+# class Value:
+#     def __set_name__(self, owner, name):
+#         self.name = name
+
+#     def __get__(self, instance, owner):
+#         return instance.__dict__[self.name]
+
+#     def __set__(self, instance, value):
+#         if not self.validate(value):
+#             raise TypeError("Неверный тип присваиваемых данных.")
+#         instance.__dict__[self.name] = value
+
+#     def validate(self, value) -> bool:
+#         raise NotImplemented
+
+
+# class String(Value):
+#     def validate(self, value) -> bool:
+#         return isinstance(value, str) and len(value) > 0
+
+
+# class PositiveInteger(Value):
+#     def validate(self, value) -> bool:
+#         return isinstance(value, int) and value >= 0
+
+
+# class LessonItem:
+#     title = String()
+#     practices = PositiveInteger()
+#     duration = PositiveInteger()
+
+#     def __init__(self, title: str, practices: int, duration: int):
+#         self.title, self.practices, self.duration = title, practices, duration
+
+#     def __getattr__(self, item):
+#         return False
+
+#     def __delattr__(self, item):
+#         raise AttributeError("Атрибут удалять запрещено.")
+
+
+# class Module:
+#     name = String()
+
+#     def __init__(self, name: str):
+#         self.name, self.lessons = name, []
+
+#     def add_lesson(self, lesson):
+#         self.lessons.append(lesson)
+
+#     def remove_lesson(self, ind):
+#         del self.lessons[ind]
+
+
+# class Course:
+#     name = String()
+
+#     def __init__(self, name: str):
+#         self.name, self.modules = name, []
+
+#     def add_module(self, module):
+#         self.modules.append(module)
+
+#     def remove_module(self, ind):
+#         del self.modules[ind]
+
+# компактный вариант
+# class Course:
+#     def __init__(self,name):
+#         self.name=name
+#         self.modules=[]
+#     def add_module(self, module):
+#         self.modules.append(module)
+#     def remove_module(self, indx):
+#         self.modules.pop(indx)
+# class Module:
+#     def __init__(self,name):
+#         self.name=name
+#         self.lessons=[]
+#     def add_lesson(self, lesson):
+#         self.lessons.append(lesson)
+#     def remove_lesson(self, indx):
+#         self.lessons.pop(indx)
+# class LessonItem:
+#     def __init__(self,title,practices,duration):
+#         self.title=title
+#         self.practices =practices
+#         self.duration=duration
+#     def __setattr__(self, key, value):
+#         if key=='title' and isinstance(value,str) or key in ('practices','duration') and isinstance(value,int) and value>0:
+#             object.__setattr__(self, key, value)
+#         else:
+#             raise TypeError("Неверный тип присваиваемых данных.")
+#     def __getattr__(self, item):
+#         return False
+#     def __delattr__(self, item):
+#         if not  item in ('title', 'practices','duration'):
+#             object.__delattr__(self, item)
+
+
+# Подвиг 6. Вам необходимо написать программу описания музеев. Для этого нужно объявить класс Museum, объекты которого формируются командой:
+
+# mus = Museum(название музея)
+# В объектах этого класса должны формироваться следующие локальные атрибуты:
+
+# name - название музея (строка);
+# exhibits - список экспонатов (изначально пустой список).
+
+# Сам класс Museum должен иметь методы:
+
+# add_exhibit(self, obj) - добавление нового экспоната в музей (в конец списка exhibits);
+# remove_exhibit(self, obj) - удаление экспоната из музея (из списка exhibits по ссылке obj - на экспонат)
+# get_info_exhibit(self, indx) - получение информации об экспонате (строка) по индексу списка (нумерация с нуля).
+
+# Экспонаты представляются объектами своих классов. Для примера объявите в программе следующие классы экспонатов:
+
+# Picture - для картин;
+# Mummies - для мумий;
+# Papyri - для папирусов.
+
+# Объекты этих классов должны создаваться следующим образом (с соответствующим набором локальных атрибутов):
+
+# p = Picture(название, художник, описание)            # локальные атрибуты: name - название; author - художник; descr - описание
+# m = Mummies(имя мумии, место находки, описание)      # локальные атрибуты: name - имя мумии; location - место находки; descr - описание
+# pr = Papyri(название папируса, датировка, описание)  # локальные атрибуты: name - название папируса; date - датировка (строка); descr - описание
+# Метод get_info_exhibit() класса Museum должен возвращать значение атрибута descr указанного экспоната в формате:
+
+# "Описание экспоната {name}: {descr}"
+
+# Например:
+
+# "Описание экспоната Девятый вал: Айвазовский написал супер картину."
+
+# Пример использования классов (в программе эти строчки писать не нужно - только для примера):
+
+# mus = Museum("Эрмитаж")
+# mus.add_exhibit(Picture("Балакирев с подписчиками пишет письмо иноземному султану", "Неизвестный автор", "Вдохновляющая, устрашающая, волнующая картина"))
+# mus.add_exhibit(Mummies("Балакирев", "Древняя Россия", "Просветитель XXI века, удостоенный мумификации"))
+# p = Papyri("Ученья для, не злата ради", "Древняя Россия", "Самое древнее найденное рукописное свидетельство о языках программирования")
+# mus.add_exhibit(p)
+# for x in mus.exhibits:
+#     print(x.descr)
+# P.S. На экран ничего выводить не нужно. 
+
+#мое решение
+# class Museum:
+# 	def __init__(self, name):
+# 		self.name = name
+# 		self.exhibits = []
+
+# 	def add_exhibit(self, obj):
+# 		self.exhibits.append(obj)
+
+# 	def remove_exhibit(self, obj):
+# 		if self.exhibits != []:
+# 			self.exhibits.remove(obj)
+
+# 	def get_info_exhibit(self, indx):
+# 		if indx <= len(self.exhibits):
+# 			return f"Описание экспоната {self.exhibits[indx].name}: {self.exhibits[indx].descr}" 
+
+# class Picture:
+# 	def __init__(self, name, author, descr):
+# 		self.name = name
+# 		self.author = author
+# 		self.descr = descr
+
+# class Mummies:
+# 	def __init__(self, name, location, descr):
+# 		self.name = name
+# 		self.location  = location
+# 		self.descr = descr
+	
+# class Papyri:
+# 	def __init__(self, name, date, descr):
+# 		self.name = name
+# 		self.date = date
+# 		self.descr = descr
+	
+# mus = Museum("Эрмитаж")
+# mus.add_exhibit(Picture("Балакирев с подписчиками пишет письмо иноземному султану", "Неизвестный автор", "Вдохновляющая, устрашающая, волнующая картина"))
+# mus.add_exhibit(Mummies("Балакирев", "Древняя Россия", "Просветитель XXI века, удостоенный мумификации"))
+# p = Papyri("Ученья для, не злата ради", "Древняя Россия", "Самое древнее найденное рукописное свидетельство о языках программирования")
+# mus.add_exhibit(p)
+# for x in mus.exhibits:
+#     print(x.descr)
+
+# решение препода
+# class Museum:
+# 	def __init__(self, name):
+# 		self.name = name
+# 		self.exhibits = []
+
+# 	def add_exhibit(self, obj):
+# 		self.exhibits.append(obj)
+
+# 	def remove_exhibit(self, obj):
+# 		if obj in self.exhibits:#лучше такую проверку делать
+# 			self.exhibits.remove(obj)
+
+# 	def get_info_exhibit(self, indx):
+# 		ex = self.exhibits[indx]
+# 			return f"Описание экспоната {ex.name}: {ex.descr}" 
+
+# class Picture:
+# 	def __init__(self, name, author, descr):
+# 		self.name = name
+# 		self.author = author
+# 		self.descr = descr
+
+# class Mummies:
+# 	def __init__(self, name, location, descr):
+# 		self.name = name
+# 		self.location  = location
+# 		self.descr = descr
+	
+# class Papyri:
+# 	def __init__(self, name, date, descr):
+# 		self.name = name
+# 		self.date = date
+# 		self.descr = descr
+
+
+# Подвиг 7 (на повторение). Объявите класс SmartPhone, объекты которого предполагается создавать командой:
+
+# sm = SmartPhone(марка смартфона)
+# Каждый объект должен содержать локальные атрибуты:
+
+# model - марка смартфона (строка);
+# apps - список из установленных приложений (изначально пустой).
+
+# Также в классе SmartPhone должны быть объявлены следующие методы:
+
+# add_app(self, app) - добавление нового приложения на смартфон (в конец списка apps);
+# remove_app(self, app) - удаление приложения по ссылке на объект app.
+
+# При добавлении нового приложения проверять, что оно отсутствует в списке apps (отсутствует объект соответствующего класса).
+
+# Каждое приложение должно определяться своим классом. Для примера объявите следующие классы:
+
+# AppVK - класс приложения ВКонтаке;
+# AppYouTube - класс приложения YouTube;
+# AppPhone - класс приложения телефона.
+
+# Объекты этих классов должны создаваться следующим образом (с соответствующим набором локальных атрибутов):
+
+# app_1 = AppVK() # name = "ВКонтакте"
+# app_2 = AppYouTube(1024) # name = "YouTube", memory_max = 1024
+# app_3 = AppPhone({"Балакирев": 1234567890, "Сергей": 98450647365, "Работа": 112}) # name = "Phone", phone_list = словарь с контактами
+# Пример использования классов (в программе эти строчки не писать):
+
+# sm = SmartPhone("Honor 1.0")
+# sm.add_app(AppVK())
+# sm.add_app(AppVK())  # второй раз добавляться не должно
+# sm.add_app(AppYouTube(2048))
+# for a in sm.apps:
+#     print(a.name)
+# P.S. На экран ничего выводить не нужно. 
 
 
 
