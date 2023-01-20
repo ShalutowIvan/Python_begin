@@ -6419,9 +6419,152 @@
 #     print(a.name)
 # P.S. На экран ничего выводить не нужно. 
 
+# мое решение
+# class SmartPhone:
+# 	def __init__(self, model):
+# 		self.model = model
+# 		self.apps = []
+
+# 	def add_app(self, app):
+# 		if type(app) not in map(type, self.apps):
+# 			self.apps.append(app)
+
+# 	def remove_app(self, app):
+# 		if app in self.apps:
+# 			self.apps.remove(app)
+
+# class AppVK:
+# 	def __init__(self):
+# 		self.name = "ВКонтакте"
+
+# class AppYouTube:
+# 	def __init__(self, memory_max):
+# 		self.name = "YouTube"
+# 		self.memory_max = memory_max
+
+# class AppPhone:
+# 	def __init__(self, phone_list):
+# 		self.name = "Phone"
+# 		self.phone_list = phone_list 
+
+# sm = SmartPhone("Honor 1.0")
+# sm.add_app(AppVK())
+# sm.add_app(AppVK())  # второй раз добавляться не должно
+# sm.add_app(AppYouTube(2048))
+# for a in sm.apps:
+#     print(a.name)
+
+# решение препода
+
+# class SmartPhone:
+# 	def __init__(self, model):
+# 		self.model = model
+# 		self.apps = []
+
+# 	def add_app(self, app):
+# 		if len(tuple(filter(lambda x: type(x) == type(app), self.apps))) == 0:
+# 			self.apps.append(app)
+
+# 	def remove_app(self, app):
+# 		if app in self.apps:
+# 			self.apps.remove(app)
+
+# class AppVK:
+# 	def __init__(self):
+# 		self.name = "ВКонтакте"
+
+# class AppYouTube:
+# 	def __init__(self, memory_max):
+# 		self.name = "YouTube"
+# 		self.memory_max = memory_max
+
+# class AppPhone:
+# 	def __init__(self, phone_list):
+# 		self.name = "Phone"
+# 		self.phone_list = phone_list 
 
 
+# Подвиг 8. Объявите класс Circle (окружность), объекты которого должны создаваться командой:
+
+# circle = Circle(x, y, radius)   # x, y - координаты центра окружности; radius - радиус окружности
+# В каждом объекте класса Circle должны формироваться локальные приватные атрибуты:
+
+# __x, __y - координаты центра окружности (вещественные или целые числа);
+# __radius - радиус окружности (вещественное или целое положительное число).
+
+# Для доступа к этим приватным атрибутам в классе Circle следует объявить объекты-свойства (property):
+
+# x, y - для изменения и доступа к значениям __x, __y, соответственно;
+# radius - для изменения и доступа к значению __radius.
+
+# При изменении значений приватных атрибутов через объекты-свойства нужно проверять, что присваиваемые значения - числа (целые или вещественные). Дополнительно у радиуса проверять, что число должно быть положительным (строго больше нуля). Сделать все эти проверки нужно через магические методы. При некорректных переданных числовых значениях, прежние значения меняться не должны (исключений никаких генерировать при этом не нужно).
+
+# Если присваиваемое значение не числовое, то генерировать исключение командой:
+
+# raise TypeError("Неверный тип присваиваемых данных.")
+# При обращении к несуществующему атрибуту объектов класса Circle выдавать булево значение False.
+
+# Пример использования класса (эти строчки в программе писать не нужно):
+
+# circle = Circle(10.5, 7, 22)
+# circle.radius = -10 # прежнее значение не должно меняться, т.к. отрицательный радиус недопустим
+# x, y = circle.x, circle.y
+# res = circle.name # False, т.к. атрибут name не существует
+# P.S. На экран ничего выводить не нужно. 
+
+class Circle:	
+	atr = {"x": [int, float], "y": [int, float], "radius": [int, float]}
+
+	def __init__(self, x, y, radius):
+		self.__x = x
+		self.__y = y
+		self.__radius = radius
+	
+	@property
+	def x(self):
+		return self.__x
+
+	@x.setter
+	def x(self, v):
+		self.__x = v
+
+	@property
+	def y(self):
+		return self.__y
+
+	@y.setter
+	def y(self, vv):
+		self.__y = vv
+			
+	@property
+	def radius(self):
+		return self.__radius
+
+	@radius.setter
+	def radius(self, vvv):
+		self.__radius = vvv
+				
+	def __setattr__(self, key, value):
+		# if key == "radius" and value < 0:
+		# 	return
+		# if (key == "_Circle__x" or key == "_Circle__y") and type(value) in (int, float):
+		# 	object.__setattr__(self, key, value)
+		# elif key == "_Circle__radius" and type(value) in (int, float):
+		# 	object.__setattr__(self, key, value)
+		# else:
+		# 	raise TypeError("Неверный тип присваиваемых данных.")
+		if key in self.atr and type(value) in self.atr[key]:
+			object.__setattr__(self, key, value)
 
 
+	def __getattr__(self, item):
+		return False
 
 
+circle = Circle(10.5, 7.6, 22)
+circle.radius = -10 # прежнее значение не должно меняться, т.к. отрицательный радиус недопустим
+x, y = circle.x, circle.y
+circle.y = 5.2
+# res = circle.name # False, т.к. атрибут name не существует
+print(circle.radius)
+# print(circle.__dict__)
