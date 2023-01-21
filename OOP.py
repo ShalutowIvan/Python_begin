@@ -6511,60 +6511,433 @@
 # x, y = circle.x, circle.y
 # res = circle.name # False, т.к. атрибут name не существует
 # P.S. На экран ничего выводить не нужно. 
-
-class Circle:	
-	atr = {"x": [int, float], "y": [int, float], "radius": [int, float]}
-
-	def __init__(self, x, y, radius):
-		self.__x = x
-		self.__y = y
-		self.__radius = radius
-	
-	@property
-	def x(self):
-		return self.__x
-
-	@x.setter
-	def x(self, v):
-		self.__x = v
-
-	@property
-	def y(self):
-		return self.__y
-
-	@y.setter
-	def y(self, vv):
-		self.__y = vv
-			
-	@property
-	def radius(self):
-		return self.__radius
-
-	@radius.setter
-	def radius(self, vvv):
-		self.__radius = vvv
-				
-	def __setattr__(self, key, value):
-		# if key == "radius" and value < 0:
-		# 	return
-		# if (key == "_Circle__x" or key == "_Circle__y") and type(value) in (int, float):
-		# 	object.__setattr__(self, key, value)
-		# elif key == "_Circle__radius" and type(value) in (int, float):
-		# 	object.__setattr__(self, key, value)
-		# else:
-		# 	raise TypeError("Неверный тип присваиваемых данных.")
-		if key in self.atr and type(value) in self.atr[key]:
-			object.__setattr__(self, key, value)
-
-
-	def __getattr__(self, item):
-		return False
-
-
-circle = Circle(10.5, 7.6, 22)
-circle.radius = -10 # прежнее значение не должно меняться, т.к. отрицательный радиус недопустим
-x, y = circle.x, circle.y
-circle.y = 5.2
-# res = circle.name # False, т.к. атрибут name не существует
-print(circle.radius)
+# мое решение
+# class Circle:
+# 	atr = {"x": [int, float], "y": [int, float], "radius": [int, float]}
+#
+# 	def __init__(self, x, y, radius):
+# 		self.__x = x
+# 		self.__y = y
+# 		self.__radius = radius
+#
+# 	@property
+# 	def x(self):
+# 		return self.__x
+#
+# 	@x.setter
+# 	def x(self, v):
+# 		self.__x = v
+#
+# 	@property
+# 	def y(self):
+# 		return self.__y
+#
+# 	@y.setter
+# 	def y(self, vv):
+# 		self.__y = vv
+#
+# 	@property
+# 	def radius(self):
+# 		return self.__radius
+#
+# 	@radius.setter
+# 	def radius(self, vvv):
+# 		self.__radius = vvv
+#
+# 	def __setattr__(self, key, value):
+# 		if key == "radius" and value < 0:
+# 			return
+# 		if (key == "_Circle__x" or key == "_Circle__y" or key == "_Circle__radius") and type(value) in (int, float):
+# 			object.__setattr__(self, key, value)
+# 		elif (key == "x" or key == "y" or key == "radius") and type(value) in (int, float):
+# 			object.__setattr__(self, key, value)
+# 		else:
+# 			raise TypeError("Неверный тип присваиваемых данных.")
+#
+# 	def __getattr__(self, item):
+# 		return False
+# circle = Circle(10.5, 7.6, 22)
+# circle.radius = -10 # прежнее значение не должно меняться, т.к. отрицательный радиус недопустим
+# x, y = circle.x, circle.y
+# circle.radius = -5.2
+# # res = circle.name # False, т.к. атрибут name не существует
+# print(circle.radius)
 # print(circle.__dict__)
+
+# решение препода
+#
+# class Circle:
+# 	atr = {"x": [int, float], "y": [int, float], "radius": [int, float]}
+#
+# 	def __init__(self, x, y, radius):
+# 		self.__x = self.__y = self.__radius = None
+# 		self.x = x
+# 		self.y = y
+# 		self.radius = radius
+#
+# 	@property
+# 	def x(self):
+# 		return self.__x
+#
+# 	@x.setter
+# 	def x(self, v):
+# 		self.__x = v
+#
+# 	@property
+# 	def y(self):
+# 		return self.__y
+#
+# 	@y.setter
+# 	def y(self, vv):
+# 		self.__y = vv
+#
+# 	@property
+# 	def radius(self):
+# 		return self.__radius
+#
+# 	@radius.setter
+# 	def radius(self, vvv):
+# 		self.__radius = vvv
+#
+# 	def __setattr__(self, key, value):  # в key тут подставляется просто x, а не __x., так как мы это прописали в инициализаторе и в сеттерах
+# 		if key in self.atr and type(value) not in self.atr[key]:
+# 			raise TypeError("Неверный тип присваиваемых данных.")
+# 		if key == "radius" and value <= 0:
+# 			return
+# 		super().__setattr__(self, key, value)
+#
+# 	def __getattr__(self, item):
+# 		return False
+#
+# # еще один вариант
+# class Circle:
+#     def __init__(self, x, y, radius):
+#         self.x = x
+#         self.y = y
+#         self.radius = radius
+#
+#     @property
+#     def x(self):
+#         return object.__getattribute__(self, "__x")
+#
+#     @x.setter
+#     def x(self, x):
+#         object.__setattr__(self, "__x", x)
+#
+#     @property
+#     def y(self):
+#         return object.__getattribute__(self, "__y")
+#
+#     @y.setter
+#     def y(self, y):
+#         object.__setattr__(self, "__y", y)
+#
+#     @property
+#     def radius(self):
+#         return object.__getattribute__(self, "__radius")
+#
+#     @radius.setter
+#     def radius(self, radius):
+#         object.__setattr__(self, "__radius", radius)
+#
+#     def __setattr__(self, key, value):
+#         if not (key in ("x", "y", "radius") and type(value) in (float, int)):
+#             raise TypeError("Неверный тип присваиваемых данных.")
+#         if key=="radius" and value < 0:
+#             return None
+#         object.__setattr__(self, key, value)
+#
+#     def __getattr__(self, item):
+#         return False
+#
+# Подвиг 9. Объявите в программе класс Dimensions (габариты) с атрибутами:
+#
+# MIN_DIMENSION = 10
+# MAX_DIMENSION = 1000
+#
+# Каждый объект класса Dimensions должен создаваться командой:
+#
+# d3 = Dimensions(a, b, c)   # a, b, c - габаритные размеры
+# и содержать локальные атрибуты:
+#
+# __a, __b, __c - габаритные размеры (целые или вещественные числа).
+#
+# Для работы с этими локальными атрибутами в классе Dimensions следует прописать следующие объекты-свойства:
+#
+# a, b, c - для изменения и считывания соответствующих локальных атрибутов __a, __b, __c.
+#
+# При изменении значений __a, __b, __c следует проверять, что присваиваемое значение число в диапазоне [MIN_DIMENSION; MAX_DIMENSION]. Если это не так, то новое значение не присваивается (игнорируется).
+#
+# С помощью магических методов данного занятия запретить создание локальных атрибутов MIN_DIMENSION и MAX_DIMENSION в объектах класса Dimensions. При попытке это сделать генерировать исключение:
+#
+# raise AttributeError("Менять атрибуты MIN_DIMENSION и MAX_DIMENSION запрещено.")
+# Пример использования класса  (эти строчки в программе писать не нужно):
+#
+# d = Dimensions(10.5, 20.1, 30)
+# d.a = 8
+# d.b = 15
+# a, b, c = d.a, d.b, d.c  # a=10.5, b=15, c=30
+# d.MAX_DIMENSION = 10  # исключение AttributeError
+# P.S. В программе нужно объявить только класс Dimensions. На экран ничего выводить не нужно.
+# мое решение
+# class Dimensions:
+# 	MIN_DIMENSION = 10
+# 	MAX_DIMENSION = 1000
+# 	atrs = {"a": (int, float), "b": (int, float), "c": (int, float)}
+# 	def __init__(self, a, b, c):
+# 		# self.__a = self.__b = self.__c = None
+# 		self.a = a
+# 		self.b = b
+# 		self.c = c
+#
+# 	@property
+# 	def a(self):
+# 		return self.__a
+#
+# 	@a.setter
+# 	def a(self, v):
+# 		self.__a = v
+#
+# 	@property
+# 	def b(self):
+# 		return self.__b
+#
+# 	@b.setter
+# 	def b(self, v):
+# 		self.__b = v
+#
+# 	@property
+# 	def c(self):
+# 		return self.__c
+#
+# 	@c.setter
+# 	def c(self, v):
+# 		self.__c = v
+#
+# 	def __setattr__(self, key, value):
+# 		if key == "MIN_DIMENSION" or key == "MAX_DIMENSION":
+# 			raise AttributeError("Менять атрибуты MIN_DIMENSION и MAX_DIMENSION запрещено.")
+# 		if key in self.atrs and type(value) in self.atrs[key] and not self.MIN_DIMENSION <= value <= self.MAX_DIMENSION:
+# 			return
+# 		object.__setattr__(self, key, value)
+#
+# d = Dimensions(10.5, 20.1, 30)
+# d.a = 8
+# d.b = 15
+# a, b, c = d.a, d.b, d.c  # a=10.5, b=15, c=30
+# d.MAX_DIMENSION = 10  # исключение AttributeError
+# # print(d.__dict__)
+# print(a, b, c)
+
+# решение препода
+# class Dimensions:
+# 	MIN_DIMENSION = 10
+# 	MAX_DIMENSION = 1000
+# 	atrs = {"a": (int, float), "b": (int, float), "c": (int, float)}
+# 	def __init__(self, a, b, c):
+# 		self.__a = self.__b = self.__c = None
+# 		self.a = a
+# 		self.b = b
+# 		self.c = c
+#
+# 	@classmethod
+# 	def __verify_value(cls, v):
+# 		return type(v) in [int, float] and cls.MIN_DIMENSION <= v <= cls.MAX_DIMENSION
+#
+# 	@property
+# 	def a(self):
+# 		return self.__a
+#
+# 	@a.setter
+# 	def a(self, v):
+# 		if self.__verify_value(v):
+# 			self.__a = v
+#
+# 	@property
+# 	def b(self):
+# 		return self.__b
+#
+# 	@b.setter
+# 	def b(self, v):
+# 		if self.__verify_value(v):
+# 			self.__b = v
+#
+# 	@property
+# 	def c(self):
+# 		return self.__c
+#
+# 	@c.setter
+# 	def c(self, v):
+# 		if self.__verify_value(v):
+# 			self.__c = v
+#
+# 	def __setattr__(self, key, value):
+# 		if key in ("MIN_DIMENSION", "MAX_DIMENSION"):
+# 			raise AttributeError("Менять атрибуты MIN_DIMENSION и MAX_DIMENSION запрещено.")
+# 		object.__setattr__(self, key, value)
+
+#с дескрипторами
+# class Property:
+#     def __set_name__(self, owner, name):
+#         self.name = f'_{owner.__name__}__{name}'
+#         self.min = owner.MIN_DIMENSION
+#         self.max = owner.MAX_DIMENSION
+#
+#     def __get__(self, instance, owner):
+#         if instance:
+#             return getattr(instance, self.name)
+#
+#     def __set__(self, instance, value):
+#         if self.min <= value <= self.max:
+#             setattr(instance, self.name, value)
+#
+# class Dimensions:
+#     MIN_DIMENSION = 10
+#     MAX_DIMENSION = 1000
+#
+#     a = Property()
+#     b = Property()
+#     c = Property()
+#
+#     def __init__(self, a, b, c):
+#         self.a = a
+#         self.b = b
+#         self.c = c
+#
+#     def __setattr__(self, key, value):
+#         if key in ('MIN_DIMENSION', 'MAX_DIMENSION'):
+#             raise AttributeError("Менять атрибуты MIN_DIMENSION и MAX_DIMENSION запрещено.")
+#         object.__setattr__(self, key, value)
+#
+# def type(arg):
+#     return property
+
+# Подвиг 10. Объявите класс GeyserClassic - фильтр для очистки воды. В этом классе должно быть три слота для фильтров. Каждый слот строго для своего класса фильтра:
+#
+# Mechanical - для очистки от крупных механических частиц;
+# Aragon - для последующей очистки воды;
+# Calcium - для обработки воды на третьем этапе.
+#
+# Объекты классов фильтров должны создаваться командами:
+#
+# filter_1 = Mechanical(дата установки)
+# filter_2 = Aragon(дата установки)
+# filter_3 = Calcium(дата установки)
+# Во всех объектах этих классов должен формироваться локальный атрибут:
+#
+# date - дата установки фильтров (для простоты - положительное вещественное число).
+#
+# Также нужно запретить изменение этого атрибута после создания объектов этих классов (только чтение). В случае присвоения нового значения, прежнее значение не менять. Ошибок никаких не генерировать.
+#
+# Объекты класса GeyserClassic должны создаваться командой:
+#
+# g = GeyserClassic()
+# А сам класс иметь атрибут:
+#
+# MAX_DATE_FILTER = 100 - максимальное время работы фильтра (любого)
+#
+# и следующие методы:
+#
+# add_filter(self, slot_num, filter) - добавление фильтра filter в указанный слот slot_num (номер слота: 1, 2 и 3), если он (слот) пустой (без фильтра). Также здесь следует проверять, что в первый слот можно установить только объекты класса Mechanical, во второй - объекты класса Aragon и в третий - объекты класса Calcium. Иначе слот должен оставаться пустым.
+#
+# remove_filter(self, slot_num) - извлечение фильтра из указанного слота (slot_num: 1, 2, и 3);
+#
+# get_filters(self) - возвращает кортеж из набора трех фильтров в порядке их установки (по возрастанию номеров слотов);
+#
+# water_on(self) - включение воды: возвращает True, если вода течет и False - в противном случае.
+#
+# Метод water_on() должен возвращать значение True при выполнении следующих условий:
+#
+# - все три фильтра установлены в слотах;
+# - все фильтры работают в пределах срока службы (значение (time.time() - date) должно быть в пределах [0; MAX_DATE_FILTER])
+#
+# Пример использования классов  (эти строчки в программе писать не нужно):
+#
+# my_water = GeyserClassic()
+# my_water.add_filter(1, Mechanical(time.time()))
+# my_water.add_filter(2, Aragon(time.time()))
+# w = my_water.water_on() # False
+# my_water.add_filter(3, Calcium(time.time()))
+# w = my_water.water_on() # True
+# f1, f2, f3 = my_water.get_filters()  # f1, f2, f3 - ссылки на соответствующие объекты классов фильтров
+# my_water.add_filter(3, Calcium(time.time())) # повторное добавление в занятый слот невозможно
+# my_water.add_filter(2, Calcium(time.time())) # добавление в "чужой" слот также невозможно
+# P.S. На экран ничего выводить не нужно.
+
+class GeyserClassic:
+	MAX_DATE_FILTER = 100
+	def __init__(self):
+		self.slot = [0, 0, 0]
+
+	def add_filter(self, slot_num, filter):
+
+
+	def remove_filter(self, slot_num):
+
+	def get_filters(self):
+
+	def water_on(self):
+
+
+
+class Mechanical:
+	def __init__(self, date):
+		if date > 0 and type(date) == float:
+			self.date = date
+
+	a = 0
+	@classmethod
+	def kount(cls):
+		cls.a += 1
+
+	def __setattr__(self, key, value):
+		self.kount()
+		if self.a > 1:
+			return
+		object.__setattr__(self, key, value)
+
+
+class Aragon:
+	def __init__(self, date):
+		if date > 0 and type(date) == float:
+			self.date = date
+
+	a = 0
+	@classmethod
+	def kount(cls):
+		cls.a += 1
+
+	def __setattr__(self, key, value):
+		self.kount()
+		if self.a > 1:
+			return
+		object.__setattr__(self, key, value)
+
+
+class Calcium:
+	def __init__(self, date):
+		if date > 0 and type(date) == float:
+			self.date = date
+	a = 0
+	@classmethod
+	def kount(cls):
+		cls.a += 1
+
+	def __setattr__(self, key, value):
+		self.kount()
+		if self.a > 1:
+			return
+		object.__setattr__(self, key, value)
+
+# my_water = GeyserClassic()
+# my_water.add_filter(1, Mechanical(time.time()))
+# my_water.add_filter(2, Aragon(time.time()))
+# w = my_water.water_on() # False
+# my_water.add_filter(3, Calcium(time.time()))
+# w = my_water.water_on() # True
+# f1, f2, f3 = my_water.get_filters()  # f1, f2, f3 - ссылки на соответствующие объекты классов фильтров
+# my_water.add_filter(3, Calcium(time.time())) # повторное добавление в занятый слот невозможно
+# my_water.add_filter(2, Calcium(time.time())) # добавление в "чужой" слот также невозможно
+
+
+
