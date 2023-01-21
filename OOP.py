@@ -6863,44 +6863,75 @@
 # my_water.add_filter(3, Calcium(time.time())) # повторное добавление в занятый слот невозможно
 # my_water.add_filter(2, Calcium(time.time())) # добавление в "чужой" слот также невозможно
 # P.S. На экран ничего выводить не нужно.
+import time
 
 class GeyserClassic:
 	MAX_DATE_FILTER = 100
 	def __init__(self):
-		self.slot = [0, 0, 0]
+		self.slot = [None, None, None]
 
 	def add_filter(self, slot_num, filter):
-
+		if slot_num == 1 and type(filter) == Mechanical:
+			if self.slot[0] == None:
+				self.slot[0] = filter
+		if slot_num == 2 and type(filter) == Aragon:
+			if self.slot[1] == None:
+				self.slot[1] = filter
+		if slot_num == 3 and type(filter) == Calcium:
+			if self.slot[2] == None:
+				self.slot[2] = filter
 
 	def remove_filter(self, slot_num):
+		if slot_num == 1:
+			self.slot[0] = None
+		if slot_num == 2:
+			self.slot[1] = None
+		if slot_num == 3:
+			self.slot[2] = None
 
 	def get_filters(self):
+		return tuple(self.slot)
+
 
 	def water_on(self):
-
-
+		if all(map(lambda x: x != None, self.slot)):
+			if 0 <= time.time() - self.slot[0].date <= self.MAX_DATE_FILTER and 0 <= time.time() - self.slot[1].date <= self.MAX_DATE_FILTER and 0 <= time.time() - self.slot[2].date <= self.MAX_DATE_FILTER:
+				return True
+		else:
+			return False
+# if all(map(lambda x: 0 <= time.time() - x.date <= self.MAX_DATE_FILTER, self.slot)):
+# or x != 0
 
 class Mechanical:
 	def __init__(self, date):
-		if date > 0 and type(date) == float:
-			self.date = date
+		self.date = date		
 
 	a = 0
 	@classmethod
 	def kount(cls):
 		cls.a += 1
 
+	def kountM(cls):
+		cls.a -= 1
+
+
 	def __setattr__(self, key, value):
 		self.kount()
 		if self.a > 1:
 			return
-		object.__setattr__(self, key, value)
+		if key == "date" and type(value) == float:
+			object.__setattr__(self, key, value)
+		else:
+			self.kountM()
+		
+
+	# def __delattr__(self, item):
+	# 	return
 
 
 class Aragon:
 	def __init__(self, date):
-		if date > 0 and type(date) == float:
-			self.date = date
+		self.date = date
 
 	a = 0
 	@classmethod
@@ -6911,13 +6942,19 @@ class Aragon:
 		self.kount()
 		if self.a > 1:
 			return
-		object.__setattr__(self, key, value)
+		if key == "date" and type(value) == float:
+			object.__setattr__(self, key, value)
+		else:
+			self.kountM()
+
+	def __delattr__(self, item):
+		return
 
 
 class Calcium:
 	def __init__(self, date):
-		if date > 0 and type(date) == float:
-			self.date = date
+		self.date = date
+
 	a = 0
 	@classmethod
 	def kount(cls):
@@ -6927,17 +6964,31 @@ class Calcium:
 		self.kount()
 		if self.a > 1:
 			return
-		object.__setattr__(self, key, value)
+		if key == "date" and type(value) == float:
+			object.__setattr__(self, key, value)
+		else:
+			self.kountM()
 
-# my_water = GeyserClassic()
+	def __delattr__(self, item):
+		return
+
+my_water = GeyserClassic()
+# print(my_water.slot)
 # my_water.add_filter(1, Mechanical(time.time()))
 # my_water.add_filter(2, Aragon(time.time()))
 # w = my_water.water_on() # False
+# # print(w)
 # my_water.add_filter(3, Calcium(time.time()))
 # w = my_water.water_on() # True
+# # print(w)
 # f1, f2, f3 = my_water.get_filters()  # f1, f2, f3 - ссылки на соответствующие объекты классов фильтров
 # my_water.add_filter(3, Calcium(time.time())) # повторное добавление в занятый слот невозможно
 # my_water.add_filter(2, Calcium(time.time())) # добавление в "чужой" слот также невозможно
+z = Mechanical(5)
+z = Mechanical(5.5)
+# print(my_water.slot[0].date)
+print(z)
+
 
 
 
