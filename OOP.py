@@ -7087,18 +7087,19 @@
 
 # Магический метод __call__. Функторы и классы-декораторы!!!!!!!!!!!!!!!!!
 # магические методе еще называют dunder-методы от англ. сокращения double enderscope, то есть двойное подчеркивание.
+#пример на классе счетчике
 # class Counter:
 # 	def __init__(self):
 # 		self.__counter = 0
 
-# c = Counter()#когда создаем объект, то мы пишем круглые скобки это как бы вызов функции. И в этот момент срабатывает встроенный магический метод __call__ 
+# c = Counter()#когда создаем объект, то мы пишем круглые скобки это оператор вызова функции, но мы так вызываем класс. И по факту при вызове класса в этот момент срабатывает встроенный магический метод __call__
 #конструкция:
-# def __call__(self, *args, **kwargs):
-# 	obj = self.__new__(self, *args, **kwargs)
-# 	self.__init__(obj, *args, **kwargs)
+# def __call__(self, *args, **kwargs):#этому передаются параметры, *args, **kwargs обязательно прописать надо
+# 	obj = self.__new__(self, *args, **kwargs)#в этом методе сначала срабатывает метод __new__
+# 	self.__init__(obj, *args, **kwargs)#потом инициализатор объекта. Это упрощенная схема, в действительности она сложнее
 # 	return obj
 # то есть этот метод вызывает сначала метод __new__ потом инициализатор. Из-за того что есть метод __call__ мы класс можем вызывать подобно функции. Экземпляры класса вызывать так нельзя
-# c()#тут будет ошибка, не получится вызвать объект как функцию, потому что они не вызываемые, так как в них нет метода call
+# c()#тут будет ошибка, не получится вызвать объект как функцию, потому что они невызываемые, так как в них нет метода call. Этот метод делает объект вызываемым
 # но его можно прописать
 
 # class Counter:
@@ -7106,17 +7107,17 @@
 # 		self.__counter = 0
 
 # 	def __call__(self, *args, **kwargs):
-# 		print("__cal__ вызван")
-# 		self.__counter += 1
+# 		print("__cal__ вызван")#при вызове объекта будет автоматом прописываться текст из принта
+# 		self.__counter += 1#тут при каждом вызове объекта, будет счетчик увеличиваться на 1
 # 		return self.__counter#теперь экземпляры объектов можно вызывать как функции
 
 # c = Counter()
 # c()#сработает метод call и ошибки не будет и выполнится код, который прописан в методе call
 # #классы которые себя так ведут, называются функторы
-# c()
+# c()#при каждом вызове счетчик увеличиться на 1
 # res = c()
 # # print(res)#возвратится значение счетчика которое мы прописали. и 3 раза принт сработает
-# # также можно создать другой объект, и у него будет свое свойство счетчик.
+# # также можно создать другой объект, и у него будет свое свойство счетчик. Считаться оно будет отдельно, они не зависят друг от друга
 # c2 = Counter()
 # res2 = c2()
 # print(res, res2)#тут выведутся 2 разные цифры. Счетички не зависимы друг от друга. Можно в каждом объекте сделать свой счетчик
@@ -7133,48 +7134,557 @@
 # c = Counter()
 # c()
 # c(2)
-# res = c(10)#передали шаг в объект, и теперь при срабатывании call из объекта, будет подставлен шаг
+# res = c(10)#передали шаг в объект, и теперь при срабатывании call из объекта, будет подставлен шаг, то есть счетчик будет увеличиваться не на 1, а на ту цифру которую пропишем.
 # c2 = Counter()
 # res2 = c2(-5)
 # print(res, res2)
-# пример использования
+
+# пример использования!!!!!!!!
 # замена замыкания функций
 # class StripChars:#класс для удаления символом в конце и вначале строки
-# 	def __init__(self, chars):
+# 	def __init__(self, chars):#chars это коллекция символов из которой мы будем удалять символы в конце и вначале строки
 # 		self.__counter = 0
-# 		self.__chars = chars
+# 		self.__chars = chars#прописали эту строку в свойство объекта
 
 # 	def __call__(self, *args, **kwargs):
-# 		if not isinstance(args[0], str):
+# 		if not isinstance(args[0], str):#тут мы просто проверяем, что передали строку в наш функтор, если проверка не прошла, то выйдет ошибка
 # 			raise TypeError("Аргумент должен быть строкой")
 
-# 		return args[0].strip(self.__chars)
+# 		return args[0].strip(self.__chars)#иначе возвращается результат обработки строки, тут будут удалены символы вначале и вконце строки, символы будут удалены, те которые мы передадим в инициализатор при создании объекта функтора на основании текущего класса
 
-# s1 = StripChars("?:!.; ")
-# s2 = StripChars(" ")
+# s1 = StripChars("?:!.; ")#передали в функтор символы, которые должны быть удалены вначале и вконце строки
+# s2 = StripChars(" ")#тут передали только пробел, то есть удален будет только пробел
 # res = s1(" Hello World! ")#тут удалены и пробелы и !
-# s2(" Vasilii ")#можно и так вызывать
+# s2(" Vasilii ")#можно и так вызывать, тогда результат никуда не запишется, но ошибки не будет
 # res2 = s2(" Hello World! ")#тут удалены только пробелы
 # print(res, res2, sep="\n")
 
 # классы декораторы
 # декоратор будет вычислять производные в точке x
-import math
-
-class Derivate:
-	def __init__(self, func):
-		self.__fn = func
-		
-	def __call__(self, x, dx=0.0001, *args, **kwargs):
-		return (self.__fn(x+dx) - self.__fn(x)) / dx
-
-@Derivate#класс декоратор можно и так записать. Так проще
-def df_sin(x):
-	return math.sin(x)
+# import math
+#
+# class Derivate:
+# 	def __init__(self, func):#в инициализатор нужно передать ту функцию, функционал которой будем расширять
+# 		self.__fn = func#тут нужно сохранить ссылку на эту функцию в свойстве объекта
+#
+# 	def __call__(self, x, dx=0.0001, *args, **kwargs):#x это точка в которой будем вычислять производную, dx это шаг изменения функции для изменения производной
+# 		return (self.__fn(x+dx) - self.__fn(x)) / dx#тут мы вызвали функцию, которую записали в свойстве объекта self.__fn, и прописали в нее параметр x+dx. То есть предполагаем что у нашей функции будет такой параметр, потом минус значение этой же функции в точке x и разделили на dx, dx э то шаг. Это такая формула производной
+#
+# @Derivate#класс декоратор можно и так записать. Так проще
+# def df_sin(x):#тут просто прописали функцию, которая будет считать синус от нужного нам значения параметра
+# 	return math.sin(x)
 
 # как использовать клас декоратор 
-# df_sin = Derivate(df_sin)#теперь при вызове нашей функции будет срабатывать экземпляр класса, в котром задекорирована функция
+# df_sin = Derivate(df_sin)#теперь при вызове нашей функции будет срабатывать экземпляр класса, в котром задекорирована функция. Мы тут прописали название объекта которое будет сходиться с названием нашей функции, и тем самым мы превратили нашу функцию в экземпляр класса Derivate, то есть переменная df_sin будет ссылаться не на функцию, а на объект класса Derivate, который является функтором декоратором. Теперь при вызове этой же переменной, сработает метод __call__, и при вызове нужно передавать значение.
+# Как это работает. Когда мы создали объект и записали его в переменную df_sin, функция передается в инициализатор и записывается в свойство объекта, и создается функтор. Потом при вызове объекта функции функтора, срабатывает метод __call__, и там мы вычисляем производную по формуле вызывая нашу функцию через свойства объекта, то есть используем свойство объекта, так как в нем записана функция. И тут получается наша функция работает по другому, так как мы это прописали в декораторе. Значение возвращается и выводится на экран. Ну и так как наш объект это функтор, то есть тоже функция декоратор, то его можно записать как обычный декоратор через собачку
+
+# print(df_sin(math.pi/3))#это просто синус
+
+#Задачки!!!!!!!!!!!!!!!
+
+# Подвиг 2. Объявите класс RandomPassword для генерации случайных паролей. Объекты этого класса должны создаваться командой:
+# 
+# rnd = RandomPassword(psw_chars, min_length, max_length)
+# где psw_chars - строка из разрешенных в пароле символов; min_length, max_length - минимальная и максимальная длина генерируемых паролей.
+# 
+# Непосредственная генерация одного пароля должна выполняться командой:
+# 
+# psw = rnd()
+# где psw - ссылка на строку длиной в диапазоне [min_length; max_length] из случайно выбранных символов строки psw_chars.
+# 
+# С помощью генератора списка (list comprehension) создайте список lst_pass из трех сгенерированных паролей объектом rnd класса RandomPassword, созданного с параметрами: 
+# 
+# min_length = 5
+# max_length = 20
+# psw_chars = "qwertyuiopasdfghjklzxcvbnm0123456789!@#$%&*"
+# P.S. Выводить на экран ничего не нужно, только создать список из паролей.
+# 
+# P.P.S. Дополнительное домашнее задание: попробуйте реализовать этот же функционал с использованием замыканий функций.
+# мое решение
+# from random import randint
+#
+# class RandomPassword:
+#
+#     def __init__(self, psw_chars, min_length, max_length):
+#         self.psw_chars = psw_chars
+#         self.min_length = min_length
+#         self.max_length = max_length
+#
+#     def __call__(self, *args, **kwargs):
+#         ps = ""
+#         for i in range(randint(self.min_length, self.max_length)):
+#             ps += psw_chars[randint(0, len(self.psw_chars)-1)]
+#         return ps
+#
+# min_length = 5
+# max_length = 20
+# psw_chars = "qwertyuiopasdfghjklzxcvbnm0123456789!@#$%&*"
+#
+# rnd = RandomPassword(psw_chars, min_length, max_length)
+# lst_pass = [rnd() for i in range(3)]
+# print(lst_pass)
+
+# решение препода
+# from random import randint
+#
+# class RandomPassword:
+#
+#     def __init__(self, psw_chars, min_length, max_length):
+#         self.psw_chars = psw_chars
+#         self.min_length = min_length
+#         self.max_length = max_length
+#
+#     def __call__(self, *args, **kwargs):
+#         n = randint(self.min_length, self.max_length)
+#         return "".join(self.psw_chars[randint(0, len(self.psw_chars)-1)] for i in range(n))
+#
+# min_length = 5
+# max_length = 20
+# psw_chars = "qwertyuiopasdfghjklzxcvbnm0123456789!@#$%&*"
+#
+# rnd = RandomPassword("qwertyuiopasdfghjklzxcvbnm0123456789!@#$%&*", 5, 20)
+# lst_pass = [rnd(), rnd(), rnd()]
+
+#вариант с choice
+# from random import randint, choice
+# class RandomPassword:
+#
+#     def __init__(self, psw_chars, min_length, max_length):
+#         self.psw_chars = psw_chars
+#         self.min_length = min_length
+#         self.max_length = max_length
+#
+#     def __call__(self, *args, **kwargs):
+#         len_psw = randint(self.min_length, self.max_length)
+#         return ''.join(choice(self.psw_chars) for _ in range(len_psw))
+#
+# min_len, max_len = 5, 20
+# chars = "qwertyuiopasdfghjklzxcvbnm0123456789!@#$%&*"
+#
+# rnd = RandomPassword(chars, min_len, max_len)
+# lst_pass = [rnd() for _ in range(3)]
+
+# Подвиг 3. Для последовательной обработки файлов из некоторого списка, например:
+#
+# filenames = ["boat.jpg", "web.png", "text.txt", "python.doc", "ava.8.jpg", "forest.jpeg", "eq_1.png", "eq_2.png", "my.html", "data.shtml"]
+# Необходимо объявить класс ImageFileAcceptor, который бы выделял только файлы с указанными расширениями.
+#
+# Для этого предполагается создавать объекты класса командой:
+#
+# acceptor = ImageFileAcceptor(extensions)
+# где extensions - кортеж с допустимыми расширениями файлов, например: extensions = ('jpg', 'bmp', 'jpeg').
+#
+# А, затем, использовать объект acceptor в стандартной функции filter языка Python следующим образом:
+#
+# image_filenames = filter(acceptor, filenames)
+# Пример использования класса (эти строчки в программе писать не нужно):
+#
+# filenames = ["boat.jpg", "web.png", "text.txt", "python.doc", "ava.jpg", "forest.jpeg", "eq_1.png", "eq_2.png"]
+# acceptor = ImageFileAcceptor(('jpg', 'bmp', 'jpeg'))
+# image_filenames = filter(acceptor, filenames)
+# print(list(image_filenames))  # ["boat.jpg", "ava.jpg", "forest.jpeg"]
+# P.S. Ваша задача только объявить класс ImageFileAcceptor. На экран ничего выводить не нужно.
+
+# class ImageFileAcceptor:
+#     def __init__(self, extensions):
+#         self.extensions = extensions
+#
+#     def __call__(self, *args, **kwargs):
+#         t = args[0]
+#         while t.count(".") > 1:
+#             t = t.replace(".", "", 1)
+#
+#         if t[t.find(".") + 1:] in self.extensions:
+#             return args[0]
+#
+#
+#
+# filenames = ["bo.at.jpg", "web.bmp", "text.txt", "python.doc", "ava.9.jpg", "forest.jpeg", "eq_1.png", "eq_2.png"]
+# acceptor = ImageFileAcceptor(('jpg', 'bmp', 'jpeg'))
+# # acceptor = ImageFileAcceptor(("jpg", "png"))
+#
+# image_filenames = filter(acceptor, filenames)
+# print(list(image_filenames))  # ["boat.jpg", "ava.jpg", "forest.jpeg"]
+
+# красивое решение
+# class ImageFileAcceptor:
+#     def __init__(self, extensions: tuple):
+#         self.__extensions = extensions
+#
+#     def __call__(self, filename, *args, **kwargs):
+#         return filename.split('.')[-1] in self.__extensions
+
+#еще можно юзнуть rfind поиска индекса справа, то есть с конца строки
+
+# Подвиг 4. Предположим, мы разрабатываем класс для обработки формы авторизации на стороне сервера. Для этого был создан следующий класс с именем LoginForm:
+#
+#
+# class LoginForm:
+#     def __init__(self, name, validators=None):
+#         self.name = name
+#         self.validators = validators
+#         self.login = ""
+#         self.password = ""
+#
+#     def post(self, request):
+#         self.login = request.get('login', "")
+#         self.password = request.get('password', "")
+#
+#     def is_validate(self):
+#         if not self.validators:
+#             return True
+#
+#         for v in self.validators:
+#             if not v(self.login) or not v(self.password):
+#                 return False
+#
+#         return True
+#
+# Здесь name - это заголовок формы (строка); validators - список из валидаторов для проверки корректности поля. В методе post параметр request - это словарь с ключами 'login' и 'password' и значениями (строками) для логина и пароля соответственно.
+#
+# Пример использования класса LoginForm (в программе не писать):
+#
+# from string import ascii_lowercase, digits
+#
+# lg = LoginForm("Вход на сайт", validators=[LengthValidator(3, 50), CharsValidator(ascii_lowercase + digits)])
+# lg.post({"login": "root", "password": "panda"})
+# if lg.is_validate():
+#     print("Дальнейшая обработка данных формы")
+# Вам необходимо в программе объявить классы валидаторов:
+#
+# LengthValidator - для проверки длины данных в диапазоне [min_length; max_length];
+# CharsValidator - для проверки допустимых символов в строке.
+#
+# Объекты этих классов должны создаваться командами:
+#
+# lv = LengthValidator(min_length, max_length) # min_length - минимально допустимая длина; max_length - максимально допустимая длина
+# cv = CharsValidator(chars) # chars - строка из допустимых символов
+# Для проверки корректности данных каждый валидатор должен вызываться как функция:
+#
+# res = lv(string)
+# res = cv(string)
+# и возвращать True, если string удовлетворяет условиям валидатора и False - в противном случае.
+#
+# P.S. В программе следует только объявить два класса валидаторов, на экран выводить ничего не нужно.
+
+# мое решение. Эта задача для проверки логина и пароля на стороне сервера. Очень хороший алгоритм. По заданию я прописал сам только валидаторы
+
+from string import ascii_lowercase, digits
+
+# class LoginForm:
+#     def __init__(self, name, validators=None):
+#         self.name = name
+#         self.validators = validators
+#         self.login = ""
+#         self.password = ""
+#
+#     def post(self, request):
+#         self.login = request.get('login', "")
+#         self.password = request.get('password', "")
+#
+#     def is_validate(self):
+#         if not self.validators:
+#             return True
+#
+#         for v in self.validators:
+#             if not v(self.login) or not v(self.password):
+#                 return False
+#
+#         return True
+#
+# class LengthValidator:
+#     def __init__(self, min_length, max_length):
+#         self.min_length = min_length
+#         self.max_length = max_length
+#
+#     def __call__(self, string):
+#         if self.min_length <= len(string) <= self.max_length:
+#             return True
+#         else:
+#             return False
+#
+#
+# class CharsValidator:
+#     def __init__(self, chars):
+#         self.chars = chars
+#
+#     def __call__(self, string):
+#         if all(map(lambda x: x in self.chars, string.lower())):
+#             return True
+#         else:
+#             return False
+#
+# from string import ascii_lowercase, digits
+#
+# lg = LoginForm("Вход на сайт", validators=[LengthValidator(3, 50), CharsValidator(ascii_lowercase + digits)])
+# lg.post({"login": "root", "password": "panda"})
+# if lg.is_validate():
+#     print("Дальнейшая обработка данных формы")
+# a = "qwertyu"
+# print(all(map(lambda x: x in ascii_lowercase, a)))
+
+# решение препода
+# class LengthValidator:
+#     def __init__(self, min_length, max_length):
+#         self.min_length = min_length
+#         self.max_length = max_length
+#
+#     def __call__(self, string, *args, **kwargs):
+#         return self.min_length <= len(string) <= self.max_length
+#
+#
+# class CharsValidator:
+#     def __init__(self, chars):
+#         self.chars = chars
+#
+#     def __call__(self, string, *args, **kwargs):
+#         return set(string) <= set(self.chars)#если все символы строки string в виде множества будут входить в множество self.chars, то будет тру, и если нет, то фолз
+#
+# Подвиг 5. Объявите класс DigitRetrieve для преобразования данных из строки в числа. Объекты этого класса создаются командой:
+#
+# dg = DigitRetrieve()
+# Затем, их предполагается использовать, например следующим образом:
+#
+# d1 = dg("123")   # 123 (целое число)
+# d2 = dg("45.54")   # None (не целое число)
+# d3 = dg("-56")   # -56 (целое число)
+# d4 = dg("12fg")  # None (не целое число)
+# d5 = dg("abc")   # None (не целое число)
+# То есть, целые числа в строке следует приводить к целочисленному типу данных, а все остальные - к значению None.
+#
+# С помощью объектов класса DigitRetrieve должно выполняться преобразование чисел из списка строк следующим образом:
+#
+# st = ["123", "abc", "-56.4", "0", "-5"]
+# digits = list(map(dg, st))  # [123, None, None, 0, -5]
+# P.S. На экран ничего выводить не нужно.
+
+# мое решение
+# from string import ascii_lowercase
+# class DigitRetrieve:
+#     CHARS = "абвгдеёжзийклмнопрстуфхцчшщьыъэюя " + ascii_lowercase + "?:!.; "
+#     def __call__(self, st):
+#         if all(map(lambda x: x not in self.CHARS, st)):
+#             if "-" in st and st[0] != "-" or st.count("-") > 1:
+#                 return None
+#             return int(st)
+#         else:
+#             return None
+#
+# dg = DigitRetrieve()
+#
+# st = ["--123", "abc", "-56.4", "0", "-5"]
+# digits = list(map(dg, st))  # [123, None, None, 0, -5]
+# print(digits)
+
+# решение препода
+
+# class DigitRetrieve:
+#
+#     def __call__(self, string, *args, **kwargs):
+#         if string[0] == "-":
+#             if string[1:].isdigit():
+#                 return int(string)
+#         elif string.isdigit():
+#             return int(string)
+#         return None
+
+#более простое решение
+# class DigitRetrive:
+#     def __call__(self, string: str):
+#         try:
+#             return int(string)#если не преобразуется и питон выдаст ошибку, то возвращаем None. Выглядит проще
+#         except ValueError:
+#             return None
+
+# еще один просто но плохо читаемый вариант
+# class DigitRetrieve:
+#     def __call__(self, st, *args, **kwargs):
+#         if (st[1:] if st.startswith('-') else st).isdigit():
+#             return int(st)
+
+# Подвиг 6. Предположим, вам необходимо создать программу по преобразованию списка строк, например:
+#
+# lst = ["Пункт меню 1", "Пункт меню 2", "Пункт меню 3"]
+# в следующий фрагмент HTML-разметки (многострочной строки, кавычки выводить не нужно):
+#
+# '''<ul>
+# <li>Пункт меню 1</li>
+# <li>Пункт меню 2</li>
+# <li>Пункт меню 3</li>
+# </ul>'''
+#
+# Для этого необходимо объявить класс RenderList, объекты которого создаются командой:
+#
+# render = RenderList(type_list)
+# где type_list - тип списка (принимает значения: "ul" - для списка с тегом <ul> и "ol" - для списка с тегом <ol>). Если значение параметра type_list другое (не "ul" и не "ol"), то формируется список с тегом <ul>.
+#
+# Затем, предполагается использовать объект render следующим образом:
+#
+# html = render(lst) # возвращается многострочная строка с соответствующей HTML-разметкой
+# Пример использования класса (эти строчки в программе писать не нужно):
+#
+# lst = ["Пункт меню 1", "Пункт меню 2", "Пункт меню 3"]
+# render = RenderList("ol")
+# html = render(lst)
+# P.S. На экран ничего выводить не нужно.
+# мое решение
+# class RenderList:
+#
+#     def __init__(self, type_list):
+#         if type_list == "ul":
+#             self.type_list = "ul"
+#             return
+#         if type_list == "ol":
+#             self.type_list = "ol"
+#             return
+#         if type_list != "ul" or type_list != "ol":
+#             self.type_list = "ul"
+#
+#     def __call__(self, lst):
+#         s = ""
+#         for i in lst:
+#             s += "<li>" + i + "</li>\n"
+#         return f"""<{self.type_list}>
+# {s[:-1]}
+# </{self.type_list}>"""
+#
+# lst = ["Пункт меню 1", "Пункт меню 2", "Пункт меню 3"]
+# render = RenderList("ol")
+# html = render(lst)
+# print(html)
+
+#красивое решение с генератором
+# class RenderList:
+#     def __init__(self, type_list='ul'):
+#         self.type_list = type_list if type_list in 'ulol' else 'ul'
+#
+#     def __call__(self, lst):
+#         new_list = '\n'.join([f"<li>{el}</li>" for el in lst])
+#         return f'<{self.type_list}>\n{new_list}\n</{self.type_list}>'
+
+# Подвиг 7. Необходимо объявить класс-декоратор с именем HandlerGET, который будет имитировать обработку GET-запросов на стороне сервера. Для этого сам класс HandlerGET нужно оформить так, чтобы его можно было применять к любой функции как декоратор. Например:
+#
+# @HandlerGET
+# def contact(request):
+#     return "Сергей Балакирев"
+# Здесь request - это произвольный словарь с данными текущего запроса, например, такой: {"method": "GET", "url": "contact.html"}. А функция должна возвращать строку.
+#
+# Затем, при вызове декорированной функции:
+#
+# res = contact({"method": "GET", "url": "contact.html"})
+# должна возвращаться строка в формате:
+#
+# "GET: <данные из функции>"
+#
+# В нашем примере - это будет:
+#
+# "GET: Сергей Балакирев"
+#
+# Если ключ method в словаре request отсутствует, то по умолчанию подразумевается GET-запрос. Если же ключ method принимает другое значение, например, "POST", то декорированная функция contact должна возвращать значение None.
+#
+# Для реализации имитации GET-запроса в классе HandlerGET следует объявить вспомогательный метод со следующей сигнатурой:
+#
+# def get(self, func, request, *args, **kwargs): ...
+# Здесь func - ссылка на декорируемую функцию; request - словарь с переданными данными при вызове декорированной функции. Именно в этом методе следует формировать возвращаемую строку в указанном формате:
+#
+# "GET: Сергей Балакирев"
+#
+# P.S. В программе достаточно объявить только класс. Ничего на экран выводить не нужно.
+# мое решение
+# class HandlerGET:
+#     def __init__(self, func):
+#         self.__fn = func
+#
+#     def __call__(self, request, *args, **kwargs):
+#         if "method" not in request:#надо учиться работать со словарями....... юзаем методы словарей....
+#             return f"GET: {self.__fn(request)}"
+#         if request["method"] == "GET":
+#             return f"GET: {self.__fn(request)}"
+#         else:
+#             return None
+#
+#
+# @HandlerGET
+# def contact(request):
+#     return "Сергей Балакирев"
+#
+# res = contact({"method": "GET", "url": "contact.html"})
+# print(res)
+
+# решение по заданию, вроде красиво
+# class HandlerGET:
+#
+#     def __init__(self, func):
+#         self._func = func
+#
+#     def __call__(self, request):
+#         return self.get(self._func, request)
+#
+#     def get(self, func, request, *args, **kwargs):
+#         method = request.get('method', 'GET')
+#         if method != 'GET':
+#             return None
+#         return f'GET: {func(request)}'
+
+# решение препода
+# class HandlerGET:
+#
+#     def __init__(self, func):
+#         self.func = func
+#
+#     def __call__(self, request):
+#         m = request.get('method', 'GET')
+#         if m == "GET":
+#             return self.get(self.func, request)
+#         return None
+#
+#     def get(self, func, request, *args, **kwargs):
+#         return f'GET: {func(request)}'
+
+# Подвиг 8 (развитие подвига 7). Необходимо объявить класс-декоратор с именем Handler, который можно было бы применять к функциям следующим образом:
+#
+# @Handler(methods=('GET', 'POST')) # по умолчанию methods = ('GET',)
+# def contact(request):
+#     return "Сергей Балакирев"
+# Здесь аргумент methods декоратора Handler содержит список разрешенных запросов для обработки. Сама декорированная функция вызывается по аналогии с предыдущим подвигом:
+#
+# res = contact({"method": "POST", "url": "contact.html"})
+# В результате функция contact должна возвращать строку в формате:
+#
+# "<метод>: <данные из функции>"
+#
+# В нашем примере - это будет:
+#
+# "POST: Сергей Балакирев"
+#
+# Если ключ method в словаре request отсутствует, то по умолчанию подразумевается GET-запрос. Если ключ method принимает значение отсутствующее в списке methods декоратора Handler, например, "PUT", то декорированная функция contact должна возвращать значение None.
+#
+# Для имитации GET и POST-запросов в классе Handler необходимо объявить два вспомогательных метода с сигнатурами:
+#
+# def get(self, func, request, *args, **kwargs) - для имитации обработки GET-запроса
+# def post(self, func, request, *args, **kwargs) - для имитации обработки POST-запроса
+#
+# В зависимости от типа запроса должен вызываться соответствующий метод (его выбор в классе можно реализовать методом __getattribute__()). На выходе эти методы должны формировать строки в заданном формате.
+#
+# P.S. В программе достаточно объявить только класс. Ничего на экран выводить не нужно.
+#
+# Небольшая справка
+# Для реализации декоратора с параметрами на уровне класса в инициализаторе __init__(self, methods) прописываем параметр для декоратора, а магический метод __call__() объявляем как полноценный декоратор на уровне функции, например:
+# class Handler:
+#     def __init__(self, methods):
+#         # здесь нужные строчки
+#
+#     def __call__(self, func):
+#         def wrapper(request, *args, **kwargs):
+#             # здесь нужные строчки
+#         return wrapper
 
 
-print(df_sin(math.pi/3))#это просто синус
+
+
+
+
+
+
+
 
