@@ -7590,24 +7590,28 @@ from string import ascii_lowercase, digits
 # "GET: Сергей Балакирев"
 #
 # P.S. В программе достаточно объявить только класс. Ничего на экран выводить не нужно.
+
 # мое решение
 # class HandlerGET:
 #     def __init__(self, func):
 #         self.__fn = func
-#
+
 #     def __call__(self, request, *args, **kwargs):
 #         if "method" not in request:#надо учиться работать со словарями....... юзаем методы словарей....
-#             return f"GET: {self.__fn(request)}"
+#             return self.get(self.__fn, request)
 #         if request["method"] == "GET":
-#             return f"GET: {self.__fn(request)}"
+#             return self.get(self.__fn, request)
 #         else:
 #             return None
-#
-#
+
+# 	def get(self, func, request, *args, **kwargs):
+# 		return f"GET: {func(request)}"
+
+
 # @HandlerGET
 # def contact(request):
 #     return "Сергей Балакирев"
-#
+
 # res = contact({"method": "GET", "url": "contact.html"})
 # print(res)
 
@@ -7680,8 +7684,39 @@ from string import ascii_lowercase, digits
 #         return wrapper
 
 
+from functools import wraps
+
+class Handler:
+
+    def __init__(self, methods):
+        self.methods = methods
+
+    def __call__(self, func):
+    	@wraps(func)
+    	def wrapper(request, *args, **kwargs):
 
 
+    	return wrapper
+        
+
+    def get(self, func, request, *args, **kwargs):
+        method = request.get('method', 'GET')
+        if method != 'GET':
+            return None
+        return f'GET: {func(request)}'
+
+	def post(self, func, request, *args, **kwargs):
+
+
+
+
+
+@Handler(methods=('GET', 'POST')) # по умолчанию methods = ('GET',)
+def contact(request):
+    return "Сергей Балакирев"
+
+
+res = contact({"method": "POST", "url": "contact.html"})
 
 
 
