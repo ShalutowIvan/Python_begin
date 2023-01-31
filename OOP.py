@@ -7694,6 +7694,7 @@ class Handler:
     def __call__(self, func):
     	@wraps(func)
     	def wrapper(request, *args, **kwargs):
+    		скорее всего тут проверка на вхождение в методс
 
 
     	return wrapper
@@ -7701,9 +7702,10 @@ class Handler:
 
     def get(self, func, request, *args, **kwargs):
         method = request.get('method', 'GET')
-        if method != 'GET':
-            return None
-        return f'GET: {func(request)}'
+        if method == 'GET':
+            return f'GET: {func(request)}'
+		return None
+        
 
 	def post(self, func, request, *args, **kwargs):
 
