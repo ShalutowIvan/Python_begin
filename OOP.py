@@ -7496,7 +7496,7 @@ from string import ascii_lowercase, digits
 #         except ValueError:
 #             return None
 
-# еще один просто но плохо читаемый вариант
+# еще один простой но плохо читаемый вариант
 # class DigitRetrieve:
 #     def __call__(self, st, *args, **kwargs):
 #         if (st[1:] if st.startswith('-') else st).isdigit():
@@ -7683,45 +7683,182 @@ from string import ascii_lowercase, digits
 #             # здесь нужные строчки
 #         return wrapper
 
+# мое решение
+# from functools import wraps
 
+# class Handler:
+
+# 	def __init__(self, methods):
+# 		self.methods = methods
+
+# 	def __call__(self, func):
+# 		@wraps(func)
+# 		def wrapper(request, *args, **kwargs):
+# 			m = request.get('method', 'GET')
+# 			if m not in self.methods:
+# 				return None
+# 			elif m == "POST":
+# 				return self.post(func, request)
+# 			elif m == "GET":
+# 				return self.get(func, request)    	
+# 		return wrapper
+        
+
+# 	def get(self, func, request, *args, **kwargs):
+# 		return f"GET: {func(request)}"
+		       
+
+# 	def post(self, func, request, *args, **kwargs):		
+# 		return f"POST: {func(request)}"
+
+
+# @Handler(methods=('GET', 'POST')) # по умолчанию methods = ('GET',)
+# def contact(request):
+#     return "Сергей Балакирев"
+
+
+# res = contact({"method": "POST", "url": "contact.html"})
+# print(res)
+
+# решение препода
+# from functools import wraps
+
+# class Handler:
+
+# 	def __init__(self, methods=("GET", )):
+# 		self.__methods = methods
+
+# 	def __call__(self, func):		
+# 		def wrapper(request):
+# 			m = request.get('method', 'GET')
+# 			if m in self.__methods:
+# 				method = m.lower()
+# 				return self.__getattribute__(method)(func, request)#тут берется тот или иной атрибут класса, и в нашем случае формируется ссылка на тот или иной метод post или get, то есть в параметр функции __getattribute__ передается item и он равен самому названию атрибута класса в виде строки. То есть название функций get и post это будут строки в нижнем регистре из нашего словаря m. Этот метод ищет нужный атрибут класса и с ним работает. Сложнаааа
+# 		return wrapper
+        
+
+# 	def get(self, func, request, *args, **kwargs):
+# 		return f"GET: {func(request)}"
+		       
+
+# 	def post(self, func, request, *args, **kwargs):		
+# 		return f"POST: {func(request)}"
+
+# Подвиг 9. Объявите класс-декоратор InputDigits для декорирования стандартной функции input так, чтобы при вводе строки из целых чисел, записанных через пробел, например:
+
+# "12 -5 10 83"
+
+# на выходе возвращался список из целых чисел:
+
+# [12, -5, 10, 83]
+
+# Назовите декорированную функцию input_dg и вызовите ее командой:
+
+# res = input_dg()
+# P.S. На экран ничего выводить не нужно.
+
+# мое решение
+# class InputDigits:
+# 	def __init__(self, func):
+# 		self.func = func
+
+# 	def __call__(self):
+# 		return list(map(int, self.func().split()))
+
+# @InputDigits
+# def input_dg():
+# 	return input()
+
+# res = input_dg()
+# print(res)
+
+# решение препода
+
+# class InputDigits:
+# 	def __init__(self, func):
+# 		self.func = func
+
+# 	def __call__(self):
+# 		return list(map(int, self.func().split()))
+
+# input_dg = InputDigits(input)#тут мы задекорировали стандартную функцию
+
+# res = input_dg()
+# print(res)
+
+# Подвиг 10 (развитие подвига 9). Объявите класс-декоратор InputValues с параметром render - функция или объект для преобразования данных из строк в другой тип данных. Чтобы реализовать такой декоратор в инициализаторе __init__() следует указать параметр render, а магический метод __call__() определяется как функция-декоратор:
+
+# class InputValues:
+#     def __init__(self, render):     # render - ссылка на функцию или объект для преобразования
+#         # здесь строчки программы
+
+#     def __call__(self, func):     # func - ссылка на декорируемую функцию
+#         def wrapper(*args, **kwargs):
+#             # здесь строчки программы
+#         return wrapper
+# В качестве рендера объявите класс с именем RenderDigit, который бы преобразовывал строковые данные в целые числа. Объекты этого класса создаются командой:
+
+# render = RenderDigit()
+# и применяются следующим образом:
+
+# d1 = render("123")   # 123 (целое число)
+# d2 = render("45.54")   # None (не целое число)
+# d3 = render("-56")   # -56 (целое число)
+# d4 = render("12fg")  # None (не целое число)
+# d5 = render("abc")   # None (не целое число)
+# Декорируйте стандартную функцию input декоратором InputValues и объектом рендера класса RenderDigit так, чтобы на выходе при вводе целых чисел через пробел возвращался список из введенных значений. А на месте не целочисленных данных - значение None.
+
+# Например, при вводе строки:
+
+# "1 -5.3 0.34 abc 45f -5"
+
+# должен возвращаться список:
+
+# [1, None, None, None, None, -5]
+
+# Назовите декорированную функцию input_dg и вызовите ее командой:
+
+# res = input_dg()
+# Выведите результат res на экран.
+
+# мое решение
 from functools import wraps
 
-class Handler:
+class InputValues:
 
-    def __init__(self, methods):
-        self.methods = methods
+	def __init__(self, render):
+		self.render = render#это параметр, он будет функтором класса RenderDigit
 
-    def __call__(self, func):
-    	@wraps(func)
-    	def wrapper(request, *args, **kwargs):
-    		скорее всего тут проверка на вхождение в методс
-
-
-    	return wrapper
-        
-
-    def get(self, func, request, *args, **kwargs):
-        method = request.get('method', 'GET')
-        if method == 'GET':
-            return f'GET: {func(request)}'
-		return None
-        
-
-	def post(self, func, request, *args, **kwargs):
+	def __call__(self, func):
+		@wraps
+		def wrapper():
+			return list(map(self.render, func().split()))
+			
+		return wrapper
 
 
+class RenderDigit:
+    def __call__(self, string=""):
+        try:
+            return int(string)
+        except ValueError:
+            return None
+
+r = RenderDigit()
+
+@InputValues(r())
+def input_dg():
+	return "1 2 a"
+	# return input()
 
 
+res = input_dg()
+print(res)
 
-@Handler(methods=('GET', 'POST')) # по умолчанию methods = ('GET',)
-def contact(request):
-    return "Сергей Балакирев"
+# "1 -5.3 0.34 abc 45f -5"
 
+# должен возвращаться список:
 
-res = contact({"method": "POST", "url": "contact.html"})
-
-
-
-
+# [1, None, None, None, None, -5]
 
 
