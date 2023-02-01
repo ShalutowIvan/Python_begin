@@ -7721,7 +7721,6 @@ from string import ascii_lowercase, digits
 # print(res)
 
 # решение препода
-# from functools import wraps
 
 # class Handler:
 
@@ -7822,43 +7821,107 @@ from string import ascii_lowercase, digits
 # Выведите результат res на экран.
 
 # мое решение
-from functools import wraps
+# class InputValues:
+# 	def __init__(self, render):
+# 		self.render = render
+#
+# 	def __call__(self, func):
+# 		def wrapper():
+# 			return list(map(self.render, func().split()))
+# 		return wrapper
+#
+# class RenderDigit:
+# 	def __call__(self, string=""):
+# 		try:
+# 			return int(string)
+# 		except ValueError:
+# 			return None
+#
+# @InputValues(RenderDigit())
+# def input_dg():
+# 	return input()
+#
+# res = input_dg()
+# print(res)
 
-class InputValues:
+# решение препода
+# class RenderDigit:
+# 	def __call__(self, string, *args, **kwargs):
+# 		try:
+# 			return int(string)
+# 		except:
+# 			return None
+#
+# class InputValues:
+# 	def __init__(self, render):
+# 		self.__render = render
+#
+# 	def __call__(self, func, *args, **kwargs):
+# 		def wrapper(*args, **kwargs):
+# 			return list(map(self.__render, func(*args, **kwargs).split()))
+# 		return wrapper
+#
+# render = RenderDigit()
+# input_dg = InputValues(render)(input)#когда второй раз открыли скобки, мы тем самым запустили внутреннюю функцию __call__ и в нее передали функцию которую будем декорировать. Так это можно прописать без собачки
+# res = input_dg()
+# print(res)
 
-	def __init__(self, render):
-		self.render = render#это параметр, он будет функтором класса RenderDigit
+# Магические методы __str__, __repr__, __len__, __abs__!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#эти магические методы определены в каждом классе, dunder-методы, double underscope
+# __str__() - для отображения информации об объекте класса для пользователей (например для функций print, str)
+# __repr__() - для отображения информации об объекте класса в режиме отладки (для разработчиков)
+# class Cat:
+# 	def __init__(self, name):
+# 		self.name = name
+#
+# cat = Cat("Васька")
+# print(cat)#если вывести объект, то выведется такая строка <__main__.Cat object at 0x0000022A422A23D0>
+#Cat это тип объекта, то есть клас на основании которого объект создан, 0x0000022A422A23D0 это адрес по которому расположен объект в памяти устройства
+# если нужно переопределить инфу об объекте, то можно использовать магические методы
+#начнем с прописания метода __repr__. он должен возвращать строку. Прописывать его нужно в классе
 
-	def __call__(self, func):
-		@wraps
-		def wrapper():
-			return list(map(self.render, func().split()))
-			
-		return wrapper
+# class Cat:
+# 	def __init__(self, name):
+# 		self.name = name
+#
+# 	def __repr__(self):
+# 		return f"{self.__class__}: {self.name}"#__class__ это специальное свойство для отображения имени класса, оно хранит имя класса. Теперь в таком виде будет выводиться инфа о каждом экземпляре класса
 
+# cat = Cat("Васька")
+# print(cat)#будет выведено <class '__main__.Cat'>: Васька , то есть имя класса и атрибут объекта
+# print(str(cat))#тут будет выведено тоже самое, что и если бы прописали просто cat, как в предыдущей строке
+# но по идее должен срабатывать метод __str__, но он не срабатывает, так как мы его не определили в классе, поэому работает только repr
 
-class RenderDigit:
-    def __call__(self, string=""):
-        try:
-            return int(string)
-        except ValueError:
-            return None
+# class Cat:
+# 	def __init__(self, name):
+# 		self.name = name
+#
+# 	def __repr__(self):
+# 		return f"{self.__class__}: {self.name}"
+#
+# 	def __str__(self):
+# 		return f"{self.name}"
+#
+# cat = Cat("Васька")
+# print(cat)#если просто вывести объект в консоли питона, то сработает метод repr. но в методы print сработает str
+# print(str(cat))#тут тоже сработает str. То есть при выводе инфы для пользователя сработает метод str. А при выводе служебной информации будет срабатывать метод repr. Если просто прописать объект ничего не выводится
 
-r = RenderDigit()
+# __len__() - позволяет применять функцию len() к экземплярам класса
+# __abs__() - позволяет применять функцию abs() к экземплярам класса
+# пример
+# class Point:
+# 	def __init__(self, *args):#передаем произвольное колво кординат. 2, 3, 4 и так далее колво координат
+# 		self.__coords = args#это будет список из координат точек
+#
+# 	def __len__(self):
+# 		return len(self.__coords)#если переопределить метод len, таким способом, то можно будет применять функцию len к объекту класса и он будет возвращть ту цифру, которую мы тут переопределили
+#
+# 	def __abs__(self):
+# 		return list(map(abs, self.__coords))#переопределили метод abs для объекта класса, теперь можно применять функцию abs для объектов класса
+#
+# p = Point(1, -2, -5)
+# print(len(p))#так применить функцию len нельзя, потому что нельзя применять эту функцию к объектам класса. Но предположим, что нам нужно чтобы функция len возвращала колво координат точек
+# print(abs(p))#тут выведутся модули координат из объекта, так как мы переопредили метод abs
 
-@InputValues(r())
-def input_dg():
-	return "1 2 a"
-	# return input()
-
-
-res = input_dg()
-print(res)
-
-# "1 -5.3 0.34 abc 45f -5"
-
-# должен возвращаться список:
-
-# [1, None, None, None, None, -5]
 
 
