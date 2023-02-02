@@ -4794,7 +4794,7 @@
 # схема работы дескрипторов
 # так как координаты это целые числа, то мы определим класс с именем integer (название можно писать любое), и в нем пропишем нужные методы
 # class integer:
-# 	def __set_name__(self, owner, name):#тут параметры, self это ссылка на эксземпляр класса integer, параметр owner это ссылка на класс Point3D, name это имя например x которому присваивается экземпляр класса. Через параметр name мы создаем локальное свойство self.name = "_" + name, как понял получается это будет строка которая содержит "_" и символ x, так как в параметр name передается x. Потом также y и z.
+# 	def __set_name__(self, owner, name):#тут параметры, self это ссылка на экземпляр класса integer, параметр owner это ссылка на класс Point3D, name это имя например x которому присваивается экземпляр класса. Через параметр name мы создаем локальное свойство self.name = "_" + name, как понял получается это будет строка которая содержит "_" и символ x, так как в параметр name передается x. Потом также y и z.
 # 		self.name = "_" + name
 
 # 	def __get__(self, instance, owner):
@@ -4832,7 +4832,7 @@
 # 		return instance.__dict__[self.name]
 
 # 	def __set__(self, instance, value):
-# 		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выолнится далее и сработает сеттер, если не пройдет, то не сработает
+# 		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выполнится далее и сработает сеттер, если не пройдет, то не сработает
 # 		print(f"__set__:{self.name}={value}")#эта строка просто для проверки что сеттер сработал
 # 		instance.__dict__[self.name] = value
 
@@ -4864,7 +4864,7 @@
 # 		return getattr(instance, self.name)#можно юзать getattr и setattr для сеттеров и геттеров
 
 # 	def __set__(self, instance, value):
-# 		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выолнится далее и сработает сеттер, если не пройдет, то не сработает
+# 		self.verify_coord(value)#передали сюда значение, теперь если проверка пройдет, то код выполнится далее и сработает сеттер, если не пройдет, то не сработает
 # 		print(f"__set__:{self.name}={value}")#эта строка просто для проверки что сеттер сработал
 # 		setattr(instance, self.name, value)#тут тоже прописали setattr. В питоне это будет правильнее
 
@@ -4932,6 +4932,7 @@
 # p.__dict__["xr"] = 5
 # print(p.xr)#тут выведется единица, потому что дескриптор действует с более высоким приоритетом чем обычное объявление свойства объекта. Сейчас в нашем дескрипторе не данных прописан сеттер, поэтому он сработал первее, но если его убрать, будет все как обычно. То есть присвоится цифра 5, потому что она присваивалась последней
 
+#задачки!!!!!!!!!!!!
 
 # Подвиг 6. Объявите дескриптор данных FloatValue, который бы устанавливал и возвращал вещественные значения. При записи вещественного числа должна выполняться проверка на вещественный тип данных. Если проверка не проходит, то генерировать исключение командой:
 #
@@ -8066,28 +8067,208 @@ from string import ascii_lowercase, digits
 # print(words.string)
 # print(f"Число слов: {n}; первое слово: {first}")
 # P.S. В программе нужно только объявить класс, выводить в консоль ничего не нужно.
+# мое решение. У других хуже
+# class WordString:
+# 	__string = ""
+# 	def __init__(self, s=""):
+# 		self.string = s
+#
+# 	def __len__(self):
+# 		return len(self.string.replace("  ", " ").split())
+#
+# 	def __call__(self, indx):
+# 		return self.string.replace("  ", " ").split()[indx]
+#
+# 	@property
+# 	def string(self):
+# 		return self.__string
+#
+# 	@string.setter
+# 	def string(self, v):
+# 		self.__string = v
+#
+# words = WordString()
+# words.string = "Курс по      Python ООП"
+# n = len(words)
+# first = "" if n == 0 else words(0)
+# print(words.string)
+# print(f"Число слов: {n}; первое слово: {first}")
+# print(words.__dict__)
 
-class WordString:
+# Подвиг 5. Объявите класс LinkedList (связный список) для работы со следующей структурой данных:
+#
+# Здесь создается список из связанных между собой объектов класса ObjList. Объекты этого класса создаются командой:
+#
+# obj = ObjList(data)
+# где data - строка с некоторой информацией. Также в каждом объекте obj класса ObjList должны создаваться следующие локальные атрибуты:
+#
+# __data - ссылка на строку с данными;
+# __prev - ссылка на предыдущий объект связного списка (если объекта нет, то __prev = None);
+# __next - ссылка на следующий объект связного списка (если объекта нет, то __next = None).
+#
+# В свою очередь, объекты класса LinkedList должны создаваться командой:
+#
+# linked_lst = LinkedList()
+# и содержать локальные атрибуты:
+#
+# head - ссылка на первый объект связного списка (если список пуст, то head = None);
+# tail - ссылка на последний объект связного списка (если список пуст, то tail = None).
+#
+# А сам класс содержать следующие методы:
+#
+# add_obj(obj) - добавление нового объекта obj класса ObjList в конец связного списка;
+# remove_obj(indx) - удаление объекта класса ObjList из связного списка по его порядковому номеру (индексу); индекс отсчитывается с нуля.
+#
+# Также с объектами класса LinkedList должны поддерживаться следующие операции:
+#
+# len(linked_lst) - возвращает число объектов в связном списке;
+# linked_lst(indx) - возвращает строку __data, хранящуюся в объекте класса ObjList, расположенного под индексом indx (в связном списке).
+#
+# Пример использования классов (эти строчки в программе писать не нужно):
+#
+# linked_lst = LinkedList()
+# linked_lst.add_obj(ObjList("Sergey"))
+# linked_lst.add_obj(ObjList("Balakirev"))
+# linked_lst.add_obj(ObjList("Python"))
+# linked_lst.remove_obj(2)
+# linked_lst.add_obj(ObjList("Python ООП"))
+# n = len(linked_lst)  # n = 3
+# s = linked_lst(1) # s = Balakirev
+# P.S. На экран в программе ничего выводить не нужно.
 
-	def __init__(self, string=""):
-		self.string = string
+# мое решение
 
-	def __len__(self):
-		return len(self.string.replace("  ", " ").split())
+class LinkedList:
+	def __init__(self):
+		self.head = None
+		self.tail = None
 
-	def words(self, indx):
-		return self.string.replace("  ", " ").split()[indx]
+	# def add_obj(self, obj):
+	#
+	#
+	# def remove_obj(self, indx):
+	#
+	#
+	# def __len__(self):
+	#
+	# def linked_lst(self, indx):
+		
+
+
+
+class ObjList:
+
+	def __init__(self, data):
+		self.__data = data
+		self.__prev = None
+		self.__next = None
+
+	@property
+	def data(self):
+		return self.__data
+
+	@data.setter
+	def data(self, v):
+		self.__data = v
+
+	@property
+	def prev(self):
+		return self.__prev
+
+	@prev.setter
+	def prev(self, v):
+		self.__prev = v
+
+	@property
+	def next(self):
+		return self.__next
+
+	@next.setter
+	def next(self, v):
+		self.__next = v
+
+
+o = ObjList("Ivan")
+print(o.__dict__)
+
+# linked_lst = LinkedList()
+# linked_lst.add_obj(ObjList("Sergey"))
+# linked_lst.add_obj(ObjList("Balakirev"))
+# linked_lst.add_obj(ObjList("Python"))
+# linked_lst.remove_obj(2)
+# linked_lst.add_obj(ObjList("Python ООП"))
+# n = len(linked_lst)  # n = 3
+# s = linked_lst(1) # s = Balakirev
 
 
 
 
 
-words = WordString()
-words.string = "Курс по      Python ООП"
-n = len(words)
-first = "" if n == 0 else words(0)
-print(words.string)
-print(f"Число слов: {n}; первое слово: {first}")
 
-# вроде сделал
+# class LinkedList:
+# 	def __init__(self):
+# 		self.head = None
+# 		self.tail = None
+#
+# 	def add_obj(self, obj):
+# 		q = obj#создаем новый объект
+# 		q_prev = self.tail#ссылка на предыдущий объект
+# 		if self.tail != None:#тут если последний элемент не пустой, то есть tail хранит предыдущий объект, то мы в его свойство записываем ссылку на новый следующий объект
+# 			self.tail.set_next(q)
+# 		self.tail = q#потом в tail записываем следующий объект
+# 		self.tail.set_prev(q_prev)#препод лишнюю переменную не создает
+# 		if self.head == None:
+# 			self.head = q
+#
+# 	def remove_obj(self):
+# 		if self.tail == self.head == None:
+# 			return
+# 		if self.tail == self.head:
+# 			self.tail = None
+# 			self.head = None
+# 			return
+# 		self.tail.get_prev().set_next(None)
+# 		self.tail = self.tail.get_prev()
+#
+#
+# 	def get_data(self):
+# 		if self.tail == self.head == None:
+# 			return []
+# 		res = [self.head.get_data()]
+# 		node = self.head.get_next()
+# 		if self.head.get_next() == None:
+# 			return res
+# 		else:
+# 			res += [node.get_data()]
+#
+# 		while node.get_next() != None:
+# 			asd = node.get_next()
+# 			res.append(asd.get_data())
+# 			node = asd
+# 		return res
+#
+#
+# class ObjList:
+# 	def __init__(self, data):
+# 		self.__next = None
+# 		self.__prev = None
+# 		self.__data = data
+#
+# 	def set_next(self, obj):
+# 		self.__next = obj
+#
+# 	def set_prev(self, obj):
+# 		self.__prev = obj
+#
+# 	def get_next(self):
+# 		return self.__next
+#
+# 	def get_prev(self):
+# 		return self.__prev
+#
+# 	def set_data(self, data):
+# 		self.__data = data
+#
+# 	def get_data(self):
+# 		return self.__data
 
