@@ -7923,5 +7923,171 @@ from string import ascii_lowercase, digits
 # print(len(p))#так применить функцию len нельзя, потому что нельзя применять эту функцию к объектам класса. Но предположим, что нам нужно чтобы функция len возвращала колво координат точек
 # print(abs(p))#тут выведутся модули координат из объекта, так как мы переопредили метод abs
 
+# Задачки!!!!!!!!!!!
 
+# Подвиг 2. Объявите класс с именем Book (книга), объекты которого создаются командой:
+
+# book = Book(title, author, pages)
+# где title - название книги (строка); author - автор книги (строка); pages - число страниц в книге (целое число).
+
+# Также при выводе информации об объекте на экран командой:
+
+# print(book)
+# должна отображаться строчка в формате:
+
+# "Книга: {title}; {author}; {pages}"
+
+# Например:
+
+# "Книга: Муму; Тургенев; 123"
+
+# Прочитайте из входного потока строки с информацией по книге командой:
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# (строки идут в порядке: title, author, pages). Создайте объект класса Book и выведите его строковое представление в консоль.
+
+# Sample Input:
+
+# Python ООП
+# Балакирев С.М.
+# 1024
+# Sample Output:
+
+# Книга: Python ООП; Балакирев С.М.; 1024
+
+# lst_in = ['Python ООП', 'Балакирев С.М.', '1024']
+
+# class Book:
+# 	def __init__(self, title, author, pages):
+# 		self.title = title
+# 		self.author = author
+# 		self.pages = pages
+
+# 	def __str__(self, *args):
+# 		return f"Книга: {self.title}; {self.author}; {self.pages}"
+
+
+# book = Book(*lst_in)
+# print(book)
+
+
+# Подвиг 3. Объявите класс с именем Model, объекты которого создаются командой:
+
+# model = Model()
+# Объявите в этом классе метод query() для формирования записи базы данных. Использоваться этот метод должен следующим образом:
+
+# model.query(field_1=value_1, field_2=value_2, ..., field_N=value_N)
+
+# Например:
+
+# model.query(id=1, fio='Sergey', old=33)
+# Все эти переданные данные должны сохраняться внутри объекта model класса Model. Затем, при выполнении команды:
+
+# print(model)
+# В консоль должна выводиться информация об объекте в формате:
+
+# "Model: field_1 = value_1, field_2 = value_2, ..., field_N = value_N"
+
+# Например:
+
+# "Model: id = 1, fio = Sergey, old = 33"
+
+# Если метод query() не вызывался, то в консоль выводится строка:
+
+# "Model"
+
+# P.S. В программе нужно только объявить класс, выводить в консоль ничего не нужно.
+# мое кривое решение
+# class Model:
+# 	def __init__(self):
+# 		self.id = None
+# 		self.fio = None
+# 		self.old = None
+
+	
+# 	def query(self, id, fio, old):
+# 		self.id = id
+# 		self.fio = fio
+# 		self.old = old
+
+# 	def __str__(self, *args):
+# 		if self.id == None:
+# 			return "Model"
+# 		return f"Model: id = {self.id}, fio = {self.fio}, old = {self.old}"
+
+# model = Model()
+# # model.query(id=1, fio='Sergey', old=33)
+# print(model)
+
+
+# Норм вариант
+# class Model:
+#     def __init__(self):
+#         self.model = 'Model'
+#     def query(self, **kwargs):
+#         self.model += ': ' + ', '.join(map(lambda i: f'{i[0]} = {i[1]}', kwargs.items()))
+#     def __str__(self):
+#         return self.model
+
+# еще один прикольный вариант
+# class Model:
+#     def query(self, **kwargs):
+#         for key, value in kwargs.items():
+#             setattr(self, key, value)
+
+#     def __str__(self):
+#         if self.__dict__:
+#             return "Model: " + ", ".join(["{} = {}".format(k, v) for k, v in self.__dict__.items()])
+#         return "Model"
+
+
+# Подвиг 4. Объявите класс WordString, объекты которого создаются командами:
+
+# w1 = WordString()
+# w2 = WordString(string)
+# где string - передаваемая строка. Например:
+
+# words = WordString("Курс по Python ООП")
+# Реализовать следующий функционал для объектов этого класса:
+
+# len(words) - должно возвращаться число слов в переданной строке (слова разделяются одним или несколькими пробелами);
+# words(indx) - должно возвращаться слово по его индексу (indx - порядковый номер слова в строке, начиная с 0).
+
+# Также в классе WordString реализовать объект-свойство (property):
+
+# string - для передачи и считывания строки.
+
+# Пример пользования классом WordString (эти строчки в программе писать не нужно):
+
+# words = WordString()
+# words.string = "Курс по Python ООП"
+# n = len(words)
+# first = "" if n == 0 else words(0)
+# print(words.string)
+# print(f"Число слов: {n}; первое слово: {first}")
+# P.S. В программе нужно только объявить класс, выводить в консоль ничего не нужно.
+
+class WordString:
+
+	def __init__(self, string=""):
+		self.string = string
+
+	def __len__(self):
+		return len(self.string.replace("  ", " ").split())
+
+	def words(self, indx):
+		return self.string.replace("  ", " ").split()[indx]
+
+
+
+
+
+words = WordString()
+words.string = "Курс по      Python ООП"
+n = len(words)
+first = "" if n == 0 else words(0)
+print(words.string)
+print(f"Число слов: {n}; первое слово: {first}")
+
+# вроде сделал
 
