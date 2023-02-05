@@ -3554,8 +3554,8 @@
 # 		self.tail = None
 
 # 	def add_obj(self, obj):
-# 		if self.tail:
-# 			self.tail.set_next(obj)
+# 		if self.tail:#если tail не пустой то делаем у него ссылку на следующий объект
+# 			self.tail.set_next(obj)#
 # 		obj.set_prev(self.tail)
 # 		self.tail = obj
 # 		if not self.head:
@@ -8138,137 +8138,384 @@ from string import ascii_lowercase, digits
 
 # мое решение
 
-class LinkedList:
-	def __init__(self):
-		self.head = None
-		self.tail = None
-
-	# def add_obj(self, obj):
-	#
-	#
-	# def remove_obj(self, indx):
-	#
-	#
-	# def __len__(self):
-	#
-	# def linked_lst(self, indx):
-		
-
-
-
-class ObjList:
-
-	def __init__(self, data):
-		self.__data = data
-		self.__prev = None
-		self.__next = None
-
-	@property
-	def data(self):
-		return self.__data
-
-	@data.setter
-	def data(self, v):
-		self.__data = v
-
-	@property
-	def prev(self):
-		return self.__prev
-
-	@prev.setter
-	def prev(self, v):
-		self.__prev = v
-
-	@property
-	def next(self):
-		return self.__next
-
-	@next.setter
-	def next(self, v):
-		self.__next = v
-
-
-o = ObjList("Ivan")
-print(o.__dict__)
-
+# class LinkedList:
+#
+# 	def __init__(self):
+# 		self.head = None
+# 		self.tail = None
+# 		self.c = 0
+#
+#
+# 	def add_obj(self, obj):
+# 		if self.tail != None:
+# 			self.tail.next = obj
+# 			self.c += 1
+# 			obj.k = self.c
+# 			obj.prev = self.tail
+# 		self.tail = obj
+# 		if self.head == None:
+# 			self.head = obj
+#
+#
+# 	def remove_obj(self, indx):
+# 		if self.tail == None:#если объектов нет, то удаление не делаем, так как удалять нечего
+# 			return
+# 		obj = self.head
+# 		while obj.next:
+# 			n = obj.next#переменная для следующего объекта
+# 			p = obj.prev#переменная для предыдущего объекта
+# 			if obj.k == indx:
+# 				self.c -= 1
+# 				if p == None:#в случае если удаляем первый элемент и элементов больше 1
+# 					n.prev = None
+# 					self.head = n#в хед записали следующий элемент
+# 					t = n
+# 					while t.next:
+# 						o = t.next
+# 						t.k -= 1
+# 						t = o
+# 					if t.next == None:
+# 						t.k -= 1
+# 					return
+# 				elif p != None and n != None:#тут условие в случае если элемент в середине списка
+# 					p.next = n
+# 					n.prev = p#!!!!!!!!!!!!!
+# 					while n.next:
+# 						o = n.next
+# 						n.k -= 1
+# 						n = o
+# 					if n.next == None:
+# 						n.k -= 1
+# 					return
+#
+# 			obj = n
+# 			if obj.next == None and obj.k == indx:  # тут условие если последний элемент в списке
+# 				self.c -= 1
+# 				t = obj.prev
+# 				obj.prev = None
+# 				t.next = None
+# 				self.tail = t
+# 				return
+#
+# 		if obj.k == indx and self.tail.next == None:#если один элемент в списке
+# 			self.tail = None
+# 			self.head = None
+#
+# 	def __len__(self):
+# 		if self.tail != None:
+# 			return self.c+1
+# 		else:
+# 			return self.c
+#
+# 	def __call__(self, indx):
+# 		obj = self.head
+# 		while obj.next != None:
+# 			n = obj.next
+# 			if obj.k == indx:
+# 				return obj.data
+# 			obj = n
+# 			if obj.k == indx:
+# 				return obj.data
+# 		return obj.data
+#
+#
+# class ObjList:
+#
+# 	def __init__(self, data):
+# 		self.__data = data
+# 		self.__prev = None
+# 		self.__next = None
+# 		self.__k = 0
+#
+# 	@property
+# 	def k(self):
+# 		return self.__k
+#
+# 	@k.setter
+# 	def k(self, v):
+# 		self.__k = v
+#
+# 	@property
+# 	def data(self):
+# 		return self.__data
+#
+# 	@data.setter
+# 	def data(self, v):
+# 		self.__data = v
+#
+# 	@property
+# 	def prev(self):
+# 		return self.__prev
+#
+# 	@prev.setter
+# 	def prev(self, v):
+# 		self.__prev = v
+#
+# 	@property
+# 	def next(self):
+# 		return self.__next
+#
+# 	@next.setter
+# 	def next(self, v):
+# 		self.__next = v
+#
 # linked_lst = LinkedList()
 # linked_lst.add_obj(ObjList("Sergey"))
 # linked_lst.add_obj(ObjList("Balakirev"))
 # linked_lst.add_obj(ObjList("Python"))
-# linked_lst.remove_obj(2)
+# linked_lst.remove_obj(0)
+# linked_lst.remove_obj(0)
+# linked_lst.remove_obj(0)
 # linked_lst.add_obj(ObjList("Python ООП"))
+# # linked_lst.remove_obj(0)
 # n = len(linked_lst)  # n = 3
-# s = linked_lst(1) # s = Balakirev
+# s = linked_lst(44)
+# print(s)
+# print(linked_lst.head.data)
+# print(n)
+# print(linked_lst.tail, linked_lst.head)
 
+# решение с дескрипитором
 
-
-
-
-
+# class Desc:
+# 	def __set_name__(self, owner, name):
+# 		self.name = f'_{owner.__name__}__{name}'
+#
+# 	def __get__(self, instance, owner):
+# 		return instance.__dict__[self.name]
+#
+# 	def __set__(self, instance, value):
+# 		instance.__dict__[self.name] = value
+#
+#
 # class LinkedList:
 # 	def __init__(self):
 # 		self.head = None
 # 		self.tail = None
 #
 # 	def add_obj(self, obj):
-# 		q = obj#создаем новый объект
-# 		q_prev = self.tail#ссылка на предыдущий объект
-# 		if self.tail != None:#тут если последний элемент не пустой, то есть tail хранит предыдущий объект, то мы в его свойство записываем ссылку на новый следующий объект
-# 			self.tail.set_next(q)
-# 		self.tail = q#потом в tail записываем следующий объект
-# 		self.tail.set_prev(q_prev)#препод лишнюю переменную не создает
-# 		if self.head == None:
-# 			self.head = q
-#
-# 	def remove_obj(self):
-# 		if self.tail == self.head == None:
-# 			return
-# 		if self.tail == self.head:
-# 			self.tail = None
-# 			self.head = None
-# 			return
-# 		self.tail.get_prev().set_next(None)
-# 		self.tail = self.tail.get_prev()
-#
-#
-# 	def get_data(self):
-# 		if self.tail == self.head == None:
-# 			return []
-# 		res = [self.head.get_data()]
-# 		node = self.head.get_next()
-# 		if self.head.get_next() == None:
-# 			return res
+# 		if not self.head:
+# 			self.head = obj
+# 			self.tail = obj
 # 		else:
-# 			res += [node.get_data()]
+# 			self.tail.next = obj
+# 			obj.prev = self.tail
+# 			self.tail = obj
 #
-# 		while node.get_next() != None:
-# 			asd = node.get_next()
-# 			res.append(asd.get_data())
-# 			node = asd
-# 		return res
+# 	def remove_obj(self, indx):
+# 		c = 0
+# 		tmp = self.head
+# 		while c != indx:
+# 			c += 1
+# 			tmp = tmp.next
+#
+# 		if tmp.next and tmp.prev:
+# 			tmp.next.prev = tmp.prev
+# 			tmp.prev = tmp.next
+#
+# 		elif tmp == self.head == self.tail:
+# 			self.head = self.tail = None
+#
+# 		elif tmp == self.head:
+# 			tmp.next.prev = None
+# 			self.head = tmp.next
+#
+# 		elif tmp == self.tail:
+# 			tmp.prev.next = None
+# 			self.tail = tmp.prev
+#
+# 	def __len__(self):
+# 		c = 1 if self.head else 0
+# 		tmp = self.head
+# 		while tmp.next:
+# 			c += 1
+# 			tmp = tmp.next
+# 		return c
+#
+# 	def __call__(self, indx):
+# 		c = 0
+# 		tmp = self.head
+# 		while c != indx:
+# 			c += 1
+# 			tmp = tmp.next
+# 		return tmp.data
 #
 #
 # class ObjList:
+# 	data = Desc()
+# 	prev = Desc()
+# 	next = Desc()
+#
 # 	def __init__(self, data):
-# 		self.__next = None
+# 		self.data = data
+# 		self.prev = None
+# 		self.next = None
+
+#также как у меня, только аккуратнее
+# class LinkedList:
+#     def __init__(self):
+#         self.head = None
+#         self.tail = None
+#         self.len_lst = 0  # фиксируем длину списка текущего объекта
+#
+#     def add_obj(self, obj):
+#         if self.tail is None:  # первый объект голова и хвост одновременно
+#             self.head = obj
+#             self.tail = obj
+#         else:
+#             self.tail.next = obj  # добавление в конец списка
+#             obj.prev = self.tail
+#             self.tail = obj
+#         self.len_lst += 1  # увеличение длины списка
+#
+#     def find_obj_by_index(self, indx):  # метод нахождения объекта по индексу
+#         if self.head is not None:
+#             flag = 0
+#             this_obj = self.head
+#             while this_obj.next is not None and indx > flag:
+#                 flag += 1
+#                 this_obj = this_obj.next
+#             return this_obj
+#
+#     def remove_obj(self, indx):
+#         remove_obj = self.find_obj_by_index(indx)
+#         if remove_obj == self.tail:  # удаление последнего
+#             self.tail = remove_obj.prev
+#             self.tail.next = None
+#         elif remove_obj == self.head:  # удаление первого
+#             self.head = remove_obj.next
+#             self.head.prev = None
+#         else:  # удаление между двумя
+#             remove_obj.prev.next = remove_obj.next
+#             remove_obj.next.prev = remove_obj.prev
+#         self.len_lst -= 1  # уменьшение длины
+#
+#     def __len__(self):
+#         return self.len_lst
+#
+#     def __call__(self, indx, *args, **kwargs):
+#         return self.find_obj_by_index(indx).get_data()
+#
+#
+# class ObjList:
+#     def __init__(self, data):
+#         self.__data = data
+#         self.__prev = None
+#         self.__next = None
+#
+#     @property
+#     def prev(self):
+#         return self.__prev
+#
+#     @prev.setter
+#     def prev(self, value):
+#         self.__prev = value
+#
+#     @property
+#     def next(self):
+#         return self.__next
+#
+#     @next.setter
+#     def next(self, value):
+#         self.__next = value
+#
+#     def get_data(self):
+#         return self.__data
+
+# решение препода. Очень аккуратно сделано. маст хев!!
+
+# class ObjList:
+#
+# 	def __init__(self, data):
+# 		self.__data = ""
+# 		self.data = data
 # 		self.__prev = None
-# 		self.__data = data
+# 		self.__next = None
 #
-# 	def set_next(self, obj):
-# 		self.__next = obj
+# 	@property
+# 	def data(self):
+# 		return self.__data
 #
-# 	def set_prev(self, obj):
-# 		self.__prev = obj
+# 	@data.setter
+# 	def data(self, v):
+# 		if type(v) == str:
+# 			self.__data = v
 #
-# 	def get_next(self):
-# 		return self.__next
-#
-# 	def get_prev(self):
+# 	@property
+# 	def prev(self):
 # 		return self.__prev
 #
-# 	def set_data(self, data):
-# 		self.__data = data
+# 	@prev.setter
+# 	def prev(self, obj):
+# 		if type(obj) in (ObjList, type(None)):
+# 			self.__prev = obj
 #
-# 	def get_data(self):
-# 		return self.__data
+# 	@property
+# 	def next(self):
+# 		return self.__next
+#
+# 	@next.setter
+# 	def next(self, obj):
+# 		if type(obj) in (ObjList, type(None)):
+# 			self.__next = obj
+#
+# class LinkedList:
+# 	def __init__(self):
+# 		self.head = self.tail = None
+#
+# 	def add_obj(self, obj):
+# 		obj.prev = self.tail
+# 		if self.tail:
+# 			self.tail.next = obj
+# 		self.tail = obj
+# 		if not self.head:
+# 			self.head = obj
+#
+# 	def __get_obj_by_index(self, indx):
+# 		h = self.head
+# 		n = 0
+# 		while h and n < indx:
+# 			h = h.next
+# 			n += 1
+# 		return h
+#
+# 	def remove_obj(self, indx):
+# 		obj = self.__get_obj_by_index(indx)
+# 		if obj is None:
+# 			return
+# 		p, n = obj.prev, obj.next
+# 		#также переделывает ссылки
+# 		if p:
+# 			p.next = n
+# 		if n:
+# 			n.prev = p
+#
+# 		if self.head == obj:
+# 			self.head = n
+# 		if self.tail == obj:
+# 			self.tail = p
+#
+# 	def __len__(self):
+# 		n = 0
+# 		h = self.head
+# 		while h:
+# 			n += 1
+# 			h = h.next
+# 		return n
+#
+# 	def __call__(self, indx, *args, **kwargs):
+# 		obj = self.__get_obj_by_index(indx)
+# 		return obj.data if obj else None
+
+
+
+
+
+
+
+
+
+
+
+
 
