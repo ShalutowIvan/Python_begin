@@ -8508,14 +8508,322 @@ from string import ascii_lowercase, digits
 # 		return obj.data if obj else None
 
 
+# Подвиг 6. Объявите класс с именем Complex для представления и работы с комплексными числами. Объекты этого класса должны создаваться командой:
+
+# cm = Complex(real, img)
+# где real - действительная часть комплексного числа (целое или вещественное значение); img - мнимая часть комплексного числа (целое или вещественное значение).
+
+# Объявите в этом классе следующие объекты-свойства (property):
+
+# real - для записи и считывания действительного значения;
+# img - для записи и считывания мнимого значения.
+
+# При записи новых значений необходимо проверять тип передаваемых данных. Если тип не соответствует целому или вещественному числу, то генерировать исключение командой:
+
+# raise ValueError("Неверный тип данных.")
+# Также с объектами класса Complex должна поддерживаться функция:
+
+# res = abs(cm)
+# возвращающая модуль комплексного числа (вычисляется по формуле: sqrt(real*real + img*img) - корень квадратный от суммы квадратов действительной и мнимой частей комплексного числа).
+
+# Создайте объект cmp класса Complex для комплексного числа с real = 7 и img = 8. Затем, через объекты-свойства real и img измените эти значения на real = 3 и img = 4. Вычислите модуль полученного комплексного числа (сохраните результат в переменной c_abs).
+
+# P.S. На экран ничего выводить не нужно.
+
+# мое решение
+
+# from math import sqrt
+# class Complex:
+# 	def __init__(self, real, img):
+# 		self.__real = real
+# 		self.__img = img
+
+# 	@property
+# 	def real(self):
+# 		return self.__real
+
+# 	@real.setter
+# 	def real(self, v):
+# 		if type(v) not in (int, float):
+# 			raise ValueError("Неверный тип данных.")
+# 		else:
+# 			self.__real = v
+
+# 	@property
+# 	def img(self):
+# 		return self.__img
+
+# 	@img.setter
+# 	def img(self, v):
+# 		if type(v) not in (int, float):
+# 			raise ValueError("Неверный тип данных.")
+# 		else:
+# 			self.__img = v
+
+# 	def __abs__(self):
+# 		return abs(sqrt(self.real*self.real + self.img*self.img))
+
+
+# cmp = Complex(7, 8)
+# cmp.real = 3
+# cmp.img = 4
+# c_abs = abs(cmp)
+# print(c_abs)
+
+
+# Подвиг 7. Объявите класс с именем RadiusVector для описания и работы с n-мерным вектором (у которого n координат). Объекты этого класса должны создаваться командами:
+
+# # создание 5-мерного радиус-вектора с нулевыми значениями координат (аргумент - целое число больше 1)
+# vector = RadiusVector(5)  # координаты: 0, 0, 0, 0, 0
+
+# # создание 4-мерного радиус-вектора с координатами: 1, -5, 3.4, 10 (координаты - любые целые или вещественные числа)
+# vector = RadiusVector(1, -5, 3.4, 10)
+# То есть, при передаче одного значения, оно интерпретируется, как размерность нулевого радиус-вектора. Если же передается более одного числового аргумента, то они интерпретируются, как координаты радиус-вектора.
+
+# Класс RadiusVector должен содержать методы:
+
+# set_coords(coord_1, coord_2, ..., coord_N) - для изменения координат радиус-вектора;
+# get_coords() - для получения текущих координат радиус-вектора (в виде кортежа).
+
+# Также с объектами класса RadiusVector должны поддерживаться следующие функции:
+
+# len(vector) - возвращает число координат радиус-вектора (его размерность);
+# abs(vector) - возвращает длину радиус-вектора (вычисляется как: sqrt(coord_1*coord_1 + coord_2*coord_2 + ... + coord_N*coord_N) - корень квадратный из суммы квадратов координат).
+
+# Пример использования класса RadiusVector (эти строчки в программе писать не нужно):
+
+# vector3D = RadiusVector(3)
+# vector3D.set_coords(3, -5.6, 8)
+# a, b, c = vector3D.get_coords()
+# vector3D.set_coords(3, -5.6, 8, 10, 11) # ошибки быть не должно, последние две координаты игнорируются
+# vector3D.set_coords(1, 2) # ошибки быть не должно, меняются только первые две координаты
+# res_len = len(vector3D) # res_len = 3
+# res_abs = abs(vector3D)
+# P.S. На экран ничего выводить не нужно, только объявить класс RadiusVector.
+
+# мое решение
+# class RadiusVector:
+# 	def __init__(self, *args):		
+# 		if len(args) == 1:
+# 			self.coords = [0 for i in range(args[0])]			
+# 		elif len(args) > 1:
+# 			self.coords = args
+
+
+# 	def set_coords(self, *args):
+# 		if len(args) > len(self.coords):
+# 			self.coords = args[:len(self.coords)]
+# 		elif len(args) < len(self.coords):
+# 			self.coords = args + self.coords[len(args):]
+# 		else:
+# 			self.coords = args
+	 
+# 	def get_coords(self):		
+# 		return self.coords
+		
+		
+# 	def __len__(self):
+# 		return len(self.coords)
+
+# 	def __abs__(self):
+# 		return (sum(i**2 for i in self.coords))**0.5
+
+# vector3D = RadiusVector(3)
+# vector3D.set_coords(3, -5.6, 8)
+# a, b, c = vector3D.get_coords()
+# vector3D.set_coords(1, -5.6, 8, 10, 11) # ошибки быть не должно, последние две координаты игнорируются
+# vector3D.set_coords(777, 333) # ошибки быть не должно, меняются только первые две координаты
+# res_len = len(vector3D) # res_len = 3
+# res_abs = abs(vector3D)
+# print(res_len)
+
+# решение препода
+
+# class RadiusVector:
+# 	def __init__(self, arg1, *args):		
+# 		if len(args) == 0:
+# 			self.__coords = [0] * arg1
+# 		else:
+# 			self.__coords = [arg1] + list(args)
+
+# 	def set_coords(self, *args):
+# 		n = min(len(args), len(self.__coords))
+# 		self.__coords[:n] = args[:n]
+	 
+# 	def get_coords(self):		
+# 		return self.__coords
+		
+# 	def __len__(self):
+# 		return len(self.__coords)
+
+# 	def __abs__(self):
+# 		return (sum(map(lambda x: x*x, self.__coords))**0.5
+
+# Подвиг 8. Объявите класс DeltaClock для вычисления разницы времен. Объекты этого класса должны создаваться командой:
+
+# dt = DeltaClock(clock1, clock2)
+# где clock1, clock2 - объекты другого класса Clock для хранения текущего времени. Эти объекты должны создаваться командой:
+
+# clock = Clock(hours, minutes, seconds)
+# где hours, minutes, seconds - часы, минуты, секунды (целые неотрицательные числа).
+
+# В классе Clock также должен быть (по крайней мере) один метод (возможны и другие):
+
+# get_time() - возвращает текущее время в секундах (то есть, значение hours * 3600 + minutes * 60 + seconds).
+
+# После создания объекта dt класса DeltaClock, с ним должны выполняться команды:
+
+# str_dt = str(dt)   # возвращает строку разницы времен clock1 - clock2 в формате: часы: минуты: секунды
+# len_dt = len(dt)   # разницу времен clock1 - clock2 в секундах (целое число)
+# print(dt)   # отображает строку разницы времен clock1 - clock2 в формате: часы: минуты: секунды
+# Если разность получается отрицательной, то разницу времен считать нулевой.
+
+# Пример использования классов (эти строчки в программе писать не нужно):
+
+# dt = DeltaClock(Clock(2, 45, 0), Clock(1, 15, 0))
+# print(dt) # 01: 30: 00
+# len_dt = len(dt) # 5400
+# Обратите внимание, добавляется незначащий ноль, если число меньше 10.
+
+# P.S. На экран ничего выводить не нужно, только объявить классы.
+
+# мое решение
+# class DeltaClock:
+# 	def __init__(self, clock1, clock2):
+# 		self.clock1 = clock1
+# 		self.clock2 = clock2
+
+# 	def __str__(self):
+# 		r = self.clock1.get_time() - self.clock2.get_time() if self.clock1.get_time() - self.clock2.get_time() > 0 else 0
+# 		h = (r) % 3600
+# 		m = h % 60
+# 		c = (r) // 3600	
+# 		return (f"{c}: " if c >= 10 else f"0{c}: ") + (f"{h//60}: " if h//60 >=10 else f"0{h//60}: ") + (f"{m}" if m >=10 else f"0{m}")
+
+
+# 	def __len__(self):
+# 		return self.clock1.get_time() - self.clock2.get_time() if self.clock1.get_time() - self.clock2.get_time() > 0 else 0
+
+
+# class Clock:
+# 	def __init__(self, hours=None, minutes=None, seconds=None):
+# 		if type(hours) == int and hours >= 0:
+# 			self.hours = hours
+# 		if type(minutes) == int and minutes >= 0:
+# 			self.minutes = minutes
+# 		if type(seconds) == int and seconds >= 0:
+# 			self.seconds = seconds
+
+# 	def get_time(self):
+# 		return self.hours * 3600 + self.minutes * 60 + self.seconds
+
+
+# # print(8300 //3600)
+# dt = DeltaClock(Clock(2, 45, 0), Clock(1, 15, 0))
+# str_dt = str(dt)
+# len_dt = len(dt)
+# print(str_dt)
+# print(len_dt)
+# # print((f"123" if 10 > 0 else "zxc ") + (f"qwe" if 10 > 111110 else "hhhh"))
+
+
+# решение препода
+
+# class Clock:
+# 	def __init__(self, hours, minutes, seconds):		
+# 			self._hours = hours
+# 			self._minutes = minutes
+# 			self._seconds = seconds
+
+# 	def get_time(self):
+# 		return self.hours * 3600 + self.minutes * 60 + self.seconds
+
+
+# class DeltaClock:
+# 	def __init__(self, clock1, clock2):
+# 		self._clock1 = clock1
+# 		self._clock2 = clock2
+
+# 	def __len__(self):
+# 		diff = self._clock1.get_time() - self._clock2.get_time()
+# 		return diff if diff > 0 else 0
+
+# 	def __str__(self):
+# 		d = self.__len__()
+# 		h = d // 3600
+# 		m = d % 3600 // 60
+# 		s = d % 3600 % 60
+# 		return f"{h:02}: {m:02}: {s:02}"#вот писать незначащий 0
+
+# Подвиг 9. Объявите класс Recipe для представления рецептов. Отдельные ингредиенты рецепта должны определяться классом Ingredient. Объекты этих классов должны создаваться командами:
+
+# ing = Ingredient(name, volume, measure)
+# recipe = Recipe()
+# recipe = Recipe(ing_1, ing_2,..., ing_N)
+# где ing_1, ing_2,..., ing_N - объекты класса Ingredient.
+
+# В каждом объекте класса Ingredient должны создаваться локальные атрибуты:
+
+# name - название ингредиента (строка);
+# volume - объем ингредиента в рецепте (вещественное число);
+# measure - единица измерения объема ингредиента (строка), например, литр, чайная ложка, грамм, штук и т.д.;
+
+# С объектами класса Ingredient должна работать функция:
+
+# str(ing)  # название: объем, ед. изм.
+# и возвращать строковое представление объекта в формате:
+
+# "название: объем, ед. изм."
+
+# Например:
+
+# ing = Ingredient("Соль", 1, "столовая ложка")
+# s = str(ing) # Соль: 1, столовая ложка
+# Класс Recipe должен иметь следующие методы:
+
+# add_ingredient(ing) - добавление нового ингредиента ing (объект класса Ingredient) в рецепт (в конец);
+# remove_ingredient(ing) - удаление ингредиента по объекту ing (объект класса Ingredient) из рецепта;
+# get_ingredients() - получение кортежа из объектов класса Ingredient текущего рецепта.
+
+# Также с объектами класса Recipe должна поддерживаться функция:
+
+# len(recipe) - возвращает число ингредиентов в рецепте.
+
+# Пример использования классов (эти строчки в программе писать не нужно):
+
+# recipe = Recipe()
+# recipe.add_ingredient(Ingredient("Соль", 1, "столовая ложка"))
+# recipe.add_ingredient(Ingredient("Мука", 1, "кг"))
+# recipe.add_ingredient(Ingredient("Мясо баранины", 10, "кг"))
+# ings = recipe.get_ingredients()
+# n = len(recipe) # n = 3
+# P.S. На экран ничего выводить не нужно, только объявить классы.
+
+# мое решение
+class Recipe:
+	def __init__(self, *args):
+		self.ing = args
+
+	def add_ingredient(self, ing)
 
 
 
+class Ingredient:
+	def __init__(self, name, volume, measure):
+		self.name = name
+		self.volume = volume
+		self.measure = measure
+
+	def __str__(self):
+		return f"{self.name}: {self.volume}, {self.measure}"
 
 
-
-
-
+recipe = Recipe()
+recipe = Recipe(11, 22, 33)
+# print(recipe.ing)
+ing = Ingredient("Соль", 1, "столовая ложка")
+s = str(ing) # Соль: 1, столовая ложка
+print(s)
 
 
 
