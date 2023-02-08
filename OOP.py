@@ -9059,12 +9059,58 @@ from string import ascii_lowercase, digits
 # lst = res_2.get_list() # [1, 2, 3]
 # P.S. В программе требуется только объявить класс. На экран ничего выводить не нужно.
 
+# мое решение
+
+class NewList:
+	def __init__(self, lst=[]):
+		self.lst = lst
+
+	def get_list(self):
+		return self.lst
+
+	def __sub__(self, other):
+		if not isinstance(other, (list, NewList)):
+			raise ArithmeticError("Правый операнд должен быть list или NewList")
+		
+		if isinstance(other, NewList):
+			for i in other.lst:
+				if i in self.lst:
+					if isinstance(i, int) and (i == 0 or i == 1):
+						# isinstance юзать. не равен 0 и принедлежит bool
+						a = self.lst.index(i)
+						b = self.lst.pop(a)
+						if isinstance(b, (True, False)):
+							self.lst.append(b)
+						continue
+					self.lst.remove(i)
+			
+			return self.lst
+		# else:
+		# 	return list(map(lambda x: self.lst.remove(x), other))		
+		
+
+	# def __isub__(self, other):
+	# 	return list(map(lambda x: self.lst.remove(x), other.lst))
 
 
+lst1 = NewList([1, 2, -4, 6, 10, 11, 15, False, True])
+lst2 = NewList([0, 1, 2, 3, True])
+res_1 = lst1 - lst2 # NewList: [-4, 6, 10, 11, 15, False]
+# нужно сделать так чтобы если элемента нет в списке он не удалялся
+# lst1 -= lst2 # NewList: [-4, 6, 10, 11, 15, False]
+# res_2 = lst2 - [0, True] # NewList: [1, 2, 3]
+# res_3 = [1, 2, 3, 4.5] - res_2 # NewList: [4.5]
+# a = NewList([2, 3])
+# res_4 = [1, 2, 2, 3] - a # NewList: [1, 2]
+# a = [1, 2, -4, 6, 10, 11, 15, False, True]
+print(res_1)
 
-
-
-
+# a = [False, 1, 2]
+# b = [0, 1, 2, 3, True]
+# # print(set(b))
+# # print(set(a) - set(b))
+# b.remove(True)
+# print(b)
 
 
 
