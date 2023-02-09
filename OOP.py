@@ -9180,11 +9180,242 @@ from string import ascii_lowercase, digits
 #         return self
 
 
+# Подвиг 5. Объявите класс с именем ListMath, объекты которого можно создавать командами:
+#
+# lst1 = ListMath() # пустой список
+# lst2 = ListMath([1, 2, -5, 7.68]) # список с начальными значениями
+# В качестве значений элементов списка объекты класса ListMath должны отбирать только целые и вещественные числа, остальные игнорировать (если указываются в списке). Например:
+#
+# lst = ListMath([1, "abc", -5, 7.68, True]) # ListMath: [1, -5, 7.68]
+# В каждом объекте класса ListMath должен быть публичный атрибут:
+#
+# lst_math - ссылка на текущий список объекта (для каждого объекта создается свой список).
+#
+# Также с объектами класса ListMath должны работать следующие операторы:
+#
+# lst = lst + 76 # сложение каждого числа списка с определенным числом
+# lst = 6.5 + lst # сложение каждого числа списка с определенным числом
+# lst += 76.7  # сложение каждого числа списка с определенным числом
+# lst = lst - 76 # вычитание из каждого числа списка определенного числа
+# lst = 7.0 - lst # вычитание из числа каждого числа списка
+# lst -= 76.3
+# lst = lst * 5 # умножение каждого числа списка на указанное число (в данном случае на 5)
+# lst = 5 * lst # умножение каждого числа списка на указанное число (в данном случае на 5)
+# lst *= 5.54
+# lst = lst / 13 # деление каждого числа списка на указанное число (в данном случае на 13)
+# lst = 3 / lst # деление числа на каждый элемент списка
+# lst /= 13.0
+# При использовании бинарных операторов +, -, *, / должны формироваться новые объекты класса ListMath с новыми списками, прежние списки не меняются.
+#
+# При использовании операторов +=, -=, *=, /= значения должны меняться внутри списка текущего объекта (новый объект не создается).
+#
+# P.S. В программе достаточно только объявить класс. На экран ничего выводить не нужно.
+
+#мое решение
+# class ListMath:
+# 	def __init__(self, lst=None):
+# 		if type(lst) == list:
+# 			self.lst_math = [i for i in lst if type(i) in (int, float)]
+# 		else:
+# 			self.lst_math = []
+#
+# 	@staticmethod
+# 	def calculation(n1, n2, action):
+# 		if action == "+":
+# 			return [i + n2 for i in n1]
+# 		elif action == "-":
+# 			return [i - n2 for i in n1]
+# 		elif action == "*":
+# 			return [i * n2 for i in n1]
+# 		elif action == "/":
+# 			return [i / n2 for i in n1]
+#
+# 	def __add__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		return ListMath(self.calculation(self.lst_math, other, "+"))
+#
+# 	def __radd__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		return self + other
+#
+# 	def __iadd__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		self.lst_math = self.calculation(self.lst_math, other, "+")
+# 		return self
+#
+# 	def __sub__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		return ListMath(self.calculation(self.lst_math, other, "-"))
+#
+# 	def __rsub__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		return ListMath([other - i for i in self.lst_math])
+#
+# 	def __isub__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		self.lst_math = self.calculation(self.lst_math, other, "-")
+# 		return self
+#
+# 	def __mul__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		return ListMath(self.calculation(self.lst_math, other, "*"))
+#
+# 	def __rmul__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		return self * other
+#
+# 	def __imul__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		self.lst_math = self.calculation(self.lst_math, other, "*")
+# 		return self
+#
+# 	def __truediv__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		return ListMath(self.calculation(self.lst_math, other, "/"))
+#
+# 	def __rtruediv__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		return ListMath([other / i for i in self.lst_math])
+#
+# 	def __itruediv__(self, other):
+# 		if not isinstance(other, (int, float, ListMath)):
+# 			raise ArithmeticError("Неверный тип данных")
+# 		self.lst_math = self.calculation(self.lst_math, other, "/")
+# 		return self
+
+# lst = ListMath([1, "abc", -5, 7.68, True])
+# # lst = lst + 76 # сложение каждого числа списка с определенным числом
+# # lst = 6.5 + lst # сложение каждого числа списка с определенным числом
+# # lst += 76.7  # сложение каждого числа списка с определенным числом
+# # lst = lst - 76 # вычитание из каждого числа списка определенного числа
+# # lst = 7.0 - lst # вычитание из числа каждого числа списка
+# # lst -= 76.3
+# # lst = lst * 5 # умножение каждого числа списка на указанное число (в данном случае на 5)
+# # lst = 5 * lst # умножение каждого числа списка на указанное число (в данном случае на 5)
+# # lst *= 5.54
+# # lst = lst / 13 # деление каждого числа списка на указанное число (в данном случае на 13)
+# # lst = 3 / lst # деление числа на каждый элемент списка
+# lst /= 13.0
+#
+# print(lst.lst_math)
+
+#решение препода
+
+# class ListMath:
+# 	def __init__(self, lst=None):
+# 		self.lst_math = lst if lst and type(lst) == list else []
+# 		self.lst_math = list(filter(lambda x: type(x) in (int, float), self.lst_math))
+#
+# 	@staticmethod
+# 	def __verify_value(value):
+# 		if type(value) not in (int, float):
+# 			raise ArithmeticError("Неверный тип данных")
+#
+# 	def __add__(self, other):
+# 		self.__verify_value(other)
+# 		return ListMath([x + other for x in self.lst_math])
+#
+# 	def __radd__(self, other):
+# 		return self + other
+#
+# 	def __sub__(self, other):
+# 		self.__verify_value(other)
+# 		return ListMath([x + other for x in self.lst_math])
+#
+# 	def __rsub__(self, other):
+# 		return ListMath([other - x for x in self.lst_math])
+#
+# 	def __mul__(self, other):
+# 		self.__verify_value(other)
+# 		return ListMath([x * other for x in self.lst_math])
+#
+# 	def __rmul__(self, other):
+# 		return self * other
+#
+# 	def __truediv__(self, other):
+# 		self.__verify_value(other)
+# 		return ListMath([x / other for x in self.lst_math])
+#
+# 	def __rtruediv__(self, other):
+# 		return ListMath([other / x for x in self.lst_math])
+#
+# 	def __iadd__(self, other):
+# 		self.__verify_value(other)
+# 		self.lst_math = [x + other for x in self.lst_math]
+# 		return self
+#
+# 	def __isub__(self, other):
+# 		self.__verify_value(other)
+# 		self.lst_math = [x - other for x in self.lst_math]
+# 		return self
+#
+# 	def __imul__(self, other):
+# 		self.__verify_value(other)
+# 		self.lst_math = [x * other for x in self.lst_math]
+# 		return self
+#
+# 	def __itruediv__(self, other):
+# 		self.__verify_value(other)
+# 		self.lst_math = [x / other for x in self.lst_math]
+# 		return self
+
+# Теория по односвязным спискам (при необходимости): https://youtu.be/TrHAcHGIdgQ
+#
+# Подвиг 6. Ранее, в одном из подвигов мы с вами создавали односвязный список с объектами класса StackObj (когда один объект ссылается на следующий и так далее):
+#
+# Давайте снова создадим такую структуру данных. Для этого объявим два класса:
+#
+# Stack - для управления односвязным списком в целом;
+# StackObj - для представления отдельных объектов в односвязным списком.
+#
+# Объекты класса StackObj должны создаваться командой:
+#
+# obj = StackObj(data)
+# где data - строка с некоторыми данными.
+#
+# Каждый объект класса StackObj должен иметь локальные приватные атрибуты:
+#
+# __data - ссылка на строку с переданными данными;
+# __next - ссылка на следующий объект односвязного списка (если следующего нет, то __next = None).
+#
+# Объекты класса Stack создаются командой:
+#
+# st = Stack()
+# и каждый из них должен содержать локальный атрибут:
+#
+# top - ссылка на первый объект односвязного списка (если объектов нет, то top = None).
+#
+# Также в классе Stack следует объявить следующие методы:
+#
+# push_back(self, obj) - добавление объекта класса StackObj в конец односвязного списка;
+# pop_back(self) - удаление последнего объекта из односвязного списка.
+#
+# Дополнительно нужно реализовать следующий функционал (в этих операциях копии односвязного списка создавать не нужно):
+#
+# # добавление нового объекта класса StackObj в конец односвязного списка st
+# st = st + obj
+# st += obj
+#
+# # добавление нескольких объектов в конец односвязного списка
+# st = st * ['data_1', 'data_2', ..., 'data_N']
+# st *= ['data_1', 'data_2', ..., 'data_N']
+# В последних двух строчках должны автоматически создаваться N объектов класса StackObj с данными, взятыми из списка (каждый элемент списка для очередного добавляемого объекта).
+#
+# P.S. В программе достаточно только объявить классы. На экран ничего выводить не нужно.
 
 
 
-
-		
 
 
 
