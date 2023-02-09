@@ -9059,121 +9059,135 @@ from string import ascii_lowercase, digits
 # lst = res_2.get_list() # [1, 2, 3]
 # P.S. В программе требуется только объявить класс. На экран ничего выводить не нужно.
 
-# мое решение
+# мое решение. True и False сделал строками
 
-class NewList:
-	def __init__(self, lst=[]):
-		self.lst = lst
+# class NewList:
+# 	def __init__(self, lst=[]):#тут лучше писать None, так лучше не прописывать, то есть плохо писать изменяемый тип данных.
+# 		self.lst = lst
 
-	def get_list(self):
-		return self.lst
+# 	def get_list(self):
+# 		return self.lst
 
-	def __sub__(self, other):
-		if not isinstance(other, (list, NewList)):
-			raise ArithmeticError("Правый операнд должен быть list или NewList")
+# 	@staticmethod
+# 	def __convert(lst1, lst2):
 
-		if isinstance(other, NewList):
-			t = other.lst
-		elif isinstance(other, list):
-			t = other
-		t1 = list(map(lambda x: str(x) if type(x) is bool else x, self.lst))
-		t2 = list(map(lambda x: str(x) if type(x) is bool else x, t))
+# 		if isinstance(lst2, NewList):
+# 			t = lst2.lst
+# 		elif isinstance(lst2, list):
+# 			t = lst2
+# 		t1 = list(map(lambda x: str(x) if type(x) is bool else x, lst1))
+# 		t2 = list(map(lambda x: str(x) if type(x) is bool else x, t))
 
-		for i in t2:
-			if i in t1:
-				t1.remove(i)
+# 		for i in t2:
+# 			if i in t1:
+# 				t1.remove(i)
 
-		for i, v in enumerate(t1):
-			if v == "True":
-				t1[i] = True
-			if v == "False":
-				t1[i] = False
-		return t1
+# 		for i, v in enumerate(t1):
+# 			if v == "True":
+# 				t1[i] = True
+# 			if v == "False":
+# 				t1[i] = False
 
-
+# 		return NewList(t1)
 
 
+# 	def __sub__(self, other):
+# 		if not isinstance(other, (list, NewList)):
+# 			raise ArithmeticError("Правый операнд должен быть list или NewList")		
+
+# 		return NewList.__convert(self.lst, other)
+
+# 	def __rsub__(self, other):
+# 		if not isinstance(other, (list, NewList)):
+# 			raise ArithmeticError("Правый операнд должен быть list или NewList")		
+
+# 		return NewList.__convert(other, self.lst)
+		
+
+# 	def __isub__(self, other):
+# 		if not isinstance(other, (list, NewList)):
+# 			raise ArithmeticError("Правый операнд должен быть list или NewList")
+
+# 		return NewList.__convert(self.lst, other)
+
+
+# lst1 = NewList([1, 2, -4, 6, 10, 11, 15, False, True])
+# lst2 = NewList([0, 1, 2, 3, True])
+# # res_1 = lst1 - lst2 # NewList: [-4, 6, 10, 11, 15, False]
+
+# # # lst1 -= lst2 # NewList: [-4, 6, 10, 11, 15, False]#в этом случае переменная объекта стала просто переменной списка, а не переменной которая ссылается на объект, который создали ранее
+# res_2 = lst2 - [0, True] # NewList: [1, 2, 3]
+# # # res_3 = [1, 2, 3, 4.5] - res_2 # NewList: [4.5]
+# # a = NewList([2, 3])
+# # res_4 = [1, 2, 2, 3] - a # NewList: [1, 2]
+# # a = [1, 2, -4, 6, 10, 11, 15, False, True]
+
+# print(res_2.lst)
+
+# решение препода
+
+# class NewList:
+# 	def __init__(self, lst=None):
+# 		self._lst = lst[:] if lst and type(lst) == list else []
+
+# 	def get_list(self):
+# 		return self._lst
+
+# 	def __sub__(self, other):
+# 		if type(other) not in (list, NewList):
+# 			raise ArithmeticError("Правый операнд должен быть list или NewList")
+
+# 		other_list = other if type(other) == list else other.get_list()
+# 		return NewList(self.__diff_list(self._lst, other_list))
+
+# 	@staticmethod
+# 	def __diff_list(lst_1, lst_2):
+# 		if len(lst_2) == 0:
+# 			return lst_1
+
+# 		sub = lst_2[:]
+# 		return [x for x in lst_1 if not NewList.__is_elem(x, sub)]#перебираем список из которого идет вычитание, и если элемент не входит в список sub мы его вычитаем, то тогда мы добавляем элемент в результирующий список, то есть добавляем только те элементы за минусом тех которые вычитаем. И также проходит проверка, если все же элемент входит в список sub, то удаляем элемент из списка 
+
+
+# 	@staticmethod
+# 	def __is_elem(x, sub):
+# 		res = any(map(lambda xx: type(x) == type(xx) and x == xx, sub))#проверка означает что x входит в список sub с учетом типов данных
+# 		if res:
+# 			sub.remove(x)#удаляем этот элемент из списка который мы вычитаем, чтобы вычитание не прошло повторно
+# 		return res
+
+# 		def __rsub__(self, other):
+# 			if type(other) != list:
+# 				raise ArithmeticError("Правый операнд должен быть list")
+# 			return NewList(self.__diff_list(other, self._lst))
+# 			#сделано аккуратно, все удаление выненесено отдельным методом и крутая проверка для эденеиц и True и 0 и фолз
+
+# аккуратное короткое решение
+
+# class NewList(list):
+
+#     def __sub__(self, other: ('NewList', 'list')) -> 'NewList':
+#         tmp_lst = [(i, type(i)) for i in self]
+#         for i in [(i, type(i)) for i in other]:
+#             if i in tmp_lst:
+#                 tmp_lst.remove(i)
+#         return NewList(i[0] for i in tmp_lst)
+
+#     def __rsub__(self, other):
+#         return NewList(other) - self
+
+#     def get_list(self):
+#         return self
 
 
 
-lst1 = NewList([1, 2, -4, 6, 10, 11, 15, False, True])
-lst2 = NewList([0, 1, 2, 3, True])
-# res_1 = lst1 - lst2 # NewList: [-4, 6, 10, 11, 15, False]
-
-# lst1 -= lst2 # NewList: [-4, 6, 10, 11, 15, False]#в этом случае переменная объекта стала просто переменной списка, а не переменной которая ссылается на объект, который создали ранее
-res_2 = lst2 - [0, True] # NewList: [1, 2, 3]
-# res_3 = [1, 2, 3, 4.5] - res_2 # NewList: [4.5]
-# a = NewList([2, 3])
-# res_4 = [1, 2, 2, 3] - a # NewList: [1, 2]
-# a = [1, 2, -4, 6, 10, 11, 15, False, True]
-print(res_2)
 
 
 
-# a = [False, 1, 2]
-# b = [0, 1, 2, 3, False]
-# tm = list(map(lambda x: x if not type(x) is bool else str(x), b))
-# # q = b.index(False)
-# print(tm)
-# # print(set(b))
-# # print(set(a) - set(b))
-# b.remove(False)
-# del b[4]
-# print(b)
+		
 
-# def __sub__(self, other):
-	# 	if not isinstance(other, (list, NewList)):
-	# 		raise ArithmeticError("Правый операнд должен быть list или NewList")
-	#
-	# 	if isinstance(other, NewList):
-	# 		for i in other.lst:
-	# 			if i in self.lst:
-	# 				if type(i) == int and 0 <= i <= 1:
-	# 					a = self.lst.index(i)
-	# 					b = self.lst.pop(a)
-	# 					if b is True or b is False:
-	# 						self.lst.append(b)
-	# 					continue
-	# 				elif type(i) == bool and (i == False or i == True):
-	# 					a = self.lst.index(i)
-	# 					b = self.lst.pop(a)
-	# 					if b == 1 or b == 0:
-	# 						self.lst.append(b)
-	# 					continue
-	# 				self.lst.remove(i)
-	# 		return self.lst
-	# 	if isinstance(other, list):
-	# 		for i in other:
-	# 			if i in self.lst:
-	# 				if type(i) == int and 0 <= i <= 1:
-	# 					a = self.lst.index(i)
-	# 					b = self.lst.pop(a)
-	# 					if b is True or b is False:
-	# 						self.lst.append(b)
-	# 					continue
-	# 				elif type(i) is bool:
-	# 					a = self.lst.index(i)
-	# 					if self.lst[a] == 1 or self.lst[a] == 0:
-	# 						self.lst[a+1:].remove(i)
-	#
-	# 				self.lst.remove(i)
-	# 		return self.lst
-	#
-	#
-	# def __isub__(self, other):
-	# 	if not isinstance(other, (list, NewList)):
-	# 		raise ArithmeticError("Правый операнд должен быть list или NewList")
-	#
-	# 	if isinstance(other, NewList):
-	# 		for i in other.lst:
-	# 			if i in self.lst:
-	# 				if type(i) == int and 0 <= i <= 1:
-	# 					a = self.lst.index(i)
-	# 					b = self.lst.pop(a)
-	# 					if b is True or b is False:
-	# 						self.lst.append(b)
-	# 					continue
-	# 				self.lst.remove(i)
-	# 	return self.lst
+
+
+
 
 
