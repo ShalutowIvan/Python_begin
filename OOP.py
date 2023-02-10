@@ -9414,9 +9414,57 @@ from string import ascii_lowercase, digits
 #
 # P.S. В программе достаточно только объявить классы. На экран ничего выводить не нужно.
 
+# мое решение
+class Stack:
+	def __init__(self):
+		self.top = None
+		self.head = None
+
+	def push_back(self, obj):
+		if self.top == None:
+			self.top = obj
+			self.head = obj
+			return
+		self.top.next = obj
+		if self.head != None:
+			self.head.next = obj
+		self.top = obj
 
 
 
+	def pop_back(self):
+
+
+
+class StackObj:
+	def __init__(self, data=None):
+		if type(data) == str:
+			self.__data = data
+		else:
+			self.__data = ""
+		self.__next = None
+
+	@property
+	def next(self):
+		return self.__next
+
+	@next.setter
+	def next(self, v):
+		if type(v) in (StackObj, type(None)):
+			self.__next = v
+
+
+	
+
+
+
+# добавление нового объекта класса StackObj в конец односвязного списка st
+# st = st + obj 
+# st += obj
+
+# добавление нескольких объектов в конец односвязного списка
+# st = st * ['data_1', 'data_2', ..., 'data_N']
+# st *= ['data_1', 'data_2', ..., 'data_N']
 
 
 
