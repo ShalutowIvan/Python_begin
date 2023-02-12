@@ -4155,7 +4155,7 @@
 # 		if self.last:
 # 			self.last.next = obj
 
-# 		self.last = StackObj
+# 		self.last = obj
 # 		if self.top is None:
 # 			self.top = obj
 
@@ -9415,58 +9415,677 @@ from string import ascii_lowercase, digits
 # P.S. В программе достаточно только объявить классы. На экран ничего выводить не нужно.
 
 # мое решение
-class Stack:
-	def __init__(self):
-		self.top = None
-		self.head = None
+# class Stack:
+# 	def __init__(self):
+# 		self.top = None
+# 		self.tail = None
+#
+# 	def push_back(self, obj):
+# 		if self.tail == None and self.top == None:
+# 			self.tail = obj
+# 			self.top = obj
+# 			return
+# 		if self.top.next == None:
+# 			self.top.next = obj
+# 		self.tail.next = obj
+# 		self.tail = obj
+#
+# 	def pop_back(self):
+# 		n = self.top
+# 		if n == None:
+# 			return
+# 		while n.next:
+# 			last = n.next
+# 			if last.next == None:
+# 				n.next = None
+# 				self.tail = n
+# 				return
+# 			n = n.next
+# 		self.top = None
+# 		self.tail = None
+#
+# 	def __add__(self, other):
+# 		if not type(other) == StackObj:
+# 			raise TypeError("неверный тип данных")
+# 		self.push_back(other)
+# 		return self
+#
+# 	def __iadd__(self, other):
+# 		if not type(other) == StackObj:
+# 			raise TypeError("неверный тип данных")
+# 		self.push_back(other)
+# 		return self
+#
+# 	def __mul__(self, other):
+# 		if not type(other) == list:
+# 			raise TypeError("неверный тип данных")
+# 		for i in other:
+# 			self.push_back(StackObj(i))
+# 		return self
+#
+# 	def __imul__(self, other):
+# 		if not type(other) == list:
+# 			raise TypeError("неверный тип данных")
+# 		for i in other:
+# 			self.push_back(StackObj(i))
+# 		return self
+#
+#
+# class StackObj:
+# 	def __init__(self, data=None):
+# 		if type(data) == str:
+# 			self.__data = data
+# 		else:
+# 			self.__data = ""
+# 		self.__next = None
+#
+# 	@property
+# 	def next(self):
+# 		return self.__next
+#
+# 	@next.setter
+# 	def next(self, v):
+# 		if type(v) in (StackObj, type(None)):
+# 			self.__next = v
+#
+# 	@property
+# 	def data(self):
+# 		return self.__data
+#
+# 	@data.setter
+# 	def data(self, v):
+# 		if type(v) == str:
+# 			self.__data = v
+#
+# st = Stack()
+#
+# # obj = StackObj("1")
+# # obj2 = StackObj("2")
+# # obj3 = StackObj("3")
+# # st.push_back(StackObj("1"))
+# # st.push_back(StackObj("2"))
+# # st.push_back(StackObj("3"))
+# # st.pop_back()
+#
+#
+# # добавление нового объекта класса StackObj в конец односвязного списка st
+# # st = st + obj
+# # st = st + obj2
+# # st = st + obj3
+#
+# # st += obj
+#
+# # добавление нескольких объектов в конец односвязного списка
+# # st = st * ['data_1', 'data_2', 'data_N']
+# st *= ['data_1', 'data_2', 'data_N']
+#
+# print(st.tail.data)
 
-	def push_back(self, obj):
-		if self.top == None:
-			self.top = obj
-			self.head = obj
-			return
-		self.top.next = obj
-		if self.head != None:
-			self.head.next = obj
-		self.top = obj
+# решение без tail только со ссылкой на первый элемент. И дескрипторы
+# class Desc:
+#     def __set_name__(self, owner, name):
+#         self.name = f'_{owner.__name__}__{name}'
+#
+#     def __get__(self, instance, owner):
+#         return getattr(instance, self.name)
+#
+#     def __set__(self, instance, value):
+#         setattr(instance, self.name, value)
+#
+#
+# class StackObj:
+#     data = Desc()
+#     next = Desc()
+#
+#     def __init__(self, data):
+#         self.data = data
+#         self.next = None
+#
+#
+# class Stack:
+#     def __init__(self):
+#         self.top = None
+#
+#     def push_back(self, obj):
+#         if not self.top:
+#             self.top = obj
+#         else:
+#             temp = self.top
+#             while temp.next:
+#                 temp = temp.next
+#             temp.next = obj
+#
+#     def pop_back(self):
+#         if self.top.next:
+#             temp = self.top
+#             while temp.next.next:
+#                 temp = temp.next
+#             temp.next = None
+#         else:
+#             self.top = None
+#
+#     def __add__(self, other):
+#         self.push_back(other)
+#         return self
+#
+#     def __mul__(self, other: list):
+#         for data in other:
+#             self.push_back(StackObj(data))
+#         return self
 
+# вариант с длинной списка
+# class StackObjDescr:
+#     def __set_name__(self, owner, name):
+#         self.name = f"_{owner.__name__}__{name}"
+#
+#     def __set__(self, instance, value):
+#         instance.__dict__[self.name] = value
+#
+#     def __get__(self, instance, owner):
+#         return instance.__dict__[self.name]
+#
+#
+# class StackObj:
+#     data = StackObjDescr()
+#     next = StackObjDescr()
+#
+#     def __init__(self, data: str) -> None:
+#         self.data = data
+#         self.next = next = None
+#
+#
+# class Stack:
+#     def __init__(self) -> None:
+#         self.top    = None
+#         self.length = 0
+#
+#     def get_stack_end_obj(self, prev_last: bool = False) -> StackObj:
+#         obj = self.top
+#         for i in range(self.length-1 - prev_last):
+#             obj = obj.next
+#         return obj
+#
+#     def push_back(self, obj: StackObj) -> None:
+#         if self.length == 0:
+#             self.top = obj
+#         else:
+#             lastObj = self.get_stack_end_obj()
+#             lastObj.next = obj
+#         self.length += 1
+#
+#     def pop_back(self) -> None:
+#         if self.length:
+#             if self.length == 1:
+#                 self.top = None
+#             else:
+#                 prevLastObj = self.get_stack_end_obj(prev_last = True)
+#                 prevLastObj.next = None
+#             self.length -= 1
+#
+#     def __add__(self, obj: StackObj) -> "Stack":
+#         self.push_back(obj)
+#         return self
+#
+#     def __mul__(self, lst: list) -> "Stack":
+#         tempObj = StackObj(lst[0])
+#         self.push_back(tempObj)
+#         for i in range(1, len(lst)):
+#             tempObj.next = tempObj = StackObj(lst[i])
+#             self.length += 1
+#         return self
 
+# решение препода
+# class StackObj:
+#     def __init__(self, data):
+#         self.__data = data
+#         self.__next = None
+#
+#     @property
+#     def data(self):
+#         return self.__data
+#
+#     @property
+#     def next(self):
+#         return self.__next
+#
+#     @next.setter
+#     def next(self, obj):
+#         self.__next = obj
+#
+# class stack:
+#     def __init__(self):
+#         self.top = None
+#         self.__last = None
+#
+#     def push_back(self, obj):
+#         if self.__last:
+#             self.__last.next = obj
+#         self.__last = obj
+#
+#         if self.top is None:
+#             self.top = obj
+#
+#     def pop_back(self):
+#         h = self.top
+#         if h is None:
+#             return
+#         while h.next and h.next != self.__last:#условие h.next != self.__last означает, что h.next не ссылается на последний объект
+#             h = h.next#h в итоге будет ссылаться на предпоследний объект
+#         if self.top == self.__last:#это если всего один объект в списке
+#             self.top = self.__last = None
+#         else:
+#             h.next = None#есэто если объектов больше чем 1
+#             self.__last = h
+#
+#     def __add__(self, other):
+#         self.push_back(other)
+#         return self
+#
+#     def __iadd__(self, other):
+#         return self.__add__(other)
+#
+#     def __mul__(self, other):
+#         for x in other:
+#             self.push_back(StackObj(x))
+#         return self
+#
+#     def __imul__(self, other):
+#         return self.__mul__(other)
 
-	def pop_back(self):
+# Подвиг 7. Вам поручается создать программу по учету книг (библиотеку). Для этого необходимо в программе объявить два класса:
+#
+# Lib - для представления библиотеки в целом;
+# Book - для описания отдельной книги.
+#
+# Объекты класса Book должны создаваться командой:
+#
+# book = Book(title, author, year)
+# где title - заголовок книги (строка); author - автор книги (строка); year - год издания (целое число).
+#
+# Объекты класса Lib создаются командой:
+#
+# lib = Lib()
+# Каждый объект должен содержать локальный публичный атрибут:
+#
+# book_list - ссылка на список из книг (объектов класса Book). Изначально список пустой.
+#
+# Также объекты класса Lib должны работать со следующими операторами:
+#
+# lib = lib + book # добавление новой книги в библиотеку
+# lib += book
+#
+# lib = lib - book # удаление книги book из библиотеки (удаление происходит по ранее созданному объекту book класса Book)
+# lib -= book
+#
+# lib = lib - indx # удаление книги по ее порядковому номеру (индексу: отсчет начинается с нуля)
+# lib -= indx
+# При реализации бинарных операторов + и - создавать копии библиотек (объекты класса Lib) не нужно.
+#
+# Также с объектами класса Lib должна работать функция:
+#
+# n = len(lib) # n - число книг
+# которая возвращает число книг в библиотеке.
+#
+# P.S. В программе достаточно только объявить классы. На экран ничего выводить не нужно.
 
+# мое решение
+# class Lib:
+#     def __init__(self):
+#         self.book_list = []
+#
+#     def __len__(self):
+#         return len(self.book_list)
+#
+#     def __add__(self, other):
+#         self.book_list.append(other)
+#         return self
+#
+#     def __iadd__(self, other):
+#         return self.__add__(other)
+#
+#     def __sub__(self, other):
+#         if self.book_list:
+#             if type(other) is Book:
+#                 self.book_list.remove(other)
+#             elif type(other) is int:
+#                 self.book_list.pop(other)
+#         return self
+#
+#     def __isub__(self, other):
+#         return self.__sub__(other)
+#
+#
+# class Book:
+#     def __init__(self, title, author, year):
+#         self.title = title
+#         self.author = author
+#         self.year = year
+#
+# lib = Lib()
+# book = Book("Грокаем алгоритмы", "Адитья Бхаргава", "2022")
+# book1 = Book("Спартак", "Рафаелло Джваньоли", "100")
+#
+# lib = lib + book # добавление новой книги в библиотеку
+# lib += book1
+# #
+# # lib = lib - book # удаление книги book из библиотеки (удаление происходит по ранее созданному объекту book класса Book)
+# # lib -= book
+# indx = 0
+# lib = lib - indx # удаление книги по ее порядковому номеру (индексу: отсчет начинается с нуля)
+# # lib -= indx
+# print(lib.book_list[0].title)
+# # print(lib.book_list)
+#
+#
+# Подвиг 8. Вам необходимо создать простую программу по учету семейного бюджета. Для этого в программе объявите два класса с именами:
+#
+# Budget - для управления семейным бюджетом;
+# Item - пункт расходов бюджета.
+#
+# Объекты класса Item должны создаваться командой:
+#
+# it = Item(name, money)
+# где name - название статьи расхода; money - сумма расходов (вещественное или целое число).
+#
+# Соответственно, в каждом объекте класса Item должны формироваться локальные атрибуты name и money с переданными значениями. Также с объектами класса Item должны выполняться следующие операторы:
+#
+# s = it1 + it2 # сумма для двух статей расходов
+# и в общем случае:
+#
+# s = it1 + it2 + ... + itN # сумма N статей расходов
+# При суммировании оператор + должен возвращать число - вычисленную сумму по атрибутам money соответствующих объектов класса Item.
+#
+# Объекты класса Budget создаются командой:
+#
+# my_budget = Budget()
+# А сам класс Budget должен иметь следующие методы:
+#
+# add_item(self, it) - добавление статьи расхода в бюджет (it - объект класса Item);
+# remove_item(self, indx) - удаление статьи расхода из бюджета по его порядковому номеру indx (индексу: отсчитывается с нуля);
+# get_items(self) - возвращает список всех статей расходов (список из объектов класса Item).
+#
+# Пример использования классов (эти строчки в программе писать не нужно):
+#
+# my_budget = Budget()
+# my_budget.add_item(Item("Курс по Python ООП", 2000))
+# my_budget.add_item(Item("Курс по Django", 5000.01))
+# my_budget.add_item(Item("Курс по NumPy", 0))
+# my_budget.add_item(Item("Курс по C++", 1500.10))
+#
+# # вычисление общих расходов
+# s = 0
+# for x in my_budget.get_items():
+#     s = s + x
+# P.S. В программе требуется только объявить класс. На экран ничего выводить не нужно.
 
+# мое решение
+# class Budget:
+#     def __init__(self):
+#         self.article = []
+#
+#     def add_item(self, it):
+#         self.article.append(it)
+#
+#     def remove_item(self, indx):
+#         self.article.pop(indx)
+#
+#     def get_items(self):
+#         return self.article
+#
+#
+# class Item:
+#     def __init__(self, name, money):
+#         self.name = name
+#         self.money = money
+#     res = 0
+#     def __add__(self, other):
+#
+#         if type(other) in (int, float):
+#             self.res = self.res + self.money + other
+#         elif type(other) is Item:
+#             self.res = self.res + self.money + other.money
+#         return self.res
+#
+#     def __radd__(self, other):
+#         return self + other
+#
+#
+# my_budget = Budget()
+# my_budget.add_item(Item("Курс по Python ООП", 2000))
+# my_budget.add_item(Item("Курс по Django", 5000.01))
+# my_budget.add_item(Item("Курс по NumPy", 0))
+# my_budget.add_item(Item("Курс по C++", 1500.10))
+#
+# s = 0
+# for x in my_budget.get_items():
+#     s = s + x
+#
+# print(s)
+#
+# # более простое и очевидное решение
+# class Item:
+#     def __init__(self, name, money):
+#         self.name = name
+#         self.money = money
+#
+#     def __add__(self, it):
+#         if isinstance(it, Item):
+#             return self.money + it.money
+#         if isinstance(it, (float, int)):
+#             return self.money + it
+#
+#     def __radd__(self, it):
+#         return self + it
+#
+# class Budget:
+#     def __init__(self):
+#         self.items = list()
+#
+#     def add_item(self, it):
+#         if isinstance(it, Item):
+#             self.items.append(it)
+#
+#     def remove_item(self, indx):
+#         if indx < len(self.items):
+#             del self.items[indx]
+#
+#     def get_items(self):
+#         return self.items
 
-class StackObj:
-	def __init__(self, data=None):
-		if type(data) == str:
-			self.__data = data
-		else:
-			self.__data = ""
-		self.__next = None
+#еще один вариант
+# class Budget:
+#     def __init__(self):
+#         self.items = list()
+#
+#     def add_item(self, it):
+#         if isinstance(it, Item):
+#             self.items.append(it)
+#
+#     def remove_item(self, indx):
+#         if isinstance(indx, int) and 0 <= indx < len(self.items):
+#             del self.items[indx]
+#
+#     def get_items(self):
+#         return self.items
+#
+#     def __iter__(self):
+#         return iter(self.items)
+#
+#
+# class Item:
+#     def __init__(self, name, money):
+#         self.name = name
+#         self.money = money
+#
+#     def __add__(self, other):
+#         if isinstance(other, (self.__class__, int)):
+#             return self.money + other
+#
+#     def __radd__(self, other):
+#         return self + other
 
-	@property
-	def next(self):
-		return self.__next
+# Подвиг 9. Объявите класс Box3D для представления прямоугольного параллелепипеда (бруска), объекты которого создаются командой:
+#
+# box = Box3D(width, height, depth)
+# где width, height, depth - ширина, высота и глубина соответственно (числа: целые или вещественные)
+#
+# В каждом объекте класса Box3D должны создаваться публичные атрибуты:
+#
+# width, height, depth - ширина, высота и глубина соответственно.
+#
+# С объектами класса Box3D должны выполняться следующие операторы:
+#
+# box1 = Box3D(1, 2, 3)
+# box2 = Box3D(2, 4, 6)
+#
+# box = box1 + box2 # Box3D: width=3, height=6, depth=9 (соответствующие размерности складываются)
+# box = box1 * 2    # Box3D: width=2, height=4, depth=6 (каждая размерность умножается на 2)
+# box = 3 * box2    # Box3D: width=6, height=12, depth=18
+# box = box2 - box1 # Box3D: width=1, height=2, depth=3 (соответствующие размерности вычитаются)
+# box = box1 // 2   # Box3D: width=0, height=1, depth=1 (соответствующие размерности целочисленно делятся на 2)
+# box = box2 % 3    # Box3D: width=2, height=1, depth=0
+# При каждой арифметической операции следует создавать новый объект класса Box3D с соответствующими значениями локальных атрибутов.
+#
+# P.S. В программе достаточно только объявить класс Box3D. На экран ничего выводить не нужно.
 
-	@next.setter
-	def next(self, v):
-		if type(v) in (StackObj, type(None)):
-			self.__next = v
+# мое решение
+# class Box3D:
+#     def __init__(self, width, height, depth):
+#         self.width = width
+#         self.height = height
+#         self.depth = depth
+#
+#     def get_box(self):
+#         return self.width, self.height, self.depth
+#
+#     def __add__(self, other):
+#         w = self.width + other.width
+#         h = self.height + other.height
+#         d = self.depth + other.depth
+#         return Box3D(w, h, d)
+#
+#     def __mul__(self, other):
+#         w = self.width * other
+#         h = self.height * other
+#         d = self.depth * other
+#         return Box3D(w, h, d)
+#
+#     def __rmul__(self, other):
+#         return self * other
+#
+#     def __sub__(self, other):
+#         w = self.width - other.width
+#         h = self.height - other.height
+#         d = self.depth - other.depth
+#         return Box3D(w, h, d)
+#
+#     def __floordiv__(self, other):
+#         w = self.width // other
+#         h = self.height // other
+#         d = self.depth // other
+#         return Box3D(w, h, d)
+#
+#     def __mod__(self, other):
+#         w = self.width % other
+#         h = self.height % other
+#         d = self.depth % other
+#         return Box3D(w, h, d)
+#
+# box1 = Box3D(1, 2, 3)
+# box2 = Box3D(2, 4, 6)
+#
+# # box = box1 + box2 # Box3D: width=3, height=6, depth=9 (соответствующие размерности складываются)
+# # box = box1 * 2    # Box3D: width=2, height=4, depth=6 (каждая размерность умножается на 2)
+# # box = 3 * box2    # Box3D: width=6, height=12, depth=18
+# # box = box2 - box1 # Box3D: width=1, height=2, depth=3 (соответствующие размерности вычитаются)
+# # box = box1 // 2   # Box3D: width=0, height=1, depth=1 (соответствующие размерности целочисленно делятся на 2)
+# box = box2 % 3    # Box3D: width=2, height=1, depth=0
+# print(box.get_box())
+#
+# Подвиг 10 (на повторение). В нейронных сетях использую операцию под названием Max Pooling. Суть ее состоит в сканировании прямоугольной таблицы чисел (матрицы) окном определенного размера (обычно, 2x2 элемента) и выбора наибольшего значения в пределах этого окна:
+#
+#
+#
+#  Или, если окна выходят за пределы матрицы, то они пропускаются (игнорируются):
+#
+#
+#
+# Мы повторим эту процедуру. Для этого в программе нужно объявить класс с именем MaxPooling, объекты которого создаются командой:
+#
+# mp = MaxPooling(step=(2, 2), size=(2,2))
+# где step - шаг смещения окна по горизонтали и вертикали; size - размер окна по горизонтали и вертикали.
+#
+# Параметры step и size по умолчанию должны принимать кортеж со значениями (2, 2).
+#
+# Для выполнения операции Max Pooling используется команда:
+#
+# res = mp(matrix)
+# где matrix - прямоугольная таблица чисел; res - ссылка на результат обработки таблицы matrix (должна создаваться новая таблица чисел.
+#
+# Прямоугольную таблицу чисел следует описывать вложенными списками. Если при сканировании таблицы часть окна выходит за ее пределы, то эти данные отбрасывать (не учитывать все окно).
+#
+# Если matrix не является прямоугольной таблицей или содержит хотя бы одно не числовое значение, то должно генерироваться исключение командой:
+#
+# raise ValueError("Неверный формат для первого параметра matrix.")
+# Пример использования класса (эти строчки в программе писать не нужно):
+#
+# mp = MaxPooling(step=(2, 2), size=(2,2))
+# res = mp([[1, 2, 3, 4], [5, 6, 7, 8], [9, 8, 7, 6], [5, 4, 3, 2]])    # [[6, 8], [9, 7]]
+# Результатом будет таблица чисел:
+#
+# 6 8
+# 9 7
+#
+# P.S. В программе достаточно объявить только класс. Выводить на экран ничего не нужно.
 
+class MaxPooling:
+    def __init__(self, step=(2, 2), size=(2, 2)):
+        self.step = step
+        self.size = size
 
-	
+    def __call__(self, matrix):
+        l = []
+        e = []
+        if not all([all(type(j) in (int, float) for j in i) for i in matrix]):
+            raise ValueError("Неверный формат для первого параметра matrix.")
+        if len(matrix) < 2:
+            raise ValueError("Неверный формат для первого параметра matrix.")
+        for i, v in enumerate(matrix):
+            if i == len(matrix) - 1:
+                break
+            if len(matrix[i]) != len(matrix[i+1]):
+                raise ValueError("Неверный формат для первого параметра matrix.")
+        for i in range(0, len(matrix) - 1 - (len(matrix) % self.step[0]), self.step[0]):
+            for j in range(0, len(matrix[i]) - 1 - (len(matrix[i]) % self.step[1]), self.step[1]):
+                l.append(max(matrix[i][j], matrix[i + 1][j], matrix[i + 1][j + 1], matrix[i][j + 1]))
+                if j == len(matrix[i]) - 2 - (len(matrix[i]) % self.step[1]):
+                    e.append(l)
+                    l = []
 
+        return e
+#не учитывается шаг больше чем 2. Я сделал алгоритм для шага равному 2 и все
+# lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1]
+mp = MaxPooling(step=(2, 2), size=(2,2))
+res = mp([[1, 2, 3], [5, 6, 7], [9, 8, 7]])    # [[6, 8], [9, 7]]
 
+# ,[11, 22, 33, 44]
+print(res)
 
-# добавление нового объекта класса StackObj в конец односвязного списка st
-# st = st + obj 
-# st += obj
+# [
+#     [1, 2, 3, 4, 1],
+#     [5, 6, 7, 8, 1],
+#     [9, 8, 7, 6, 2],
+#     [5, 4, 3, 2, 3],
+#     [11, 22, 33, 44, 4]
+#     ]
 
-# добавление нескольких объектов в конец односвязного списка
-# st = st * ['data_1', 'data_2', ..., 'data_N']
-# st *= ['data_1', 'data_2', ..., 'data_N']
-
-
-
-
-
+# [
+#     [1, 2, 3, 4, 5, 6, 7, 8,      1],
+#     [5, 6, 7, 8, 5, 6, 7, 8, 1],
+#     [9, 8, 7, 6, 5, 6, 7, 8, 1],
+#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
+#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
+#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
+#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
+#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
+#     # [5, 4, 3, 2, 5, 6, 7, 8, 1]]
