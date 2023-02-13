@@ -10038,86 +10038,81 @@ from string import ascii_lowercase, digits
 #
 # P.S. В программе достаточно объявить только класс. Выводить на экран ничего не нужно.
 
-class MaxPooling:
-	def __init__(self, step=(2, 2), size=(2, 2)):
-		self.step = step
-		self.size = size
-
-	def __call__(self, matrix):
-		l = []
-		e = []
-		n = []
-		if not all([all(type(j) in (int, float) for j in i) for i in matrix]):
-			raise ValueError("Неверный формат для первого параметра matrix.")
-		if len(matrix) < 2:
-			raise ValueError("Неверный формат для первого параметра matrix.")
-		for i, v in enumerate(matrix):
-			if i == len(matrix) - 1:
-				break
-			if len(matrix[i]) != len(matrix[i+1]):
-				raise ValueError("Неверный формат для первого параметра matrix.")
-		
-		
-		for i in range(0, len(matrix) - (len(matrix) % self.size[0]), self.step[0]):			
-			for j in range(0, len(matrix[i]) - (len(matrix[i]) % self.size[1]), self.step[1]):#тут проверить!!!!!!!!
-				for q in range(self.size[0]):
-					l.append(max(matrix[q+i][j:j+self.size[1]]))#максимум по строкам в поле. Тут что то!!!! что то с j!!!!!!!!! 6+2 8 нет индекса
-				e.append(max(l))#максимум по квадрату записали в список, будет список из максимумов по квадратам
-				if j == len(matrix[i]) - self.step[1] - (len(matrix[i]) % self.step[1]):
-					n.append(e)#тут что-то!!!!!!!!!!
-					e = []
-				l = []
-		return n
-
-# нужно сделать отбрасывание
-#не учитывается шаг больше чем 2. Я сделал алгоритм для шага равному 2 и все
-# lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1]
-# l.append(max(matrix[i][j], matrix[i + 1][j], matrix[i + 1][j + 1], matrix[i][j + 1]))
-
-mp = MaxPooling(step=(3, 3), size=(2,2))
-res = mp(
-	[
-    [1, 2, 3, 4, 5, 6, 7, 8],
-    [5, 6, 7, 8, 5, 6, 7, 8],
-    [9, 8, 7, 6, 5, 6, 7, 8],
-    [5, 4, 3, 2, 5, 6, 7, 8],
-    [5, 4, 3, 2, 5, 6, 7, 8],
-    [5, 4, 3, 2, 5, 6, 7, 8],
-    [5, 4, 3, 2, 5, 6, 7, 8],
-    [5, 4, 3, 2, 5, 6, 7, 8],
-    [5, 4, 3, 2, 5, 6, 7, 8]
-    ]
-    )
-print(res)
-
-
-
-# [
-#     [1, 2, 3, 4, 1],
-#     [5, 6, 7, 8, 1],
-#     [9, 8, 7, 6, 2],
-#     [5, 4, 3, 2, 3],
-#     [11, 22, 33, 44, 4]
+# мое кривое решение
+# class MaxPooling:
+# 	def __init__(self, step=(2, 2), size=(2, 2)):
+# 		self.step = step
+# 		self.size = size
+#
+# 	def __call__(self, matrix):
+# 		l = []
+# 		e = []
+# 		n = []
+# 		if not all([all(type(j) in (int, float) for j in i) for i in matrix]):
+# 			raise ValueError("Неверный формат для первого параметра matrix.")
+# 		if len(matrix) < 2:
+# 			raise ValueError("Неверный формат для первого параметра matrix.")
+# 		for i, v in enumerate(matrix):
+# 			if i == len(matrix) - 1:
+# 				break
+# 			if len(matrix[i]) != len(matrix[i+1]):
+# 				raise ValueError("Неверный формат для первого параметра matrix.")
+#
+#
+# 		for i in range(0, len(matrix) - (len(matrix) % self.step[0]), self.step[0]):
+# 			for j in range(0, len(matrix[i]) - (len(matrix[i]) % self.step[1]), self.step[1]):
+# 				for q in range(self.size[0]):
+# 					l.append(max(matrix[q+i][j:j+self.size[1]]))#максимум по строкам в поле.
+# 				e.append(max(l))#максимум по квадрату записали в список, будет список из максимумов по квадратам
+# 				l = []
+# 				if j == len(matrix[i]) - self.step[1] - (len(matrix[i]) % self.step[1]):
+# 					n.append(e)
+# 					e = []
+#
+# 		return n
+# # lst_in[i][j] + lst_in[i + 1][j] + lst_in[i + 1][j + 1] + lst_in[i][j + 1]
+# # l.append(max(matrix[i][j], matrix[i + 1][j], matrix[i + 1][j + 1], matrix[i][j + 1]))
+#
+# mp = MaxPooling(step=(3, 3), size=(2,2))
+# res = mp(
+# 	[
+# 		[1, 2, 3, 4],
+# 		[5, 6, 7, 8],
+# 		[9, 8, 7, 6],
+# 		[5, 4, 3, 2]
+#
 #     ]
+#     )
+# print(res)
+# [5, 4, 3, 2, 5, 6, 7, 8]
+# a = [1, 2, 3, 4]
+# print(a[:6])
 
-# [
-#     [1, 2, 3, 4, 5, 6, 7, 8,  1],
-#     [5, 6, 7, 8, 5, 6, 7, 8,  1],
-#     [9, 8, 7, 6, 5, 6, 7, 8, 1],
-#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
-#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
-#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
-#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
-#     [5, 4, 3, 2, 5, 6, 7, 8, 1],
-#     [5, 4, 3, 2, 5, 6, 7, 8, 1]
-#     ]
+# крутое непонятное решение с генераторами
+# class MaxPooling:
+# 	def __init__(self, step: tuple = (2, 2), size: tuple = (2, 2)) -> None:
+# 		self.step = step
+# 		self.size = size
+#
+# 	def validateMatrix(self, matrix: list) -> None:
+# 		rowLength = len(matrix[0])
+# 		if all(len(row) == rowLength for row in matrix):
+# 			if all(type(i) in (int, float) for row in matrix for i in row):
+# 				return
+# 		raise ValueError("Неверный формат для первого параметра matrix.")
+#
+# 	def __call__(self, matrix: list) -> list:
+# 		self.validateMatrix(matrix)
+#
+# 		rangeI = range(self.size[1], len(matrix) + 1, self.step[1])
+# 		rangeJ = range(self.size[0], len(matrix[0]) + 1, self.step[0])
+#
+# 		return [[max(matrix[y][x]
+# 					 for y in range(i - self.size[1], i)
+# 					 for x in range(j - self.size[0], j)
+# 					 ) for j in rangeJ]
+# 				for i in rangeI]
 
 
 
-# [
-# [1, 2, 3, 4], 
-# [5, 6, 7, 8], 
-# [9, 8, 7, 6], 
-# [5, 4, 3, 2]])    # [[6, 8], [9, 7]]
 
-# ,[11, 22, 33, 44]
