@@ -10322,49 +10322,76 @@ from string import ascii_lowercase, digits
 # P.S. На экран в программе ничего выводить не нужно.
 
 # мое решение
-class Track:
-	def __init__(self, start_x, start_y):
-		self.start_x = start_x
-		self.start_y = start_y
-		self.tr = []
+#
+# class Track:
+#     def __init__(self, start_x, start_y):
+#         self.start_x = start_x
+#         self.start_y = start_y
+#         self.track = [TrackLine(self.start_x, self.start_y)]
+#
+#     @classmethod
+#     def __verify_data(cls, other):
+#         if not isinstance(other, Track):
+#             raise TypeError("Операнд справа должен иметь тип int или Track")
+#         return other
+#
+#     def add_track(self, tr):
+#         self.track.append(tr)
+#
+#     def get_tracks(self):
+#         return tuple(self.track)
+#
+#     def __eq__(self, other):
+#         v = self.__verify_data(other)
+#         return self.__len__() == v.__len__()
+#
+#     def __ne__(self, other):
+#         v = self.__verify_data(other)
+#         return self.__len__() != v.__len__()
+#
+#     def __lt__(self, other):
+#         v = self.__verify_data(other)
+#         return self.__len__() < v.__len__()
+#
+#
+#     def __gt__(self, other):
+#         v = self.__verify_data(other)
+#         return self.__len__() > v.__len__()
+#
+#     def __len__(self):
+#         L = 0
+#         for i in range(len(self.track)-1):
+#             L = L + ((self.track[i+1].to_x - self.track[i].to_x)**2 + (self.track[i+1].to_y - self.track[i].to_y)**2) ** 0.5
+#         return int(L)
+#
+#
+# class TrackLine:
+#     def __init__(self, to_x, to_y, max_speed=0):
+#         self.to_x = to_x
+#         self.to_y = to_y
+#         self.max_speed = max_speed
+#
+#
+# track1 = Track(0, 0)
+# track2 = Track(0, 1)
+# track1.add_track(TrackLine(2, 4, 100))
+# track1.add_track(TrackLine(5, -4, 100))
+# track2.add_track(TrackLine(3, 2, 90))
+# track2.add_track(TrackLine(10, 8, 90))
+#
+# res_eq = track1 == track2
+# # print(len(track1), len(track2))
+# print(res_eq)
+# 1-й маршрут: (0; 0), (2; 4), (5; -4) и max_speed = 100
+# 2-й маршрут: (0; 1), (3; 2), (10; 8) и max_speed = 90
+# track1 == track2  # маршруты равны, если равны их длины
+# track1 != track2  # маршруты не равны, если не равны их длины
+# track1 > track2  # True, если длина пути для track1 больше, чем для track2
+# track1 < track2  # True, если длина пути для track1 меньше, чем для track2
 
-	def add_track(self, tr):
-
-
-	def get_tracks(self):
-
-	def __eq__(self):
-
-	def __ne__(self):
-
-	def __lt__(self):
-
-	def __gt__(self):
-
-	def __len__(self):
 
 
 
-
-
-
-
-
-class TrackLine:
-	def __init__(self, to_x, to_y, max_speed):
-		self.to_x = to_x
-		self.to_y = to_y
-		self.max_speed = max_speed
-
-
-
-
- 
-
-
-
-
-	
 
 
 
