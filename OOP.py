@@ -10113,6 +10113,262 @@ from string import ascii_lowercase, digits
 # 					 ) for j in rangeJ]
 # 				for i in rangeI]
 
+# решение препода
+
+# class MaxPooling:
+# 	def __init__(self, step=(2, 2), size=(2, 2)):
+# 		self.__step = step
+# 		self.__size = size
+
+# 	def __call__(self, matrix):
+# 		rows = len(matrix)
+# 		cols = len(matrix[0]) if rows > 0 else 0
+
+# 		if rows == 0:
+# 			return [[]]
+
+# 		if not all(map(lambda x: len(x) == cols, matrix)) or not all(map(lambda row : all(map(lambda x: type(x) in (int, float), row)), matrix)):#если длины всех строк одинаковые, значит матрица правильная, то прямоугольная или квадратная. и второе условие это проверка типа каждого элемента
+# 			raise ValueError("Неверный формат для первого параметра matrix.")
+# 		h, w = self.__size[0], self.__size[1]
+# 		sh, sw = self.__step[0], self.__step[1]
+# 		rows_range = (rows - h) // sh + 1#подсчет колва окон по строкам
+# 		cols_range = (cols - w) // sw + 1#подсчет колва окон по столбцам
+# 		res = [[0] * cols_range for _ in range(rows_range)]
+# 		for i in range(rows_range):
+# 			for j in range(cols_range):
+# 				s = (x for r in matrix[i * sh: i * sh + h] for x in r[j * sw: j * sw + w])
+# 				res[i][j] = max(s)
+
+# 		return res
+
+
+# # решение с пояснениями
+# class MaxPooling:
+#     def __init__(self, step=(2, 2), size=(2,2)):
+#         self.step = step    
+#         self.size = size
+
+#     def __call__(self, m):        
+#         items_in_1row = len(m[0])
+#         for row in m:
+#             if len(row) != items_in_1row:
+#                 raise ValueError("Неверный формат для первого параметра matrix.")
+#         for i in range(len(m)):
+#             for j in range(len(m[0])):
+#                 if type(m[i][j]) not in (int, float):
+#                     raise ValueError("Неверный формат для первого параметра matrix.")
+
+#         # Определяем количество колонок и столбцов в результирующей матрице
+#         cols = len(m[0]) // self.step[0]
+#         rows = len(m) // self.step[1]
+#         # формируем новую матрицу и заполняем её нулями
+#         res = [[0 for _ in range(cols)] for _ in range(rows)]
+#         # заполняем новую матрицу максимальными значениями из "окна"
+#         for i in range(rows):
+#             for j in range(cols):
+#                 res[i][j] = max([m[i*2][j*2], m[i*2+1][j*2], m[i*2][j*2+1], m[i*2+1][j*2+1]])
+#         return res
+
+# Методы сравнений __eq__, __ne__, __lt__, __gt__ и другие!!!!!!!!!!!!!!!
+# __eq__() - для равенства == 
+# __ne__() - для неравенства !=
+# __lt__() - для оператор меньше <
+# __le__() - для оператора меньше или равно <=
+# __gt__() - для оператора больше >
+# __gt__() - для оператор больше или равно >=
+# примеры использования
+
+# __eq__
+# class Clock:
+# 	__DAY = 86400
+
+# 	def __init__(self, seconds: int):
+# 		if not isinstance(seconds, int):
+# 			raise TypeError("Секунды должны быть целым числом")
+# 		self.seconds = seconds % self.__DAY
+
+# c1 = Clock(1000)
+# c2 = Clock(1000)
+# print(c1==c2)#тут сравниваются ID объектов в памяти ПК. Так работает если мы не пропишем магический метод __eq__
+
+# class Clock:
+# 	__DAY = 86400
+
+# 	def __init__(self, seconds: int):
+# 		if not isinstance(seconds, int):
+# 			raise TypeError("Секунды должны быть целым числом")
+# 		self.seconds = seconds % self.__DAY
+
+# 	def __eq__(self, other):
+# 		if not isinstance(other, (int, Clock)):
+# 			raise TypeError("Операнд справа должен иметь тип int или Clock")
+
+# 		sc = other if isinstance(other, int) else other.seconds
+# 		return self.seconds == sc#self это ссылка объект слева, other это операнд справа. В нашем случае мы в операнд справа записали в переменную sc
+
+# c1 = Clock(1000)
+# # c2 = Clock(1000)
+# # print(c1==c2)#теперь тут будет True, так как мы переопредили магический метод
+# c2 = Clock(2000)#прописали другое значение в c2
+# print(c1!=c2)#проверяем на неравно. И это работает. Почему? Потому что питон когда видит != он воспринимает это как not(c1==c2). Так работает в случае если метод __ne__ не переопределен. То есть вызывается метод __eq__ и инвертируется, то есть воспринимается как not. Другие операторы сравнения тут не сработают < > и тд не сработают, их нужно переопределить
+# Определим метод __lt__
+
+# class Clock:
+# 	__DAY = 86400
+
+# 	def __init__(self, seconds: int):
+# 		if not isinstance(seconds, int):
+# 			raise TypeError("Секунды должны быть целым числом")
+# 		self.seconds = seconds % self.__DAY
+
+# 	def __eq__(self, other):
+# 		if not isinstance(other, (int, Clock)):
+# 			raise TypeError("Операнд справа должен иметь тип int или Clock")
+
+# 		sc = other if isinstance(other, int) else other.seconds
+# 		return self.seconds == sc
+
+# 	def __lt__(self, other):
+# 		if not isinstance(other, (int, Clock)):
+# 			raise TypeError("Операнд справа должен иметь тип int или Clock")
+
+# 		sc = other if isinstance(other, int) else other.seconds
+# 		return self.seconds < sc
+
+
+# c1 = Clock(1000)
+# c2 = Clock(2000)
+# print(c1 < c2)
+#у нас получается дублирование кода при проверке и переприсванивании переменной sc для other значений. Опеределим метод для проверки значений
+
+# class Clock:
+# 	__DAY = 86400
+
+# 	def __init__(self, seconds: int):
+# 		if not isinstance(seconds, int):
+# 			raise TypeError("Секунды должны быть целым числом")
+# 		self.seconds = seconds % self.__DAY
+
+# 	@classmethod
+# 	def __verify_data(cls, other):
+# 		if not isinstance(other, (int, Clock)):
+# 			raise TypeError("Операнд справа должен иметь тип int или Clock")
+# 		return other if isinstance(other, int) else other.seconds
+
+
+# 	def __eq__(self, other):
+# 		sc = self.__verify_data(other)
+# 		return self.seconds == sc
+
+# 	def __lt__(self, other):
+# 		sc = self.__verify_data(other)
+# 		return self.seconds < sc
+
+# 	def __gt__(self, other):
+# 		sc = self.__verify_data(other)
+# 		return self.seconds > sc
+
+# 	def __le__(self, other):#метод для <=
+# 		sc = self.__verify_data(other)
+# 		return self.seconds <= sc
+
+# c1 = Clock(1000)
+# c2 = Clock(2000)
+# # print(c1 < c2)
+# # print(c1 > c2)#если тут написать больше, то питон тоже ошибку не выдаст. Если c1 > c2 не реализован в классе объекта c1, то питон сделает подмену c2 < c1, то есть меняет операторы местами, то есть переворачивает выражение условия и получается тоже самое в итоге, а оператор меньше у нас реализован, и поэтому все срабатывает. То есть операнды меняются местами и используется знак меньше <.
+# #если определить метод __gt__ то именно он и будет использоваться при выполении операции >
+# print(c1 <= c2)
+# print(c1 >= c2)#это также будет работать не смотря на то что прописан только метод для <=, также операнды меняются местами. 
+# Получается главное прописать методы для ==, < и <=. __eq__, __lt__, __le__
+# __eq__() - для равенства == 
+# __ne__() - для неравенства !=
+# __lt__() - для оператор меньше <
+# __le__() - для оператора меньше или равно <=
+# __gt__() - для оператора больше >
+# __gt__() - для оператор больше или равно >=
+
+# Задачки!!!!!!!!!!
+# Подвиг 3. Объявите класс Track (маршрут), объекты которого создаются командой:
+
+# track = Track(start_x, start_y)
+# где start_x, start_y - координаты начала маршрута (целые или вещественные числа).
+
+# Каждый линейный сегмент маршрута определяется классом TrackLine, объекты которого создаются командой:
+
+# line = TrackLine(to_x, to_y, max_speed)
+# где to_x, to_y - координаты следующей точки маршрута (целые или вещественные числа); max_speed - максимальная скорость на данном участке (целое число).
+
+# Для формирования и работы с маршрутом в классе Track должны быть объявлены следующие методы:
+
+# add_track(self, tr) - добавление линейного сегмента маршрута (следующей точки);
+# get_tracks(self) - получение кортежа из объектов класса TrackLine.
+
+# Также для объектов класса Track должны быть реализованные следующие операции сравнения:
+
+# track1 == track2  # маршруты равны, если равны их длины
+# track1 != track2  # маршруты не равны, если не равны их длины
+# track1 > track2  # True, если длина пути для track1 больше, чем для track2
+# track1 < track2  # True, если длина пути для track1 меньше, чем для track2
+# И функция:
+
+# n = len(track) # возвращает целочисленную длину маршрута (привести к типу int) для объекта track
+# Создайте два маршрута track1 и track2 с координатами:
+
+# 1-й маршрут: (0; 0), (2; 4), (5; -4) и max_speed = 100
+# 2-й маршрут: (0; 1), (3; 2), (10; 8) и max_speed = 90
+
+# Сравните их между собой на равенство. Результат сравнения сохраните в переменной res_eq.
+
+# P.S. На экран в программе ничего выводить не нужно.
+
+# мое решение
+class Track:
+	def __init__(self, start_x, start_y):
+		self.start_x = start_x
+		self.start_y = start_y
+		self.tr = []
+
+	def add_track(self, tr):
+
+
+	def get_tracks(self):
+
+	def __eq__(self):
+
+	def __ne__(self):
+
+	def __lt__(self):
+
+	def __gt__(self):
+
+	def __len__(self):
+
+
+
+
+
+
+
+
+class TrackLine:
+	def __init__(self, to_x, to_y, max_speed):
+		self.to_x = to_x
+		self.to_y = to_y
+		self.max_speed = max_speed
+
+
+
+
+ 
+
+
+
+
+	
+
+
+
+
 
 
 
