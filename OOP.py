@@ -10285,7 +10285,7 @@ from string import ascii_lowercase, digits
 # __lt__() - для оператор меньше <
 # __le__() - для оператора меньше или равно <=
 # __gt__() - для оператора больше >
-# __gt__() - для оператор больше или равно >=
+# __ge__() - для оператор больше или равно >=
 
 # Задачки!!!!!!!!!!
 
@@ -10478,64 +10478,72 @@ from string import ascii_lowercase, digits
 
 # мое решение
 # четкий дескриптор:
-class Property:
-    def __set_name__(self, owner, name):
-        self.name = f'_{owner.__name__}__{name}'
-        self.min = owner.MIN_DIMENSION
-        self.max = owner.MAX_DIMENSION
+# class Property:
+# 	def __set_name__(self, owner, name):
+# 		self.name = f'_{owner.__name__}__{name}'
+# 		self.min = owner.MIN_DIMENSION
+# 		self.max = owner.MAX_DIMENSION
+#
+# 	def __get__(self, instance, owner):
+# 		return instance.__dict__[self.name]
+#
+# 	def __set__(self, instance, value):
+# 		if self.min <= value <= self.max:
+# 			setattr(instance, self.name, value)
+#
+# class Dimensions:
+# 	MIN_DIMENSION = 10
+# 	MAX_DIMENSION = 10000
+# 	a = Property()
+# 	b = Property()
+# 	c = Property()
+#
+# 	def __init__(self, a=None, b=None, c=None):
+# 		self.a = a
+# 		self.b = b
+# 		self.c = c
+#
+# 	@classmethod
+# 	def __calculation(cls, other):
+# 		if not isinstance(other, (list, tuple, Dimensions)):
+# 			raise TypeError("Операнд справа должен иметь тип списка или Dimensions")
+# 		return other.a * other.b * other.c
+#
+# 	def __ge__(self, other):
+# 		V1 = self.a * self.b * self.c
+# 		V2 = self.__calculation(other)
+# 		return V1 >= V2
+#
+# 	def __gt__(self, other):
+# 		V1 = self.a * self.b * self.c
+# 		V2 = self.__calculation(other)
+# 		return V1 > V2
+#
+# 	def __le__(self, other):
+# 		V1 = self.a * self.b * self.c
+# 		V2 = self.__calculation(other)
+# 		return V1 <= V2
+#
+# 	def __lt__(self, other):
+# 		V1 = self.a * self.b * self.c
+# 		V2 = self.__calculation(other)
+# 		return V1 <= V2
+#
+# class ShopItem:
+# 	def __init__(self, name, price, dim):
+# 		self.name = name
+# 		self.price = price
+# 		self.dim = dim
+#
+# lst_shop = [ShopItem("кеды", 1024, Dimensions(40, 30, 120)), ShopItem("зонт", 500.24, Dimensions(10, 20, 50)), ShopItem("холодильник", 40000, Dimensions(2000, 600, 500)), ShopItem("табуретка", 2000.99, Dimensions(500, 200, 200))]
+# lst_shop_sorted = sorted(lst_shop, key=lambda x: x.dim.a * x.dim.b * x.dim.c)
+#
+# print(list(map(lambda x: x.dim.a * x.dim.b * x.dim.c, lst_shop_sorted)))
 
-    def __get__(self, instance, owner):
-        if instance:        	
-            return getattr(instance, self.name)
-
-    def __set__(self, instance, value):
-        if self.min <= value <= self.max:
-            setattr(instance, self.name, value)
-
-
-class Dimensions:
-	MIN_DIMENSION = 10
-	MAX_DIMENSION = 10000
-	a = Property()
-	b = Property()
-	c = Property()
-
-	def __init__(self, a, b, c):
-		self.a = a
-		self.b = b
-		self.c = c
-
-	@classmethod
-	def __verify_data(cls, other):
-		if not isinstance(other, (int, Dimensions)):
-			raise TypeError("Операнд справа должен иметь тип int или Dimensions")
-		return other if isinstance(other, int) else other.
-
-
-	def __gt__(self, other):
-		V = 
-		return 
-
-# V=a*b*h формула расчета объема
-
-
-
-class ShopItem:
-	def __init__(self, name, price, dim):
-		self.name = name
-		self.price = price
-		self.dim = dim
 
 
 
 
 
 
-# dim1 >= dim2   # True, если объем dim1 больше или равен объему dim2
-# dim1 > dim2    # True, если объем dim1 больше объема dim2
-# dim1 <= dim2   # True, если объем dim1 меньше или равен объему dim2
-# dim1 < dim2    # True, если объем dim1 меньше объема dim2
-
-
-# lst_shop_sorted = 
 
