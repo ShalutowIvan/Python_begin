@@ -10527,7 +10527,7 @@ from string import ascii_lowercase, digits
 # 	def __lt__(self, other):
 # 		V1 = self.a * self.b * self.c
 # 		V2 = self.__calculation(other)
-# 		return V1 <= V2
+# 		return V1 < V2
 #
 # class ShopItem:
 # 	def __init__(self, name, price, dim):
@@ -10540,8 +10540,88 @@ from string import ascii_lowercase, digits
 #
 # print(list(map(lambda x: x.dim.a * x.dim.b * x.dim.c, lst_shop_sorted)))
 
+# Подвиг 5. Имеется стихотворение, представленное следующим списком строк:
+
+# stich = ["Я к вам пишу – чего же боле?",
+#         "Что я могу еще сказать?",
+#         "Теперь, я знаю, в вашей воле",
+#         "Меня презреньем наказать.",
+#         "Но вы, к моей несчастной доле",
+#         "Хоть каплю жалости храня,",
+#         "Вы не оставите меня."]
+# Необходимо в каждой строчке этого стиха убрать символы "–?!,.;" в начале и в конце каждого слова и разбить строку по словам (слова разделяются одним или несколькими пробелами). На основе полученного списка слов, создать объект класса StringText командой:
+
+# st = StringText(lst_words)
+# где lst_words - список из слов одной строчки стихотворения. 
+
+# С объектами класса StringText должны быть реализованы операторы сравнения:
+
+# st1 > st2   # True, если число слов в st1 больше, чем в st2
+# st1 >= st2  # True, если число слов в st1 больше или равно st2
+# st1 < st2   # True, если число слов в st1 меньше, чем в st2
+# st1 <= st2  # True, если число слов в st1 меньше или равно st2
+# Все объекты класса StringText (для каждой строчки стихотворения) сохранить в списке lst_text. Затем, сформировать новый список lst_text_sorted из отсортированных объектов класса StringText по убыванию числа слов. Для сортировки использовать стандартную функцию sorted() языка Python. После этого преобразовать данный список (lst_text_sorted) в список из строк (объекты заменяются на соответствующие строки, между словами ставится пробел).
+
+# P.S. На экран в программе ничего выводить не нужно.
 
 
+stich = ["Я к вам пишу – чего же боле?",
+        "Что я могу еще сказать?",
+        "Теперь, я знаю, в вашей воле",
+        "Меня презреньем наказать.",
+        "Но вы, к моей несчастной доле",
+        "Хоть каплю жалости храня,",
+        "Вы не оставите меня."]
+
+# stich = list(map(lambda x: "".join(list(map(lambda y: y if y not in "–?!,.;" else "", x))), stich))
+# stich = list(map(lambda x: x.replace("  ", " "), stich))
+
+class StringText:
+	def __init__(self, lst_words):
+		self.lst_words = "".join(list(map(lambda y: y if y not in "–?!,.;" else "", lst_words))).replace("  ", " ").split()
+ # if type(v) == list else len(v.lst_words)
+	@classmethod
+	def __verify(cls, v):
+		if not isinstance(v, StringText):
+			raise TypeError("Операнд справа должен иметь типа StringText")
+		return len(v)
+
+	def __len__(self):
+		return len(self.lst_words)
+
+	def __gt__(self, other):
+		V1 = len(self.lst_words)
+		V2 = self.__verify(other)
+		return V1 > V2
+
+	def __ge__(self, other):
+		V1 = len(self.lst_words)
+		V2 = self.__verify(other)
+		return V1 >= V2
+
+	def __lt__(self, other):
+		V1 = len(self.lst_words)
+		V2 = self.__verify(other)
+		return V1 < V2
+
+	def __le__(self, other):
+		V1 = len(self.lst_words)
+		V2 = self.__verify(other)
+		return V1 <= V2
+
+lst_text = []
+for i in stich:
+	lst_text.append(StringText(i))
+ 
+lst_text_sorted = sorted(lst_text, reverse=True, key=lambda x: len(x))
+lst_text_sorted = list(map(lambda x: " ".join(x.lst_words), lst_text_sorted))
+
+# print(lst_text_sorted)
+# print(lst_text[0] < lst_text[1])
+# print(len(lst_text[0].lst_words), len(lst_text[1].lst_words))
+for i in lst_text_sorted:
+	print(len(i))
+	# print(" ".join(i.lst_words))
 
 
 
