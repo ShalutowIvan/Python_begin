@@ -10669,65 +10669,121 @@ from string import ascii_lowercase, digits
 # text = input()
 # Найдите все вхождения слов из списка dict_words (используя операторы сравнения) в строке text (без учета регистра, знаков пунктуаций и их словоформы). Выведите на экран полученное число.
 
-# Sample Input:
-
-# Мы будем устанавливать связь завтра днем.
-# Sample Output:
-
-# 2
-
 # мое решение
+# class Morph:
+# 	def __init__(self, *words):
+# 		self.words = words
+#
+# 	@classmethod
+# 	def __verify(cls, v):#проверка для other
+# 		if type(v) not in (Morph, str):
+# 			raise TypeError("Неверный тип данных")
+# 		return v if type(v) == str else v.words
+#
+# 	def add_word(self, word):
+# 		if word not in self.words:
+# 			self.words = self.words + (word,)
+#
+# 	def get_words(self):
+# 		return tuple(self.words)
+#
+# 	def __eq__(self, other):#это метод для ==
+# 		V1 = self.words
+# 		V2 = self.__verify(other.lower())
+# 		return V2 in V1
+#
+#
+# 	def __ne__(self, other):#это метод для !=
+# 		V1 = self.words
+# 		V2 = self.__verify(other.lower())
+# 		return V2 not in V1
+#
+#
+# text = "Мы будем!!!!!!!!!!! устанавливать связь завтра днем дне связи."
+#
+# m = """связь, связи, связью, связей, связям, связями, связях
+# формула, формулы, формуле, формулу, формулой, формул, формулам, формулами, формулах
+# вектор, вектора, вектору, вектором, векторе, векторы, векторов, векторам, векторами, векторах
+# эффект, эффекта, эффекту, эффектом, эффекте, эффекты, эффектов, эффектам, эффектами, эффектах
+# день, дня, дню, днем, дне, дни, дням, днями, днях""".split("\n")
+#
+# dict_words = []
+# for i in m:
+# 	dict_words.append(Morph(*i.lower().split(", ")))
+# c = 0
+# s = "!()-[]{};?@#$%:,./^&amp;*_"
+#
+# text = "".join(list(map(lambda x: x if x not in '!()-[]{};?@#$%:,./^&amp;*_' else "",text))).lower().split()
+# # text = "".join(list(map(lambda x: x if x not in '!()-[]{};?@#$%:,./^&amp;*_' else "",text))).lower()
+# # print(text)
+# for j in dict_words:
+# 	for i in text:
+# 		if j == i:
+# 			c += 1
+#
+# print(c)
 
-class Morph:
+#очень краткое и четкое решение
+# class Morph:
+#     def __init__(self, *args):
+#         self.words = args
+#
+#     def add_word(self, word):
+#         self.words += (word,)
+#
+#     def get_words(self):
+#         return self.words
+#
+#     def __eq__(self, other):
+#         return other.strip('.,!-?').lower() in self.get_words()
+#
+#
+# dict_words = [Morph('связь', 'связи', 'связью', 'связи', 'связей', 'связям', 'связями', 'связях'),
+#               Morph('формула', 'формулы', 'формуле', 'формулу', 'формулой', 'формул', 'формулам', 'формулами',
+#                     'формулах'),
+#               Morph('вектор', 'вектора', 'вектору', 'вектором', 'векторе', 'векторы', 'векторов', 'векторам',
+#                     'векторами', 'векторах'),
+#               Morph('эффект', 'эффекта', 'эффекту', 'эффектом', 'эффекте', 'эффекты', 'эффектов', 'эффектам',
+#                     'эффектами', 'эффектах'),
+#               Morph('день', 'дня', 'дню', 'днем', 'дне', 'дни', 'дням', 'днями', 'днях')]
+#
+# text = input()
+# match = [word for word in text.split() for morph in dict_words if word == morph]
+# print(len(match))
 
-	def __init__(self, *words):
-		self.words = words
+# решение препода
+# class Morph:
+# 	def __init__(self, *args):
+# 		self._words = list(map(lambda x: x.strip(" .,!?;:").lower(), args))
+#
+# 	def add_word(self, word):
+# 		w = word.lower()
+# 		if w not in self.words:
+# 			self._words.append(w)
+#
+# 	def get_wrods(self):
+# 		return tuple(self._words)
+#
+# 	def __eq__(self, other):
+# 		if type(other) != str:
+# 			raise ValueError("операнд должен быть строкой")
+# 		return other.lower() in self._words
+#
+# dict_words = [
+# 	Morph('связь', 'связи', 'связью', 'связи', 'связей', 'связям', 'связями', 'связях'),
+# 	Morph('формула', 'формулы', 'формуле', 'формулу', 'формулой', 'формул', 'формулам', 'формулами', 'формулах'),
+# 	Morph('вектор', 'вектора', 'вектору', 'вектором', 'векторе', 'векторы', 'векторов', 'векторам', 'векторами', 'векторах'),
+# 	Morph('эффект', 'эффекта', 'эффекту', 'эффектом', 'эффекте', 'эффекты', 'эффектов', 'эффектам', 'эффектами', 'эффектах' ),
+# 	Morph('день', 'дня', 'дню', 'днем', 'дне', 'дни', 'дням', 'днями', 'днях')]
+#
+# text = "Мы будем устанавливать связь завтра днем."
+# words = map(lambda x: x.strip(".,!?;:").lower(), text.split())
+# res = sum(word == morph for word in words for morph in dict_words)#цикл с dict_words это внешний цикл, words это внутренний цикл
 
-	@classmethod
-	def __verify(cls, v):#проверка для other
-		if type(v) not in (Morph, str):
-			raise TypeError("Неверный тип данных")
-		return v if type(v) == str else v.words
-
-	def add_word(self, word):
-		if word not in self.words:
-			self.words.append(word)
-
-	def get_words(self):
-		return tuple(self.words)
-
-	def __eq__(self, other):#это метод для ==
-		V1 = self.words
-		V2 = self.__verify(other)
-		return V1 == V2
-
-	def __ne__(self, other):#это метод для !=
-		V1 = self.words
-		V2 = self.__verify(other)
-		return V1 != V2
 
 
-text = "Мы будем!!!!!!!!!!! устанавливать связь завтра днем."
 
-m = """связь, связи, связью, связей, связям, связями, связях
-формула, формулы, формуле, формулу, формулой, формул, формулам, формулами, формулах
-вектор, вектора, вектору, вектором, векторе, векторы, векторов, векторам, векторами, векторах
-эффект, эффекта, эффекту, эффектом, эффекте, эффекты, эффектов, эффектам, эффектами, эффектах
-день, дня, дню, днем, дне, дни, дням, днями, днях""".split(", ")
 
-dict_words = []
-for i in m:
-	dict_words.append(Morph(i.lower()))
 
-c = 0
-s = "!()-[]{};?@#$%:,./^&amp;*_"
-
-text = "".join(list(map(lambda x: x if x not in '!()-[]{};?@#$%:,./^&amp;*_' else "",text))).lower().split()
-
-for j in dict_words:	
-	if any(map(lambda x: j == x, text)):
-		c += 1
-
-print(c)
 
 
