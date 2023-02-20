@@ -10894,173 +10894,403 @@ from string import ascii_lowercase, digits
 
 # мое решение
 
-class Property:
-    def __set_name__(self, owner, name):
-        self.name = f'_{owner.__name__}__{name}'
+# class Property:
+#     def __set_name__(self, owner, name):
+#         self.name = f'_{owner.__name__}__{name}'
 
-    def __get__(self, instance, owner):
-        return instance.__dict__[self.name]
+#     def __get__(self, instance, owner):
+#         return instance.__dict__[self.name]
 
-    def __set__(self, instance, value):
-        setattr(instance, self.name, value)
-
-
-class MoneyR:
-    cb = Property()
-    volume = Property()
-    def __init__(self, volume):
-        self.cb = None
-        self.volume = volume
-
-    @classmethod
-    def convertD(cls, v):
-        if type(v) == MoneyD:
-            return v.volume / v.cb.rates["dollar"]
-        elif type(v) == MoneyE:
-            return v.volume / v.cb.rates["euro"]
-        elif type(v) == MoneyR:
-            return v.volume / v.cb.rates["rub"]
-
-    def __lt__(self, other):#<
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        return self.convertD(self) < self.convertD(other)
+#     def __set__(self, instance, value):
+#         setattr(instance, self.name, value)
 
 
-    def __ge__(self, other):#>=
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        if self.convertD(self) + 0.1 >= self.convertD(other) or self.convertD(self) - 0.1 >= self.convertD(other) or self.convertD(self) > self.convertD(other):
-            return True
-        else:
-            return False
+# class MoneyR:
+#     cb = Property()
+#     volume = Property()
+#     def __init__(self, volume):
+#         self.cb = None
+#         self.volume = volume
 
-    def __eq__(self, other):#==
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        if 0 <= self.convertD(self) - self.convertD(other) <= 0.1 or 0 <= self.convertD(other) - self.convertD(self) <= 0.1:
-            return True
-        else:
-            return False
+#     @classmethod
+#     def convertD(cls, v):
+#         if type(v) == MoneyD:
+#             return v.volume / v.cb.rates["dollar"]
+#         elif type(v) == MoneyE:
+#             return v.volume / v.cb.rates["euro"]
+#         elif type(v) == MoneyR:
+#             return v.volume / v.cb.rates["rub"]
 
-    def __gt__(self, other):#>
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        return self.convertD(self) > self.convertD(other)
-
-
-class MoneyD:
-    cb = Property()
-    volume = Property()
-    def __init__(self, volume):
-        self.cb = None
-        self.volume = volume
-
-    @classmethod
-    def convertD(cls, v):
-        if type(v) == MoneyD:
-            return v.volume / v.cb.rates["dollar"]
-        elif type(v) == MoneyE:
-            return v.volume / v.cb.rates["euro"]
-        elif type(v) == MoneyR:
-            return v.volume / v.cb.rates["rub"]
-
-    def __lt__(self, other):  # <
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        return self.convertD(self) < self.convertD(other)
-
-    def __ge__(self, other):  # >=
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        if self.convertD(self) + 0.1 >= self.convertD(other) or self.convertD(self) - 0.1 >= self.convertD(
-                other) or self.convertD(self) > self.convertD(other):
-            return True
-        else:
-            return False
-
-    def __eq__(self, other):  # ==
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        if 0 <= self.convertD(self) - self.convertD(other) <= 0.1 or 0 <= self.convertD(other) - self.convertD(
-                self) <= 0.1:
-            return True
-        else:
-            return False
-
-    def __gt__(self, other):  # >
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        return self.convertD(self) > self.convertD(other)
+#     def __lt__(self, other):#<
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         return self.convertD(self) < self.convertD(other)
 
 
-class MoneyE:
-    cb = Property()
-    volume = Property()
-    def __init__(self, volume):
-        self.cb = None
-        self.volume = volume
+#     def __ge__(self, other):#>=
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         if self.convertD(self) + 0.1 >= self.convertD(other) or self.convertD(self) - 0.1 >= self.convertD(other) or self.convertD(self) > self.convertD(other):
+#             return True
+#         else:
+#             return False
 
-    @classmethod
-    def convertD(cls, v):
-        if type(v) == MoneyD:
-            return v.volume / v.cb.rates["dollar"]
-        elif type(v) == MoneyE:
-            return v.volume / v.cb.rates["euro"]
-        elif type(v) == MoneyR:
-            return v.volume / v.cb.rates["rub"]
+#     def __eq__(self, other):#==
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         if 0 <= self.convertD(self) - self.convertD(other) <= 0.1 or 0 <= self.convertD(other) - self.convertD(self) <= 0.1:
+#             return True
+#         else:
+#             return False
 
-    def __lt__(self, other):  # <
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        return self.convertD(self) < self.convertD(other)
-
-    def __ge__(self, other):  # >=
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        if self.convertD(self) + 0.1 >= self.convertD(other) or self.convertD(self) - 0.1 >= self.convertD(
-                other) or self.convertD(self) > self.convertD(other):
-            return True
-        else:
-            return False
-
-    def __eq__(self, other):  # ==
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        if 0 <= self.convertD(self) - self.convertD(other) <= 0.1 or 0 <= self.convertD(other) - self.convertD(
-                self) <= 0.1:
-            return True
-        else:
-            return False
-
-    def __gt__(self, other):  # >
-        if self.cb == None:
-            raise ValueError("Неизвестен курс валют.")
-        return self.convertD(self) > self.convertD(other)
-
-class CentralBank:
-    def __new__(cls, *args, **kwargs):
-        return
-
-    rates = {'rub': 72.5, 'dollar': 1.0, 'euro': 1.15}
-
-    @classmethod
-    def register(cls, money):
-        money.cb = CentralBank
-
-# CentralBank.rates = {'rub': 72.5, 'dollar': 1.0, 'euro': 1.15}
-
-r = MoneyR(45000)
-d = MoneyR(45000.1)
-
-CentralBank.register(r)
-CentralBank.register(d)
-# print(r.cb)
-# print(r.volume)
-if r == d:
-    print("неплохо")
-else:
-    print("нужно поднажать")
+#     def __gt__(self, other):#>
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         return self.convertD(self) > self.convertD(other)
 
 
+# class MoneyD:
+#     cb = Property()
+#     volume = Property()
+#     def __init__(self, volume):
+#         self.cb = None
+#         self.volume = volume
+
+#     @classmethod
+#     def convertD(cls, v):
+#         if type(v) == MoneyD:
+#             return v.volume / v.cb.rates["dollar"]
+#         elif type(v) == MoneyE:
+#             return v.volume / v.cb.rates["euro"]
+#         elif type(v) == MoneyR:
+#             return v.volume / v.cb.rates["rub"]
+
+#     def __lt__(self, other):  # <
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         return self.convertD(self) < self.convertD(other)
+
+#     def __ge__(self, other):  # >=
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         if self.convertD(self) + 0.1 >= self.convertD(other) or self.convertD(self) - 0.1 >= self.convertD(
+#                 other) or self.convertD(self) > self.convertD(other):
+#             return True
+#         else:
+#             return False
+
+#     def __eq__(self, other):  # ==
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         if 0 <= self.convertD(self) - self.convertD(other) <= 0.1 or 0 <= self.convertD(other) - self.convertD(
+#                 self) <= 0.1:
+#             return True
+#         else:
+#             return False
+
+#     def __gt__(self, other):  # >
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         return self.convertD(self) > self.convertD(other)
+
+
+# class MoneyE:
+#     cb = Property()
+#     volume = Property()
+#     def __init__(self, volume):
+#         self.cb = None
+#         self.volume = volume
+
+#     @classmethod
+#     def convertD(cls, v):
+#         if type(v) == MoneyD:
+#             return v.volume / v.cb.rates["dollar"]
+#         elif type(v) == MoneyE:
+#             return v.volume / v.cb.rates["euro"]
+#         elif type(v) == MoneyR:
+#             return v.volume / v.cb.rates["rub"]
+
+#     def __lt__(self, other):  # <
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         return self.convertD(self) < self.convertD(other)
+
+#     def __ge__(self, other):  # >=
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         if self.convertD(self) + 0.1 >= self.convertD(other) or self.convertD(self) - 0.1 >= self.convertD(
+#                 other) or self.convertD(self) > self.convertD(other):
+#             return True
+#         else:
+#             return False
+
+#     def __eq__(self, other):  # ==
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         if 0 <= self.convertD(self) - self.convertD(other) <= 0.1 or 0 <= self.convertD(other) - self.convertD(
+#                 self) <= 0.1:
+#             return True
+#         else:
+#             return False
+
+#     def __gt__(self, other):  # >
+#         if self.cb == None:
+#             raise ValueError("Неизвестен курс валют.")
+#         return self.convertD(self) > self.convertD(other)
+
+# class CentralBank:
+#     def __new__(cls, *args, **kwargs):
+#         return
+
+#     rates = {'rub': 72.5, 'dollar': 1.0, 'euro': 1.15}
+
+#     @classmethod
+#     def register(cls, money):
+#         money.cb = CentralBank
+
+# # CentralBank.rates = {'rub': 72.5, 'dollar': 1.0, 'euro': 1.15}
+
+# r = MoneyR(45000)
+# d = MoneyR(45000.1)
+
+# CentralBank.register(r)
+# CentralBank.register(d)
+# # print(r.cb)
+# # print(r.volume)
+# if r == d:
+#     print("неплохо")
+# else:
+#     print("нужно поднажать")
+
+# решение препода
+
+# class CentralBank:
+#     def __new__(cls, *args, **kwargs):
+#         return
+
+#     rates = {'rub': 72.5, 'dollar': 1.0, 'euro': 1.15}
+
+#     @classmethod
+#     def register(cls, money):
+#         money.cb = cls
+
+# class Money:
+# 	EPS = 0.1
+# 	type_money = None
+
+# 	def __init__(self, volume = 0):
+# 		self.__volume = volume
+# 		self.__cb = None
+
+# 	@property
+# 	def cb(self):
+# 		return self.__cb
+
+# 	@cb.setter
+# 	def cb(self, obj):
+# 		self.__cb = obj
+
+# 	@property
+# 	def volume(self):
+# 		return self.__volume
+
+# 	@volume.setter
+# 	def volume(self, obj):
+# 		self.__volume = obj
+
+# 	def get_volumes(self, other):
+# 		if self.cb is None:
+# 			raise ValueError("Неизвестен курс валют.")
+
+# 		if self.type_money is None:
+# 			raise ValueError("Неизвестен тип кошелька")
+
+# 		v1 = self.volume / self.cb.rates[self.type_money]
+# 		v2 = other.volume / other.cb.rates[other.type_money]
+# 		return v1, v2
+
+
+# 	def __eq__(self, other):
+# 		v1, v2 = self.get_volumes(other)
+# 		return abs(v1-v2) < self.EPS
+
+# 	def __lt__(self, other):
+# 		v1, v2 = self.get_volumes(other)
+# 		return v1 < v2
+
+# 	def __le__(self, other):
+# 		v1, v2 = self.get_volumes(other)
+# 		return v1 <= v2
+
+# class MoneyR(Money):
+# 	type_money = "rub"
+
+# class MoneyD(Money):
+# 	type_money = "dollar"
+
+# class MoneyE(Money):
+# 	type_money = "euro"
+
+
+# Подвиг 9 (релакс). Необходимо объявить класс Body (тело), объекты которого создаются командой:
+
+# body = Body(name, ro, volume)
+# где name - название тела (строка); ro - плотность тела (число: вещественное или целочисленное); volume - объем тела  (число: вещественное или целочисленное).
+
+# Для объектов класса Body должны быть реализованы операторы сравнения:
+
+# body1 > body2  # True, если масса тела body1 больше массы тела body2
+# body1 == body2 # True, если масса тела body1 равна массе тела body2
+# body1 < 10     # True, если масса тела body1 меньше 10
+# body2 == 5     # True, если масса тела body2 равна 5
+# Масса тела вычисляется по формуле:
+
+# m = ro * volume
+
+# P.S. В программе только объявить класс, выводить на экран ничего не нужно.
+
+# мое решение
+
+# class Body:
+# 	def __init__(self, name, ro, volume):
+# 		self.name = name
+# 		self.ro = ro
+# 		self.volume = volume
+
+# 	@classmethod
+# 	def calcM(cls, v):
+# 		if type(v) == Body:
+# 			m = v.ro * v.volume
+# 		elif type(v) in (int, float):
+# 			return v
+# 		else:
+# 			raise TypeError("неверный тип данных")
+# 		return m
+
+# 	def __gt__(self, other):
+# 		return self.calcM(self) > self.calcM(other)
+
+# 	def __eq__(self, other):
+# 		return self.calcM(self) == self.calcM(other)
+
+# 	def __lt__(self, other):
+# 		return self.calcM(self) < self.calcM(other)
+
+# body1 = Body("stone", 10, 5)
+# body2 = Body("stone2", 10, 5)
+
+# print(body1 == 50)
+
+
+# Подвиг 10. Объявите в программе класс с именем Box (ящик), объекты которого должны создаваться командой:
+
+# box = Box()
+# А сам класс иметь следующие методы:
+
+# add_thing(self, obj) - добавление предмета obj (объект другого класса Thing) в ящик;
+# get_things(self) - получение списка объектов ящика.
+
+# Для описания предметов необходимо объявить еще один класс Thing. Объекты этого класса должны создаваться командой:
+
+# obj = Thing(name, mass)
+# где name - название предмета (строка); mass - масса предмета (число: целое или вещественное).
+# Объекты класса Thing должны поддерживать операторы сравнения:
+
+# obj1 == obj2
+# obj1 != obj2
+# Предметы считаются равными, если у них одинаковые названия name (без учета регистра) и массы mass.
+
+# Также объекты класса Box должны поддерживать аналогичные операторы сравнения:
+
+# box1 == box2
+# box1 != box2
+# Ящики считаются равными, если одинаковы их содержимое (для каждого объекта класса Thing одного ящика и можно найти ровно один равный объект из второго ящика).
+
+# Пример использования классов:
+
+# b1 = Box()
+# b2 = Box()
+
+# b1.add_thing(Thing('мел', 100))
+# b1.add_thing(Thing('тряпка', 200))
+# b1.add_thing(Thing('доска', 2000))
+
+# b2.add_thing(Thing('тряпка', 200))
+# b2.add_thing(Thing('мел', 100))
+# b2.add_thing(Thing('доска', 2000))
+
+# res = b1 == b2 # True
+# P.S. В программе только объявить классы, выводить на экран ничего не нужно.
+
+# мое решение
+
+class Box:
+
+	def __init__(self):
+		self.lst = []
+
+	def add_thing(self, obj):
+		self.lst.append(obj)
+
+	def get_things(self):
+		return self.lst
+
+	@classmethod
+	def unpack(cls, obj):
+		return list(map(lambda x: x.name.lower(), obj.lst))
+
+	def __eq__(self, other):		
+		if all(map(lambda x: self.unpack(self).count(x.lower()) == 1, self.unpack(other))) or all(map(lambda x: self.unpack(other).count(x.lower()) == 1, self.unpack(self))):
+			return True
+		else:
+			return False
+
+	def __ne__(self, other):	
+		if any(map(lambda x: self.unpack(self).count(x.lower()) > 1 or self.unpack(self).count(x.lower()) == 0, self.unpack(other))) or any(map(lambda x: self.unpack(other).count(x.lower()) > 1 or self.unpack(other).count(x.lower()) == 0, self.unpack(self))):
+			return True
+		else:
+			return False
+
+
+class Thing:
+	def __init__(self, name, mass):
+		self.name = name
+		self.mass = mass
+
+	def __eq__(self, other):
+		if type(other) == str:
+			s = other
+		elif type(other) == Thing:
+			s = other.name
+		return self.name.lower() == s.lower()
+
+	def __ne__(self, other):
+		if type(other) == Thing:
+			s = other.name
+		else:
+			s = other
+		return self.name.lower() != s.lower()
+
+
+b1 = Box()
+b2 = Box()
+
+b1.add_thing(Thing('0', 100))
+b1.add_thing(Thing('тряпка', 200))
+b1.add_thing(Thing('доска', 2000))
+# b1.add_thing(Thing('доска', 2000))
+
+b2.add_thing(Thing('тряпка', 200))
+b2.add_thing(Thing('1', 100))
+b2.add_thing(Thing('доска', 2000))
+b2.add_thing(Thing('доска', 2000))
+
+
+res = b1 == b2 # True
+
+# print(res)
+print(b1.lst[0]!=b2.lst[1])
+# print(b1.lst[0].name, b2.lst[1].name)
+
+    # assert t1 == t2, "оператор == отработал некорректно для класса Thing"
 
