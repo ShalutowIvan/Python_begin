@@ -11223,74 +11223,82 @@ from string import ascii_lowercase, digits
 # P.S. В программе только объявить классы, выводить на экран ничего не нужно.
 
 # мое решение
-
-class Box:
-
-	def __init__(self):
-		self.lst = []
-
-	def add_thing(self, obj):
-		self.lst.append(obj)
-
-	def get_things(self):
-		return self.lst
-
-	@classmethod
-	def unpack(cls, obj):
-		return list(map(lambda x: x.name.lower(), obj.lst))
-
-	def __eq__(self, other):		
-		if all(map(lambda x: self.unpack(self).count(x.lower()) == 1, self.unpack(other))) or all(map(lambda x: self.unpack(other).count(x.lower()) == 1, self.unpack(self))):
-			return True
-		else:
-			return False
-
-	def __ne__(self, other):	
-		if any(map(lambda x: self.unpack(self).count(x.lower()) > 1 or self.unpack(self).count(x.lower()) == 0, self.unpack(other))) or any(map(lambda x: self.unpack(other).count(x.lower()) > 1 or self.unpack(other).count(x.lower()) == 0, self.unpack(self))):
-			return True
-		else:
-			return False
-
-
-class Thing:
-	def __init__(self, name, mass):
-		self.name = name
-		self.mass = mass
-
-	def __eq__(self, other):
-		if type(other) == str:
-			s = other
-		elif type(other) == Thing:
-			s = other.name
-		return self.name.lower() == s.lower()
-
-	def __ne__(self, other):
-		if type(other) == Thing:
-			s = other.name
-		else:
-			s = other
-		return self.name.lower() != s.lower()
-
-
-b1 = Box()
-b2 = Box()
-
-b1.add_thing(Thing('0', 100))
-b1.add_thing(Thing('тряпка', 200))
-b1.add_thing(Thing('доска', 2000))
+#
+# class Box:
+#     def __init__(self):
+#         self.lst = []
+#
+#     def add_thing(self, obj):
+#         self.lst.append(obj)
+#
+#     def get_things(self):
+#         return self.lst
+#
+#     @classmethod
+#     def unpack(cls, obj):
+#         return list(map(lambda x: x.name.lower(), obj.lst))
+#
+#     def __eq__(self, other):
+#         if all(map(lambda x: self.unpack(self).count(x.lower()) == 1, self.unpack(other))) or all(
+#                 map(lambda x: self.unpack(other).count(x.lower()) == 1, self.unpack(self))):
+#             return True
+#         else:
+#             return False
+#
+#     def __ne__(self, other):
+#         if any(map(lambda x: self.unpack(self).count(x.lower()) > 1 or self.unpack(self).count(x.lower()) == 0,
+#                    self.unpack(other))) or any(
+#                 map(lambda x: self.unpack(other).count(x.lower()) > 1 or self.unpack(other).count(x.lower()) == 0,
+#                     self.unpack(self))):
+#             return True
+#         else:
+#             return False
+#
+# class Thing:
+#     def __init__(self, name, mass):
+#         self.name = name
+#         self.mass = mass
+#
+#     def __eq__(self, other):
+#         if type(other) != Thing:
+#             raise TypeError("ошибка")
+#         return self.name.lower() == other.name.lower()
+#
+#     def __ne__(self, other):
+#         if type(other) == Thing:
+#             s = other.name
+#             # raise TypeError("ошибка")
+#         elif other == None:
+#             s = other
+#             return self.name.lower() != s
+#         else:
+#             s = str(other)
+#
+#         return self.name.lower() != s.lower()
+#
+#
+# b1 = Box()
+# b2 = Box()
+#
+# b1.add_thing(Thing('0', 100))
+# b1.add_thing(Thing('тряпка', 200))
 # b1.add_thing(Thing('доска', 2000))
+# # b1.add_thing(Thing('доска', 2000))
+#
+# b2.add_thing(Thing('тряпка', 200))
+# b2.add_thing(Thing("0", 100))
+# b2.add_thing(Thing('доска', 2000))
+# # b2.add_thing(Thing('доска', 2000))
+#
+# res = b1 == b2  # True
+#
+# # print(res)
+# # print(b1.lst[0] != b2.lst[1])
+# # print(b1.lst[0] != None)
+# # print(b1.lst[0].name, b2.lst[1].name)
 
-b2.add_thing(Thing('тряпка', 200))
-b2.add_thing(Thing('1', 100))
-b2.add_thing(Thing('доска', 2000))
-b2.add_thing(Thing('доска', 2000))
+# Магические методы __eq__ и __hash__!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-res = b1 == b2 # True
 
-# print(res)
-print(b1.lst[0]!=b2.lst[1])
-# print(b1.lst[0].name, b2.lst[1].name)
-
-    # assert t1 == t2, "оператор == отработал некорректно для класса Thing"
 
