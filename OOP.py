@@ -11440,36 +11440,225 @@ from string import ascii_lowercase, digits
 # Монитор Samsung: 2000 34000
 # Sample Output:
 
-lst_in = ['Системный блок: 1500 75890.56', 'Монитор Samsung: 2000 34000', 'Клавиатура: 200.44 545', 'Монитор Samsung: 2000 34000']
-class ShopItem:
-    def __init__(self, name, weight, price):
-        self.name = name
-        self.weight = weight
-        self.price = price
-    def __eq__(self, other):
-        return self.name == other.name and self.weight == other.weight and self.price == other.price
-    def __hash__(self):
-        return hash((self.name.lower(), self.weight, self.price))
-
-lst = map(lambda x: x.split(":"), lst_in)
-
-lst = list(map(lambda x: [x[0]] + x[1].split(), lst))
-# c = (len(lst) - len(set(lst_in))) + (len(lst) - len(set(lst_in)))
-c = 0
-shop_items = {}
-for i in lst:
-    if ShopItem(i[0], i[1], i[2]) in shop_items:
-        shop_items[ShopItem(i[0], i[1], i[2])] = [ShopItem(i[0], i[1], i[2]).name, c+2]
-    else:
-        shop_items[ShopItem(i[0], i[1], i[2])] = [ShopItem(i[0], i[1], i[2]).name, c]
-
+# мое решение
 # lst_in = ['Системный блок: 1500 75890.56', 'Монитор Samsung: 2000 34000', 'Клавиатура: 200.44 545', 'Монитор Samsung: 2000 34000']
-# shop_items = {ShopItem(i[0], i[1], i[2]): [ShopItem(i[0], i[1], i[2]).name, c] for i in lst}
+# class ShopItem:
+#     def __init__(self, name, weight, price):
+#         self.name = name
+#         self.weight = weight
+#         self.price = price
+#     def __eq__(self, other):
+#         return self.name == other.name and self.weight == other.weight and self.price == other.price
+#     def __hash__(self):
+#         return hash((self.name.lower(), self.weight, self.price))
 
-print(shop_items.values())
-# print(c)
+# lst = map(lambda x: x.split(":"), lst_in)
+
+# lst = list(map(lambda x: [x[0]] + x[1].split(), lst))
+# # c = (len(lst) - len(set(lst_in))) + (len(lst) - len(set(lst_in)))
+# c = 0
+# shop_items = {}
+
+# obj = [ShopItem(i[0], i[1], i[2]) for i in lst]
+# for i in obj:
+# 	print(i.name)
+# for i in lst:
+#     if ShopItem(i[0], i[1], i[2]) in shop_items:
+#         shop_items[ShopItem(i[0], i[1], i[2])] = [ShopItem(i[0], i[1], i[2]), c+2]
+#     else:
+#         shop_items[ShopItem(i[0], i[1], i[2])] = [ShopItem(i[0], i[1], i[2]), c+1]
+
+# # lst_in = ['Системный блок: 1500 75890.56', 'Монитор Samsung: 2000 34000', 'Клавиатура: 200.44 545', 'Монитор Samsung: 2000 34000']
+# # shop_items = {ShopItem(i[0], i[1], i[2]): [ShopItem(i[0], i[1], i[2]).name, c] for i in lst}
+
+# print(shop_items.values())
+# # print(c)
+
+# # какой то rsplit
+# import sys
 
 
+# class ShopItem:
+#     def __init__(self, name: str, weight: float, price: float):
+#         self.name = name
+#         self.weight = weight
+#         self.price = price
 
+#     def __hash__(self) -> int:
+#         return hash((self.name.lower(), self.weight, self.price))
+
+#     def __eq__(self, other) -> bool:
+#         return hash(self) == hash(other)
+
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+
+# shop_items = {}
+
+# for item in lst_in:
+#     name, weight, price = item.rsplit(maxsplit=2)
+#     obj = ShopItem(name[:-1], weight, price)
+#     shop_items.setdefault(obj, [obj, 0])[1] += 1
+
+# через setdefault
+# class ShopItem:
+#     def __init__(self, name, weight, price):
+#         self.name = name.lower()
+#         self.weight = weight
+#         self.price = price
+
+#     def __hash__(self):
+#         return hash((self.name, self.weight, self.price))
+        
+#     def __eq__(self, other):
+#         return hash(self) == hash(other)
+        
+
+# lst_in = list(map(str.strip, open(0)))
+
+# shop_items = dict()
+# for line in lst_in:
+#     name, info = line.split(': ')
+#     item = ShopItem(name, *map(float, info.split()))
+#     shop_items.setdefault(item, [item, 1])[1] += 1
+
+# через гет
+# import sys
+
+# class ShopItem:
+#     def __init__(self, name, weight, price):
+#         self.name = name
+#         self.weight = weight
+#         self.price = price
+
+#     def __hash__(self):
+#         return hash((self.name.lower(), self.weight, self.price))
+
+#     def __eq__(self, other):
+#         return hash(self) == hash(other)
+
+# # считывание списка из входного потока
+# lst_in = list(map(str.strip, sys.stdin.readlines()))  # список lst_in в программе не менять!
+# shop_items = dict()
+
+# for item in lst_in:
+#     name, etc = item.split(': ')
+#     weight, price = map(float, etc.split())
+#     item = ShopItem(name, weight, price)
+#     total = shop_items.get(item, [None, 0])[-1] + 1
+#     shop_items[item] = [item, total]
+# НАДО ДЕЛАТЬ ЧЕРЕЗ МЕТОДЫ СЛОВАРЕЙ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+# Подвиг 7. Объявите класс с именем DataBase (база данных - БД), объекты которого создаются командой:
+
+# db = DataBase(path)
+# где path - путь к файлу с данными БД (строка).
+
+# Также в классе DataBase нужно объявить следующие методы:
+
+# write(self, record) - для добавления новой записи в БД, представленной объектом record;
+# read(self, pk) - чтение записи из БД (возвращает объект Record) по ее уникальному идентификатору pk (уникальное целое положительное число); запись ищется в значениях словаря (см. ниже)
+
+# Каждая запись БД должна описываться классом Record, а объекты этого класса создаваться командой:
+
+# record = Record(fio, descr, old)
+# где fio - ФИО некоторого человека (строка); descr - характеристика человека (строка); old - возраст человека (целое число).
+
+# В каждом объекте класса Record должны формироваться следующие локальные атрибуты:
+
+# pk - уникальный идентификатор записи (число: целое, положительное); формируется автоматически при создании каждого нового объекта;
+# fio - ФИО человека (строка);
+# descr - характеристика человека (строка);
+# old - возраст человека (целое число).
+
+# Реализовать для объектов класса Record вычисление хэша по атрибутам: fio и old (без учета регистра). Если они одинаковы для разных записей, то и хэши должны получаться равными. Также для объектов класса Record  с одинаковыми хэшами оператор == должен выдавать значение True, а с разными хэшами - False.
+
+# Хранить записи в БД следует в виде словаря dict_db (атрибут объекта db класса DataBase), ключами которого являются объекты класса Record, а значениями список из объектов с равными хэшами:
+
+# dict_db[rec1] = [rec1, rec2, ..., recN]
+
+# где rec1, rec2, ..., recN - объекты класса Record с одинаковыми хэшами.
+
+# Для наполнения БД прочитайте строки из входного потока с помощью команды:
+
+# lst_in = list(map(str.strip, sys.stdin.readlines()))
+# где каждая строка представлена в формате:
+
+# "ФИО; характеристика; возраст"
+
+# Например:
+
+# Балакирев С.М.; программист; 33
+# Кузнецов А.В.; разведчик-нелегал; 35
+# Суворов А.В.; полководец; 42
+# Иванов И.И.; фигурант всех подобных списков; 26
+# Балакирев С.М.; преподаватель; 37
+
+# Каждая строка должна быть представлена объектом класса Record и записана в БД db (в словарь db.dict_db).
+
+# P.S. На экран ничего выводить не нужно.
+
+# Sample Input:
+
+# Балакирев С.М.; программист; 33
+# Кузнецов Н.И.; разведчик-нелегал; 35
+# Суворов А.В.; полководец; 42
+# Иванов И.И.; фигурант всех подобных списков; 26
+# Балакирев С.М.; преподаватель; 33
+# Sample Output:
+
+# мое решение
+lst_in = ['Балакирев С.М.; программист; 33', 'Кузнецов Н.И.; разведчик-нелегал; 35', 'Суворов А.В.; полководец; 42', 'Иванов И.И.; фигурант всех подобных списков; 26', 'Балакирев С.М.; преподаватель; 33']
+class DataBase:
+	def __init__(self, path):
+		self.path = path
+		self.dict_db = dict()
+
+	def write(self, record):
+		self.dict_db.setdefault(record)
+
+	def read(self, pk):
+		for i in self.dict_db:
+			if pk == i.pk:
+				return i
+
+class Record:
+	k = 0
+	def __init__(self, fio, descr, old):
+		Record.k += 1
+		self.fio = str(fio)
+		self.descr = str(descr)
+		self.old = int(old)
+		self.pk = Record.k
+
+
+	def __hash__(self):
+		return hash((self.fio.lower(), self.old))
+
+	def __eq__(self, other):
+		return hash(self) == hash(other)
+
+db = DataBase("путь к файлу")
+sp = []#список из объектов без сортировки
+h = []#список хешей всех объектов
+for j in range(len(lst_in)):
+	sp.append(Record(*lst_in[j].split("; ")))
+	h.append(hash(sp[j]))
+rH = []#список объектов с равными хешами
+for i in sp:
+	if h.count(hash(i))>1:
+		rH.append(i)
+
+for x in sp:	
+	db.write(x)
+	db.dict_db[x] = hash(x)
+
+for i in db.dict_db:
+	print(i.pk)
+	# print(type(i))
+	# print(i[0], i[1])
+# print(db.dict_db)
+# .values()
+# print(db.read(1))
 
 
