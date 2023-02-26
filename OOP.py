@@ -11608,57 +11608,192 @@ from string import ascii_lowercase, digits
 # Sample Output:
 
 # мое решение
-lst_in = ['Балакирев С.М.; программист; 33', 'Кузнецов Н.И.; разведчик-нелегал; 35', 'Суворов А.В.; полководец; 42', 'Иванов И.И.; фигурант всех подобных списков; 26', 'Балакирев С.М.; преподаватель; 33']
-class DataBase:
-	def __init__(self, path):
-		self.path = path
-		self.dict_db = dict()
+# lst_in = ['Балакирев С.М.; программист; 33', 'Кузнецов Н.И.; разведчик-нелегал; 35', 'Суворов А.В.; полководец; 42', 'Иванов И.И.; фигурант всех подобных списков; 26', 'Балакирев С.М.; преподаватель; 33']
+# class DataBase:
+# 	def __init__(self, path):
+# 		self.path = path
+# 		self.dict_db = dict()
+#
+# 	def write(self, record):
+# 		self.dict_db.setdefault(record)
+#
+# 	def read(self, pk):
+# 		for i in self.dict_db:
+# 			if pk == i.pk:
+# 				return i
+#
+# class Record:
+# 	k = 0
+# 	def __init__(self, fio, descr, old):
+# 		Record.k += 1
+# 		self.fio = str(fio)
+# 		self.descr = str(descr)
+# 		self.old = int(old)
+# 		self.pk = Record.k
+#
+#
+# 	def __hash__(self):
+# 		return hash((self.fio.lower(), self.old))
+#
+# 	def __eq__(self, other):
+# 		return hash(self) == hash(other)
+#
+# db = DataBase("путь к файлу")
+# sp = []#список из объектов без сортировки
+# h = []#список хешей всех объектов
+# for j in range(len(lst_in)):
+# 	sp.append(Record(*lst_in[j].split("; ")))
+# 	h.append(hash(sp[j]))
+# rH = []#список объектов с равными хешами
+# for i in sp:
+# 	if h.count(hash(i))>1:
+# 		rH.append(i)
+#
+# for x in sp:
+# 	# print(x.fio)
+# 	db.write(x)
+# 	if h.count(hash(x))>1:
+# 		if db.dict_db[x] == None:
+# 			db.dict_db[x] = [x]
+# 		else:
+# 			db.dict_db[x] = db.dict_db.get(x) + [x]
+# 	else:
+# 		db.dict_db[x] = [x]
+#
+# for i in db.dict_db.values():
+# 	# print(i.pk)
+# 	# print(type(i))
+# 	# print(i)
+# 	print(i[0].fio)
+# # print(db.dict_db)
+# # .values()
+# # print(db.read(1))
+# a = {1: 2, 3: 4}
+# a[1] = a.get(1) + 5
+# # print(a)
+#
+# красивое решение
+# import sys
+#
+# class DataBase:
+#     def __init__(self, path):
+#         self.path = path
+#         self.dict_db = {}
+#         self.__dict_pk = {}
+#
+#     def write(self, record):
+#         self.dict_db[record] = self.dict_db.get(record, []) + [record]
+#         self.__dict_pk[record.pk] = record
+#
+#     def read(self, pk):
+#         return self.__dict_pk.get(pk, None)
+#
+# class Record:
+#     records_count = 0
+#
+#     def __init__(self, fio, descr, old):
+#         self.fio = fio
+#         self.descr = descr
+#         self.old = int(old)
+#         self.pk = self.__count()
+#
+#     @classmethod
+#     def __count(cls):
+#         cls.records_count += 1
+#         return cls.records_count
+#
+#     def __hash__(self):
+#         return hash((self.fio.lower(), self.old))
+#
+#     def __eq__(self, other):
+#         return hash(self) == hash(other)
+#
+# # считывание списка из входного потока
+# lst_in = list(map(str.strip, sys.stdin.readlines())) # список lst_in не менять!
+#
+# # здесь продолжайте программу (используйте список строк lst_in)
+# db = DataBase('path')
+#
+# for line in lst_in:
+#     db.write(Record(*line.split('; ')))
 
-	def write(self, record):
-		self.dict_db.setdefault(record)
+# решение препода, дописать....
+# и задачки потом доделать начиная отсюда......
 
-	def read(self, pk):
-		for i in self.dict_db:
-			if pk == i.pk:
-				return i
+# Магический метод __bool__ определения правдивости объектов!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#определим правдовость объекта классов, это когда к экзямляру класса, явно или неявно применяется фукнция bool
+# __len__() - вызывается функцией bool(), если не определен магический метод __bool__()
+# __bool__() - вызывается в приоритетном порядке функией bool
+# print(bool(1))
+# print(bool(111))
+# print(bool(-11))#тут везде тру
+# print(bool(0))#а тут 0, так как для пустых данных будет фолз, а для непустых тру
+# print(bool("python"))
+# print(bool(""))#также со строками, если пустая строка то ложь, если не пустая, то истина
+# посмотрим что будет если ее применить для классов
+# class Point:
+# 	def __init__(self, x, y):#класс с коорданатами точки на плоскости
+# 		self.x = x
+# 		self.y = y
+#
+# p = Point(3, 4)
+# print(bool(p))#будет тру, так как эта функция всегда возвращает тру для польщовательских классов. Но эту функцию можно переопределить через магический метод __len__ или __bool__
+# сначала попробуем через метод def __len__(self):
+# class Point:
+#     def __init__(self, x, y):  # класс с коорданатами точки на плоскости
+#         self.x = x
+#         self.y = y
+#
+#     def __len__(self):#будет считать квадрат длинны радиус вектора
+#         print("вызов метода __len__")
+#         return self.x * self.x + self.y * self.y
 
-class Record:
-	k = 0
-	def __init__(self, fio, descr, old):
-		Record.k += 1
-		self.fio = str(fio)
-		self.descr = str(descr)
-		self.old = int(old)
-		self.pk = Record.k
+# p = Point(3, 4)
+# print(len(p))#тут сработал метод __len__ и будет возвращено число
+# print(bool(p))#и тут тоже сработал метод __len__, а тут будет возвращен тру, так как у нас при вычислении получится не 0. Если указать координаты 0 и 0, то будет возвращен фолз. Но можно и прописать метод __bool__ и он будет работать в приоритете
+
+# class Point:
+#     def __init__(self, x, y):  # класс с коорданатами точки на плоскости
+#         self.x = x
+#         self.y = y
+#
+#     def __len__(self):#будет считать квадрат длинны радиус вектора
+#         print("вызов метода __len__")
+#         return self.x * self.x + self.y * self.y
+#
+#     def __bool__(self):
+#         print("вызов метода bool")
+#         return self.x == self.y
+#
+# p = Point(1, 4)
+# # print(bool(p))#если координаты не равны будет фолз. А равны, то тру, и этот метод работает в приоритете над методом __len__. Также метод bool должен возвращать всегда булевое значение, другие значения он не должен возвращать
+# #где это применяется. Этот метод срабатывает неявно в некоторых моментах. Например:
+# if p:
+#     print("объект p дает True")#если наш магический метод дает тру, то отработает эта ветка, если фолз, то фетка else
+# else:
+#     print("объект p дает False")
+#то есть в программах где требуется описать собственные проверки истинности или ложности объектов, можно использовать такой метод __bool__, и методом __len__, но редко
+
+# Магические методы __getitem__, __setitem__ и __delitem__!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-	def __hash__(self):
-		return hash((self.fio.lower(), self.old))
 
-	def __eq__(self, other):
-		return hash(self) == hash(other)
 
-db = DataBase("путь к файлу")
-sp = []#список из объектов без сортировки
-h = []#список хешей всех объектов
-for j in range(len(lst_in)):
-	sp.append(Record(*lst_in[j].split("; ")))
-	h.append(hash(sp[j]))
-rH = []#список объектов с равными хешами
-for i in sp:
-	if h.count(hash(i))>1:
-		rH.append(i)
 
-for x in sp:	
-	db.write(x)
-	db.dict_db[x] = hash(x)
 
-for i in db.dict_db:
-	print(i.pk)
-	# print(type(i))
-	# print(i[0], i[1])
-# print(db.dict_db)
-# .values()
-# print(db.read(1))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
