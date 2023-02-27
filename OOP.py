@@ -11793,7 +11793,7 @@ from string import ascii_lowercase, digits
 # 		self.marks = list(marks)
 
 # 	def __getitem__(self, item):#теперь при вызове объекта с индексом в параметр item будет передаваться индекс
-# 		if 0 <= item <= len(self.marks):
+# 		if 0 <= item < len(self.marks):
 # 			return self.marks[item]
 # 		else:
 # 			raise IndexError("Неверный индекс")
@@ -11807,27 +11807,40 @@ from string import ascii_lowercase, digits
 # s1[2] = 4#тут будет ошибка (TypeError: 'Student' object does not support item assignment)
 # print(s1[2])
 # чтобы ошибки не было нужно прописать метод __setitem__
+#
+# class Student:
+# 	def __init__(self, name, marks):#сделаем клас для отображения оценок студентов
+# 		self.name = name
+# 		self.marks = list(marks)
+#
+# 	def __getitem__(self, item):#теперь при вызове объекта с индексом в параметр item будет передаваться индекс
+# 		if 0 <= item <= len(self.marks):
+# 			return self.marks[item]
+# 		else:
+# 			raise IndexError("Неверный индекс")
+# 	def __setitem__(self, key, value):#key это индекс, value это значение которое присваиваем. В нашем случае 2 это будет key, 4 это будет value. Также тут нужно проверять что параметр key принимает целое значение, так как индекс должен быть целым числом
+# 		if not isinstance(key, int) or key < 0:#теперь если првоерка не пройдет, то значение не изменится и выйдет ошибка TypeError. Вообще мы сами тут можем прописать свою собственную логику проверки параметра key
+# 			raise TypeError("индекс должен быть целым неотрицательным числом")
+# 		if key >= len(self.marks):#проверка чтобы не было ошибки IndexError: list assignment index out of range
+# 			off = key + 1 - len(self.marks)
+# 			self.marks.extend([None]*off)#добавляем в недостающую длину элементы списка со значением None, теперь не будет ошибки IndexError: list assignment index out of range, так как длинна теперь увеличена, а значение запишется в тот индекс, который мы запишем
+# 		self.marks[key] = value
+#
+# 	def __delitem__(self, key):#вызывается когда происходит удаление элемента
+# 		if not isinstance(key, int):#проверили что key является целым числом, так как key это индекс
+# 			raise TypeError("индекс должен быть целым неотрицательным числом")
+# 		del self.marks[key]
+#
+# s1 = Student("Сергей", [5, 5, 3, 2, 5])
+#
+# s1[2] = 4#2 это будет key, 4 это будет value
+# print(s1[2])#теперь ошибки не будет, и тройка превратилась в 4
+# print(s1.marks)#тройка стала 4
+# s1[10] = 4#тут будет ошибка IndexError: list assignment index out of range. Поэтому нужно также прописать проверку на размерность списка
+# print(s1.marks)
+# del s1[2]#теперь тройка удаляется
+# print(s1.marks)
 
-class Student:
-	def __init__(self, name, marks):#сделаем клас для отображения оценок студентов
-		self.name = name
-		self.marks = list(marks)
-
-	def __getitem__(self, item):#теперь при вызове объекта с индексом в параметр item будет передаваться индекс
-		if 0 <= item <= len(self.marks):
-			return self.marks[item]
-		else:
-			raise IndexError("Неверный индекс")
-	def __setitem__(self, key, value):#key это индекс, value это значение которое присваиваем. В нашем случае 2 это будет key, 4 это будет value
-		self.marks[key] = value
-
-
-
-s1 = Student("Сергей", [5, 5, 3, 2, 5])
-
-s1[2] = 4#2 это будет key, 4 это будет value
-print(s1[2])#теперь ошибки не будет, и тройка превратилась в 4
-print(s1.marks)#тройка стала 4
 
 
 
