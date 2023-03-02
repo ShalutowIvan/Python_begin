@@ -43,7 +43,7 @@ for item in all_a:
     #остановился на 9.32
 # ссылка: youtube.com/watch?v=AFqYxaOyqy0&list=PLqGS6O1-DZLprgEaEeKn9BWKZBvzVi_la
 
-
+методы find_parent(), find_parents()
 
 
 
