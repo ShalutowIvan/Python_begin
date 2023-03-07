@@ -1,6 +1,6 @@
 from aiogram import Bot, Dispatcher, executor, types
 
-TOKEN_API = "токен брать из телеги бот пупс"
+TOKEN_API = "токен"
 bot = Bot(TOKEN_API)
 dp = Dispatcher(bot)
 
