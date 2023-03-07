@@ -21,6 +21,21 @@
 # venv\Scripts\activate
 # pip install aiogram
 #сам бот лучше запускать через bat файл. Так правильнее и безопаснее
+# структура бат файла:
+# @echo off
+
+# call %~dp0путь к файлу activate
+
+# cd %~dp0путь к файлу
+
+# set TOKEN=токен авторизации
+
+
+# python tgbot.py
+
+# pause
+
+
 
 
 
