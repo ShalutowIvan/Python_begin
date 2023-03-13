@@ -1,1 +1,1 @@
-from data_base import sqlintedb
+from data_base import sqlite_db
