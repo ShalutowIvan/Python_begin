@@ -22,7 +22,7 @@ class FSMAdmin(StatesGroup):#этот клас наследуется от ба�
 async def make_changes_command(message: types.Message):
     global ID
     ID = message.from_user.id
-    await bot.send_message(message.from_user.id, 'Что надо хозяин???'), reply_markup=button_case_admin
+    await bot.send_message(message.from_user.id, 'Что надо хозяин???', reply_markup=button_admin.button_case_admin)
     await message.delete()
 
 
@@ -99,7 +99,7 @@ def register_handlers_admin(dp: Dispatcher):
     dp.register_message_handler(load_name, state=FSMAdmin.name)
     dp.register_message_handler(load_description, state=FSMAdmin.description)
     dp.register_message_handler(load_price, state=FSMAdmin.price)
-    # dp.register_message_handler(make_changes_command, commands=['moderator'], is_chat_admin=True)
+    dp.register_message_handler(make_changes_command, commands=['moderator'], is_chat_admin=True)
 
 
 
