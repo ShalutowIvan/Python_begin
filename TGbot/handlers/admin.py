@@ -6,6 +6,7 @@ from create_bot import dp, bot
 from aiogram.dispatcher.filters import Text
 from data_base import sqlite_db
 from keyboards import button_admin
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton#не стали выносить кнопки в отдельный модуль, потому что кнопка будет всего одна. Решили сделать ее тут. Импортировали модули для кнопок
 
 ID = None
 
@@ -83,9 +84,27 @@ async def load_price(message: types.Message, state: FSMContext):#в функци
         # async with state.proxy() as data:#самое простое это просто вывести в чат. Но вообще это значение можно записать в базу данных. это будет потом
         #     await message.reply(str(data))
 
-
         await sqlite_db.sql_add_command(state)#запустили функцию из файла питона для ДБ, она добавит инфу в БД. Отправляется словарь, state это комплексный словарь машины состояний
         await state.finish()#как только мы дошли до этого состояния, то полностью очищает все что мы написали при запусках состояний, весь словарь очищается. То есть все что нужно сделать с данными до финиша, нужно сделать до написания функции finish
+
+@dp.callback_query_handler(lambda x: x.data and x.data.startswith("del "))#мы тут вместо фильтра используем lambda функцию. То есть если событие начинается с del , то срабатывает этот хендлер
+async def del_callback_run(callback_query: types.CallbackQuery):#название параметров в функциях можно писать любое
+    await sqlite_db.sql_delete_command(callback_query.data.replace("del ", ""))#если событие сработало, то запускается функция и тут есть запуск другой функции sql_delete_command, мы в эту функцию передаем название пиццы. Там мы по названию удаляем конкретную запись
+    await callback_query.answer(text=f"{callback_query.data.replace('del ', '')} удалена.", show_alert=True)#тут мы отвечаем на колбэк, отвечает телеге что запрос выполнен и отправляем увед пользователю с кнопкой ОК, что такая-то пицца удалена, то есть текст "название пиццы удалена"
+    #второй вариант ответа
+    # await bot.answer_callback_query(callback_query.id, text=f"{callback_query.data.replace('del ', '')} удалена.")
+    #второй вариант просто всплывашка, без кнопки ОК
+
+# @dp.message_handler(commands="Удалить")
+async def delete_item(message: types.Message):
+    if message.from_user.id == ID:#проверка модератора
+        read = await sqlite_db.sql_read2()#просто считали базу, тут будет список
+        for ret in read:#перебираем список из считанной базы
+            await bot.send_photo(message.from_user.id, ret[0], f"{ret[1]}\nОписание: {ret[2]}\nЦена {ret[-1]}")
+            #тут отправляем модератору фотку название описание и цена пиццы
+            await bot.send_message(message.from_user.id, text="^^^", reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton(f"Удалить {ret[1]}", callback_data=f"del {ret[1]}")))
+            # и потом мы тут отправляем текст в личку пользователю по ИД со стрелками, reply_markup создает кнопку, потом функция add и создается объект класса InlineKeyboardButton, потом в кнопке пишется текст с названием пиццы, потом пишется событие callback_data, в него записваем текст del и пробел и потом название пиццы, будет удалять по названию. Это все будет обрабатываться в хендлере выше
+
 
 
 #теперь нам нужно зарегистрировать все эти хендлеры, так как нужно импортировать все в основной файл
@@ -100,7 +119,7 @@ def register_handlers_admin(dp: Dispatcher):
     dp.register_message_handler(load_description, state=FSMAdmin.description)
     dp.register_message_handler(load_price, state=FSMAdmin.price)
     dp.register_message_handler(make_changes_command, commands=['moderator'], is_chat_admin=True)
-
+    dp.register_message_handler(delete_item, commands="Удалить")
 
 #теперь еще нужно сделать отмену состояний. То есть если пользователь передумал добавлять пиццу. ПРоверка на адмнистратора еще сделаем. Ее можно сделать по ИД пользователя телеги, и тогда именно этот польщзователь будет админом бота, или можно просто проверить является ли пользователь группы администратором группы. Я пока не делал проверку на администратора группы, так как нет группы
 
