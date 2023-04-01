@@ -26,10 +26,10 @@ try:
 
 	# with connection.cursor() as curs:
 	# 	curs.execute(#тут мы пишем sql запрос для создания таблицы с нужными нам полями.
-	# 		"""CREATE TABLE users(
-	# 		id serial PRIMARY KEY,
-	# 		first_name varchar(50) NOT NULL,
-	# 		nick_name varchar(50) NOT NULL);"""
+	# 		"""CREATE TABLE users2(
+	# 		id bigint PRIMARY KEY,
+	# 		first_name character varying(200) NOT NULL,
+	# 		nick_name character varying(200) NOT NULL);"""
 	# 	)
 	# 	#далее чтобы изменения записались в БД, нужно вызвать метод commit у объекта БД
 	# 	#connection.commit()#но можно прописать и автокоммит
@@ -37,12 +37,12 @@ try:
 	# 	print("[INFO] Table created succesfully")
 
 	#добавление данных в таблицу
-	# with connection.cursor() as curs:
-	# 	curs.execute(#тут мы пишем sql запрос для создания таблицы с нужными нам полями.
-	# 		"""INSERT INTO users (first_name, nick_name) VALUES
-	# 		('Vasia', 'mozgolom');"""
-	# 	)
-	# 	print("[INFO] Data was succesfully insrted")
+	a = (1, 'Вася', 'Молодец')
+	with connection.cursor() as curs:
+		curs.execute(#тут мы пишем sql запрос для создания таблицы с нужными нам полями.
+			f"""INSERT INTO users (id, first_name, nick_name) VALUES
+			(%s, %s, %s);""", a)
+		print("[INFO] Data was succesfully insrted")
 
 	#извлечение данных из таблицы
 	# with connection.cursor() as curs:
@@ -63,7 +63,7 @@ try:
 	# 		"""DROP TABLE users;"""
 	# 	)
 	#
-	# 	print("[INFO] table was deleted(")
+	# 	print("[INFO] table was deleted")
 	#теперь табблица будет удалена, извлечь данные из нее больше не сможем
 
 except Exception as _ex:
